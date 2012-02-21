@@ -5,6 +5,7 @@
 */
 
 $(document).ready(function() {
-  console.log('ready');
   $("#observation_form").tabs();
+  $("#observation_date").datepicker();
+  $(".combobox").combobox();
 });
