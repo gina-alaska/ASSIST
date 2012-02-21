@@ -1,0 +1,11 @@
+---
+  - :name: Cumulus
+    :code: cu
+  - :name: Cirrus
+    :code: ci
+  - :name: Stratus
+    :code: st
+  - :name: Strata-cumulus
+    :code: sc
+  - :name: Fog
+    :code: fg

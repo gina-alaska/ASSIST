@@ -1,0 +1,26 @@
+%h1 New Observation
+
+= form_for(@observation) do |f|
+  #observation_form
+    %ul
+      %li=link_to 'General', '#general'
+      %li=link_to 'Ice Observations', '#ice'
+      
+    #general
+      %p
+        = f.label :obs_datetime, 'Observation Time'
+        = f.text_field :obs_datetime
+      %p
+        = f.label :latitude
+        = f.text_field :latitude
+        = f.label :longitude
+        = f.text_field :longitude
+      %p
+        = f.label :sea_ice_concentration, 'Total Sea Ice Concentration'
+        = f.text_field :sea_ice_concentration
+      %p
+        = f.label :open_water_type_id, 'Open Water'
+        = f.text_field :open_water_type_id
+    #ice
+      %p
+        %h1 Primary

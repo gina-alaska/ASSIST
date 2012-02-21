@@ -1,0 +1,11 @@
+---
+  - :name: "open water"
+    :code: 1
+  - :name: "marginal ice zone"
+    :code: 2
+  - :name: "ice pack"
+    :code: 3
+  - :name: polynya
+    :code: 4
+  - :name: "landfast ice"
+    :code: 5
