@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  visibility_lookup_id: 1
+  weather_lookup_id: 1
+  cloud_lookup_id: 1
+  cloud_cover: 1.5
+  cloud_height: 1
+
+two:
+  visibility_lookup_id: 1
+  weather_lookup_id: 1
+  cloud_lookup_id: 1
+  cloud_cover: 1.5
+  cloud_height: 1
