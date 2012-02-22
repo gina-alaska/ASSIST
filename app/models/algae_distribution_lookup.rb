@@ -1,4 +1,4 @@
-class IceType < ActiveRecord::Base
+class AlgaeDistributionLookup < ActiveRecord::Base
 
   def as_json(options=nil)
     serializable_hash({:only => [:id,:name, :code] })

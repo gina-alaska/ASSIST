@@ -11,51 +11,58 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120220214147) do
+ActiveRecord::Schema.define(:version => 20120221235628) do
 
-  create_table "algae_distributions", :force => true do |t|
+  create_table "algae_distribution_lookups", :force => true do |t|
     t.string   "name"
     t.integer  "code"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  create_table "animal_types", :force => true do |t|
+  create_table "animal_lookups", :force => true do |t|
     t.string   "name"
     t.integer  "code"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  create_table "biota_types", :force => true do |t|
+  create_table "biota_lookups", :force => true do |t|
     t.integer  "code"
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  create_table "cloud_types", :force => true do |t|
+  create_table "cloud_lookups", :force => true do |t|
     t.string   "name"
     t.string   "code"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  create_table "floe_sizes", :force => true do |t|
+  create_table "floe_size_lookups", :force => true do |t|
     t.string   "name"
     t.integer  "code"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  create_table "ice_discolorations", :force => true do |t|
+  create_table "ice_discoloration_lookups", :force => true do |t|
     t.string   "name"
     t.integer  "code"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  create_table "ice_field_types", :force => true do |t|
+  create_table "ice_field_lookups", :force => true do |t|
+    t.string   "name"
+    t.integer  "code"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "ice_lookups", :force => true do |t|
     t.string   "name"
     t.integer  "code"
     t.datetime "created_at", :null => false
@@ -64,13 +71,6 @@ ActiveRecord::Schema.define(:version => 20120220214147) do
 
   create_table "ice_obs_types", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "ice_types", :force => true do |t|
-    t.string   "name"
-    t.integer  "code"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -96,21 +96,21 @@ ActiveRecord::Schema.define(:version => 20120220214147) do
     t.datetime "updated_at",                 :null => false
   end
 
-  create_table "melt_pond_max_depths", :force => true do |t|
+  create_table "melt_pond_max_depth_lookups", :force => true do |t|
     t.string   "name"
     t.integer  "code"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  create_table "melt_pond_patterns", :force => true do |t|
+  create_table "melt_pond_pattern_lookups", :force => true do |t|
     t.string   "name"
     t.integer  "code"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  create_table "melt_pond_surface_types", :force => true do |t|
+  create_table "melt_pond_surface_lookups", :force => true do |t|
     t.string   "name"
     t.integer  "code"
     t.datetime "created_at", :null => false
@@ -135,28 +135,28 @@ ActiveRecord::Schema.define(:version => 20120220214147) do
     t.datetime "updated_at",            :null => false
   end
 
-  create_table "on_boat_locations", :force => true do |t|
+  create_table "on_boat_location_lookups", :force => true do |t|
     t.string   "name"
     t.integer  "code"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  create_table "open_water_types", :force => true do |t|
+  create_table "open_water_lookups", :force => true do |t|
     t.string   "name"
     t.integer  "code"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  create_table "progress_types", :force => true do |t|
+  create_table "progress_lookups", :force => true do |t|
     t.string   "name"
     t.integer  "code"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  create_table "region_types", :force => true do |t|
+  create_table "region_lookups", :force => true do |t|
     t.string   "region"
     t.string   "subregion"
     t.integer  "code"
@@ -164,14 +164,21 @@ ActiveRecord::Schema.define(:version => 20120220214147) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "sea_states", :force => true do |t|
+  create_table "sea_state_lookups", :force => true do |t|
     t.string   "name"
     t.integer  "code"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  create_table "sediment_types", :force => true do |t|
+  create_table "sediment_lookups", :force => true do |t|
+    t.string   "name"
+    t.integer  "code"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "snow_lookups", :force => true do |t|
     t.string   "name"
     t.integer  "code"
     t.datetime "created_at", :null => false
@@ -185,13 +192,6 @@ ActiveRecord::Schema.define(:version => 20120220214147) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "snow_types", :force => true do |t|
-    t.string   "name"
-    t.integer  "code"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
   create_table "topography_types", :force => true do |t|
     t.string   "name"
     t.integer  "code"
@@ -199,14 +199,14 @@ ActiveRecord::Schema.define(:version => 20120220214147) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "visibility_types", :force => true do |t|
+  create_table "visibility_lookups", :force => true do |t|
     t.string   "name"
     t.integer  "code"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  create_table "weather_types", :force => true do |t|
+  create_table "weather_lookups", :force => true do |t|
     t.integer  "code"
     t.string   "name"
     t.string   "comment"

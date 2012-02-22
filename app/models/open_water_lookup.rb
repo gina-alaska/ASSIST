@@ -1,4 +1,4 @@
-class MeltPondSurfaceType < ActiveRecord::Base
+class OpenWaterLookup < ActiveRecord::Base
 
   def as_json(options=nil)
     serializable_hash({:only => [:id,:name, :code] })

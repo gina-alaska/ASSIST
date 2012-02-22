@@ -1,4 +1,5 @@
-class CloudType < ActiveRecord::Base
+class BiotaLookup < ActiveRecord::Base
+
   def as_json(options=nil)
     serializable_hash({:only => [:id,:name, :code] })
   end

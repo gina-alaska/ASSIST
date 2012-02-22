@@ -1,4 +1,4 @@
-class VisibilityType < ActiveRecord::Base
+class TopographyLookup < ActiveRecord::Base
 
   def as_json(options=nil)
     serializable_hash({:only => [:id,:name, :code] })

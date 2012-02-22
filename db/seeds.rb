@@ -9,29 +9,25 @@
 
 #TODO: ridge_type
 %w{
-algae_distribution
-animal_type
-biota_type
-cloud_type
-floe_size
-ice_discoloration
-ice_field_type
-ice_type
-ice_obs_type
-melt_pond_max_depth
-melt_pond_pattern
-melt_pond_surface_type
-on_boat_location
-open_water_type
-progress_type
-region_type
-sea_state
-sediment_type
-snow_obs_type
-snow_type
-topography_type
-visibility_type
-weather_type
+algae_distribution_lookup
+animal_lookup
+biota_lookup
+cloud_lookup
+floe_size_lookup
+ice_discoloration_lookup
+ice_field_lookup
+melt_pond_max_depth_lookup
+melt_pond_pattern_lookup
+melt_pond_surface_lookup
+on_boat_location_lookup
+open_water_lookup
+progress_lookup
+region_lookup
+sea_state_lookup
+sediment_lookup
+snow_lookup
+visibility_lookup
+weather_lookup
 }.each do |file|
   puts file
   eval(file.camelcase).delete_all

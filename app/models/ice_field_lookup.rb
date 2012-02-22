@@ -1,4 +1,4 @@
-class OnBoatLocation < ActiveRecord::Base
+class IceFieldLookup < ActiveRecord::Base
 
   def as_json(options=nil)
     serializable_hash({:only => [:id,:name, :code] })

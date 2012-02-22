@@ -1,4 +1,4 @@
-class MeltPondMaxDepth < ActiveRecord::Base
+class MeltPondSurfaceLookup < ActiveRecord::Base
 
   def as_json(options=nil)
     serializable_hash({:only => [:id,:name, :code] })

@@ -1,5 +1,4 @@
-class SnowObsType < ActiveRecord::Base
-
+class IceObsLookup < ActiveRecord::Base
   def as_json(options=nil)
     serializable_hash({:only => [:id,:name] })
   end

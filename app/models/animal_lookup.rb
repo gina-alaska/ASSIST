@@ -1,4 +1,4 @@
-class SnowType < ActiveRecord::Base
+class AnimalLookup < ActiveRecord::Base
 
   def as_json(options=nil)
     serializable_hash({:only => [:id,:name, :code] })
