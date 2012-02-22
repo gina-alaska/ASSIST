@@ -4,4 +4,8 @@ class WeatherLookup < ActiveRecord::Base
     serializable_hash({:only => [:id, :name, :code, :comment] })
   end
 
+  def code_with_name
+    "#{code.to_s.rjust(3,'0')} - #{name}"
+  end
+
 end
