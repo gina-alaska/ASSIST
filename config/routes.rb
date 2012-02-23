@@ -3,6 +3,7 @@ Iceobs::Application.routes.draw do
   # first created -> highest priority.
 
   resources :observations
+  resources :users
   
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
