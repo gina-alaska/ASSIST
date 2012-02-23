@@ -1,4 +1,7 @@
 %h1 New Observation
 
 #observation_form.ui-tabs-vertical
-  =render 'general'
+  = form_for @observation do |f|
+    = render 'general', :locals => { :f => f }
+    %p
+      = f.submit

@@ -14,7 +14,7 @@ Iceobs::Application.configure do
   config.action_controller.perform_caching = false
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
-  config.serve_static_assets = true
+  config.serve_static_assets = false
 
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false

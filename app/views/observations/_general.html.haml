@@ -1,13 +1,17 @@
-= form_for(@observation) do |f|
-  %p
-    = f.label :obs_datetime, 'Observation Time'
-    = text_field_tag 'date'
-    = f.time_select :obs_datetime, :minute_step => 60
-  %p
-    = f.label :latitude
-    = f.text_field :latitude
-  %p
-    = f.label :longitude
-    = f.text_field :longitude
-  %p
-    = f.submit
+#user_form
+  = render User.new
+%p
+  = f.label :users, "Primary Observer"
+  = f.collection_select :users, User.all, :id, :first_and_last_name, |
+    { :include_blank => true }, { :class => [:users] }
+  = link_to "[+] Add New User", new_user_url, :id => "add_user"
+%p
+  = f.label :obs_datetime, 'Observation Time'
+  = text_field_tag 'date'
+  = f.time_select :obs_datetime, :minute_step => 60
+%p
+  = f.label :latitude
+  = f.text_field :latitude
+%p
+  = f.label :longitude
+  = f.text_field :longitude
