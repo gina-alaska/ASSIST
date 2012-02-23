@@ -1,15 +1,15 @@
 %h1 New Observation
 
 = form_for(@observation) do |f|
-  #observation_form
+  #observation_form.ui-tabs-vertical
     %ul
       %li= link_to 'General', '#general'
-      %li= link_to 'Ice Observations', '#ice'
-      %li= link_to 'Meteorological Observations', '#meteorological'
+      %li= link_to 'Ice', '#ice'
+      %li= link_to 'Meteorological', '#meteorological'
       %li= link_to 'Comments', '#comments'
       %li= link_to 'Preview', '#preview'
       
-    #general
+    #general.ui-tabs-hide
       %p
         = f.label :obs_datetime, 'Observation Time'
         = text_field_tag 'observation[date]'
@@ -26,8 +26,8 @@
         = f.label :open_water_type_id, 'Open Water'
         = f.collection_select :open_water_type_id, OpenWaterLookup.all, :id, :code_with_name, |
           { :include_blank => true }, { :class => :combobox }
-    #ice
-    #meteorological
+    #ice.ui-tabs-hide
+    #meteorological.ui-tabs-hide
       %p
         = f.label :visibility_id
         = f.collection_select :visibility_id, VisibilityLookup.all, :id, :code_with_name, |
@@ -46,7 +46,7 @@
         = f.label :weather_id
         = f.collection_select :weather_id, WeatherLookup.all, :id, :code_with_name, |
           { :include_blank => true }, { :class => :combobox }
-    #comments
+    #comments.ui-tabs-hide
       =# f.label :comments, 'Comments'
       =# f.text_area :comments
-    #preview
+    #preview.ui-tabs-hide

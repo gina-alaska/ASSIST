@@ -5,7 +5,12 @@
 */
 
 $(document).ready(function() {
-  $("#observation_form").tabs();
+  $("#observation_form").tabs({
+    show: function(event, ui) {
+      $(ui.panel).find('.combobox').chosen();
+    }
+  });
+  $("#observation_form").tabs().addClass('ui-tabs-vertical ui-helper-clearfix');
+	$("#observation_form li").removeClass('ui-corner-top').addClass('ui-corner-left');
   $("#observation_date").datepicker();
-  $(".combobox").combobox();
 });
