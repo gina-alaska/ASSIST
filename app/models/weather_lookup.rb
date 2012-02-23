@@ -1,3 +1,5 @@
+UserChild = Struct.new(:id, :name)
+
 class WeatherLookup < ActiveRecord::Base
 
   def as_json(options=nil)
@@ -8,4 +10,7 @@ class WeatherLookup < ActiveRecord::Base
     "#{code.to_s.rjust(3,'0')} - #{name}"
   end
 
+  def children
+    [UserChild.new(0, 'A')]
+  end
 end

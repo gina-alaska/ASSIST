@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120221235628) do
+ActiveRecord::Schema.define(:version => 20120222214044) do
 
   create_table "algae_distribution_lookups", :force => true do |t|
     t.string   "name"
@@ -75,25 +75,28 @@ ActiveRecord::Schema.define(:version => 20120221235628) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "ices", :force => true do |t|
+  create_table "ice_observations", :force => true do |t|
     t.integer  "observation_id"
-    t.integer  "observation_type_id"
     t.integer  "partial_concentration"
-    t.integer  "ice_type_id"
+    t.integer  "ice_lookup_id"
     t.integer  "thickness"
     t.integer  "floe_size_id"
-    t.integer  "topography_id"
-    t.integer  "snow_type_id"
+    t.integer  "snow_lookup_id"
     t.integer  "snow_thickness"
-    t.integer  "melt_pond_surface_coverage"
-    t.integer  "melt_pond_max_depth_id"
-    t.integer  "melt_pond_surface_type_id"
-    t.integer  "melt_pond_freeboard"
-    t.integer  "melt_pond_pattern_id"
-    t.integer  "biota_frequency_id"
-    t.integer  "sediment_frequency_id"
-    t.datetime "created_at",                 :null => false
-    t.datetime "updated_at",                 :null => false
+    t.integer  "biota_lookup_id"
+    t.integer  "sediment_lookup_id"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
+  end
+
+  create_table "ices", :force => true do |t|
+    t.integer  "observation_id"
+    t.integer  "thin_ice_lookup_id"
+    t.integer  "thick_ice_lookup_id"
+    t.float    "total_concentration"
+    t.integer  "open_water_lookup_id"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
   end
 
   create_table "melt_pond_max_depth_lookups", :force => true do |t|
@@ -117,22 +120,44 @@ ActiveRecord::Schema.define(:version => 20120221235628) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "melt_ponds", :force => true do |t|
+    t.integer  "ices_id"
+    t.integer  "surface_coverage"
+    t.integer  "max_depth_lookup_id"
+    t.integer  "surface_lookup_id"
+    t.integer  "freeboard"
+    t.integer  "pattern_lookup_id"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+  end
+
+  create_table "meteorologies", :force => true do |t|
+    t.integer  "observation_id"
+    t.integer  "visibility_lookup_id"
+    t.integer  "weather_lookup_id"
+    t.integer  "cloud_lookup_id"
+    t.float    "cloud_cover"
+    t.integer  "cloud_height"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+  end
+
+  create_table "observation_users", :force => true do |t|
+    t.integer  "observation_id"
+    t.integer  "user_id"
+    t.boolean  "primary"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
   create_table "observations", :force => true do |t|
     t.integer  "cruise_id"
     t.date     "obs_datetime"
     t.string   "latitude"
     t.string   "longitude"
-    t.float    "sea_ice_concentration"
-    t.integer  "open_water_type_id"
-    t.integer  "thin_ice_type_id"
-    t.integer  "thick_ice_type_id"
-    t.integer  "visibility_id"
-    t.string   "cloud_cover"
-    t.integer  "cloud_height"
-    t.integer  "cloud_type_id"
-    t.integer  "weather_id"
-    t.datetime "created_at",            :null => false
-    t.datetime "updated_at",            :null => false
+    t.string   "hexcode"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   create_table "on_boat_location_lookups", :force => true do |t|
@@ -192,9 +217,27 @@ ActiveRecord::Schema.define(:version => 20120221235628) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "topographies", :force => true do |t|
+    t.integer  "topography_lookup_id"
+    t.boolean  "old"
+    t.boolean  "consolidated"
+    t.boolean  "snow_covered"
+    t.float    "concentration"
+    t.float    "ridge_height"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+  end
+
   create_table "topography_types", :force => true do |t|
     t.string   "name"
     t.integer  "code"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "users", :force => true do |t|
+    t.string   "firstname"
+    t.string   "lastname"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

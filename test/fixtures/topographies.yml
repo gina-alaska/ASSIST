@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  topography_lookup_id: 1
+  old: false
+  consolidated: false
+  snow_covered: false
+  concentration: 1.5
+  ridge_height: 1.5
+
+two:
+  topography_lookup_id: 1
+  old: false
+  consolidated: false
+  snow_covered: false
+  concentration: 1.5
+  ridge_height: 1.5

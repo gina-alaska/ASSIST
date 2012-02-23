@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  observation_id: 1
+  user_id: 1
+  primary: false
+
+two:
+  observation_id: 1
+  user_id: 1
+  primary: false
