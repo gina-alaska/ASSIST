@@ -1,17 +1,13 @@
 = form_for(@observation) do |f|
-  #observation_form
-    %p
-
-    %p
-      = f.label :obs_datetime, 'Observation Time'
-      = text_field_tag 'date'
-      = text_field_tag 'time'
-      = f.time_select :obs_datetime, :minute_step => 60
-    %p
-      = f.label :latitude
-      = f.text_field :latitude
-    %p
-      = f.label :longitude
-      = f.text_field :longitude
-    %p
-      = f.submit
+  %p
+    = f.label :obs_datetime, 'Observation Time'
+    = text_field_tag 'date'
+    = f.time_select :obs_datetime, :minute_step => 60
+  %p
+    = f.label :latitude
+    = f.text_field :latitude
+  %p
+    = f.label :longitude
+    = f.text_field :longitude
+  %p
+    = f.submit

@@ -1,21 +1,20 @@
 %h1 Edit Observation
 
-= form_for(@observation) do |f|
-  #observation_form
-    %ul
-      %li= link_to 'General', '#general'
-      %li= link_to 'Ice', '#ice'
-      %li= link_to 'Meteorological', '#meteorological'
-      %li= link_to 'Comments', '#comments'
-      %li= link_to 'Preview', '#preview'
+#observation_form.ui-tabs-vertical
+  %ul
+    %li= link_to 'General', '#general'
+    %li= link_to 'Ice', '#ice'
+    %li= link_to 'Meteorological', '#meteorological'
+    %li= link_to 'Comments', '#comments'
+    %li= link_to 'Preview', '#preview'
 
-    #general
-      =render 'general'
-    #ice
-      =render @observation.ice
-    #meteorological
-      =render @observation.meteorology
-    #comments
-      =# f.label :comments, 'Comments'
-      =# f.text_area :comments
-    #preview
+  #general
+    =render 'general'
+  #ice
+    =render @observation.ice
+  #meteorological
+    =render @observation.meteorology
+  #comments
+    =# f.label :comments, 'Comments'
+    =# f.text_area :comments
+  #preview
