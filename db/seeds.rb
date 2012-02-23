@@ -15,7 +15,7 @@ biota_lookup
 cloud_lookup
 floe_size_lookup
 ice_discoloration_lookup
-ice_field_lookup
+ice_lookup
 melt_pond_max_depth_lookup
 melt_pond_pattern_lookup
 melt_pond_surface_lookup

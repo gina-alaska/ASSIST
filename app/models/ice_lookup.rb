@@ -1,4 +1,4 @@
-class IceFieldLookup < ActiveRecord::Base
+class IceLookup < ActiveRecord::Base
 
   def as_json(options=nil)
     serializable_hash({:only => [:id,:name, :code] })

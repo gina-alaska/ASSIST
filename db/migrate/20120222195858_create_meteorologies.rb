@@ -1,10 +1,11 @@
 class CreateMeteorologies < ActiveRecord::Migration
   def change
     create_table :meteorologies do |t|
+      t.integer :observation_id
       t.integer :visibility_lookup_id
       t.integer :weather_lookup_id
       t.integer :cloud_lookup_id
-      t.float :cloud_cover
+      t.float   :cloud_cover
       t.integer :cloud_height
 
       t.timestamps

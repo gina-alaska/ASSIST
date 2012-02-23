@@ -132,6 +132,7 @@ ActiveRecord::Schema.define(:version => 20120222214044) do
   end
 
   create_table "meteorologies", :force => true do |t|
+    t.integer  "observation_id"
     t.integer  "visibility_lookup_id"
     t.integer  "weather_lookup_id"
     t.integer  "cloud_lookup_id"
@@ -154,15 +155,9 @@ ActiveRecord::Schema.define(:version => 20120222214044) do
     t.date     "obs_datetime"
     t.string   "latitude"
     t.string   "longitude"
-    t.float    "sea_ice_concentration"
-    t.integer  "open_water_type_id"
-    t.integer  "thin_ice_type_id"
-    t.integer  "thick_ice_type_id"
-    t.integer  "visibility_id"
-    t.integer  "cloud_type_id"
-    t.integer  "weather_id"
-    t.datetime "created_at",            :null => false
-    t.datetime "updated_at",            :null => false
+    t.string   "hexcode"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   create_table "on_boat_location_lookups", :force => true do |t|
