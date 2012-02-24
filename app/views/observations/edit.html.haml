@@ -7,6 +7,7 @@
     %li= link_to 'Meteorological', '#meteorological'
     %li= link_to 'Comments', '#comments'
     %li= link_to 'Preview', '#preview'
+
   = form_for @observation do |f|
     #general
       =render :partial => 'general', :locals => {:f => f}
@@ -15,6 +16,9 @@
     #meteorological
       =render @observation.meteorology
     #comments
-      =# f.label :comments, 'Comments'
-      =# f.text_area :comments
+      = render :partial => 'comments', :locals => {:f => f}
     #preview
+      = render 'preview'
+
+#user_form
+  = render User.new

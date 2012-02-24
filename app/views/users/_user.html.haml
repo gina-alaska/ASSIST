@@ -1,4 +1,5 @@
-=form_for user do |f|
+=form_for user, :remote => true do |f|
+  .errors
   %p
     = f.label :firstname, "First Name"
     = f.text_field :firstname

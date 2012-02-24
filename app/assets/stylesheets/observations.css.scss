@@ -7,6 +7,11 @@
     display:inline-block;
     width: 175px;
     text-align: right;
+    &.textarea {
+      margin-left: 175px;
+      text-align: left;
+      display: block;
+    }
   }
 
 }
