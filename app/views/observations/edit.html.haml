@@ -8,13 +8,17 @@
     %li= link_to 'Comments', '#comments'
     %li= link_to 'Preview', '#preview'
 
-  #general
-    =render 'general'
-  #ice
-    =render @observation.ice
-  #meteorological
-    =render @observation.meteorology
-  #comments
-    =# f.label :comments, 'Comments'
-    =# f.text_area :comments
-  #preview
+  = form_for @observation do |f|
+    #general
+      =render :partial => 'general', :locals => {:f => f}
+    #ice
+      =render @observation.ice
+    #meteorological
+      =render @observation.meteorology
+    #comments
+      = render :partial => 'comments', :locals => {:f => f}
+    #preview
+      = render 'preview'
+
+#user_form
+  = render User.new

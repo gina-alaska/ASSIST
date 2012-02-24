@@ -14,3 +14,5 @@
     = i.label :open_water_lookup_id, 'Open Water'
     = i.collection_select :open_water_lookup_id, OpenWaterLookup.all, :id, :code_with_name, |
       { :include_blank => true }, { :class => :combobox }
+  %p
+    = i.submit

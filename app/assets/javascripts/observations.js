@@ -5,12 +5,58 @@
 */
 
 $(document).ready(function() {
+  var $userForm = $('#user_form');
   $("#observation_form").tabs({
     show: function(event, ui) {
       $(ui.panel).find('.combobox').chosen();
+      $(ui.panel).find('.users').chosen({
+        no_results_text: "That user was not found."
+      });
     }
   });
   $("#observation_form").tabs().addClass('ui-tabs-vertical ui-helper-clearfix');
 	$("#observation_form li").removeClass('ui-corner-top').addClass('ui-corner-left');
   $("#observation_date").datepicker();
+
+  $userForm.dialog({
+    modal: true,
+    autoOpen: false,
+    resizable: false,
+    minWidth: 400,
+    minHeight: 300
+  });
+
+  $("#add_user").click( function() {
+    $userForm.dialog("open");
+    return false;
+  });
+
+  $userForm.bind("ajax:error", function( e, xhr, status ) {
+    var $form = $(this);
+    var errors;
+    var errorText = "";
+    try {
+      errors = $.parseJSON(xhr.responseText)
+    } catch(err) {
+      errors = { message: "Please reload the page and try again" }
+    }
+
+    for( error in errors ) {
+      errorText += "<div class=\"error\">"+ error + ": " + errors[error] + "</div>"
+    }
+    $form.find('div.errors').html(errorText);
+  });
+
+
+  $userForm.bind("ajax:success", function(evt, data, status, xhr) {
+    var $form = $(this);
+    var d = $.parseJSON(data);
+
+    $('select.users').each( function(index, item) {
+      $(item).append(new Option(d.firstname + " " + d.lastname, d.id));
+    });
+    $('select.users').chosen().trigger("liszt:updated");
+    $userForm.dialog('close');
+  });
+
 });

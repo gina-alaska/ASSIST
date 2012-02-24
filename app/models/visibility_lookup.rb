@@ -5,6 +5,6 @@ class VisibilityLookup < ActiveRecord::Base
   end
   
   def code_with_name
-    "#{code.to_s.rjust(3,'0')} - #{name}"
+    "#{code.to_s.rjust(3,'0')} || #{name}"
   end
 end

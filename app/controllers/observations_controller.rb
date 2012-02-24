@@ -23,8 +23,8 @@ class ObservationsController < ApplicationController
 
   def edit
     @observation = Observation.where(:id => params[:id]).first
-    @observation.build_ice
-    @observation.build_meteorology
+    @observation.build_ice if @observation.ice.nil?
+    @observation.build_meteorology if @observation.meteorology.nil?
     respond_with @observation
   end
 end
