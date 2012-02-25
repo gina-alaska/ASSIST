@@ -33,13 +33,10 @@ class ObservationsController < ApplicationController
   def update
     @observation = Observation.where(:id => params[:id]).first
 
-    logger.info("********************")
-    logger.info(params[:observation]);
-    logger.info("********************")
 
     if @observation.update_attributes(params[:observation])
       if request.xhr?
-        render :json => @observation, :layout => false, :status => :updated
+        render :json => @observation, :layout => false, :status => :accepted
       else
         redirect_to @observation
       end
