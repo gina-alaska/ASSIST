@@ -4,6 +4,6 @@ class CloudLookup < ActiveRecord::Base
   end
 
   def code_with_name
-    "#{code.upcase.rjust(3,' ')} - #{name}"
+    "(#{code.upcase.rjust(3,' ')}) :: #{name}"
   end
 end

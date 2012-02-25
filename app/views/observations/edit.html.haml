@@ -8,17 +8,17 @@
     %li= link_to 'Comments', '#comments'
     %li= link_to 'Preview', '#preview'
 
-  = form_for @observation do |f|
+  = form_for @observation, :remote => true do |f|
     #general
       =render :partial => 'general', :locals => {:f => f}
     #ice
-      =render @observation.ice
+      =render :partial => @observation.ice, :locals => {:f => f}
     #meteorological
-      =render @observation.meteorology
+      =render :partial => @observation.meteorology, :locals => {:f => f}
     #comments
       = render :partial => 'comments', :locals => {:f => f}
     #preview
       = render 'preview'
-
+    = f.submit "Save Report"
 #user_form
   = render User.new

@@ -5,9 +5,9 @@
     { :include_blank => true }, { :class => [:users] }
   = link_to "[+]", new_user_url, :id => "add_user"
 %p
-  = f.label :additional_observers, "Additional Observers"
-  = f.collection_select :additional_observers, User.all, :id, :first_and_last_name, |
-    { :include_blank => true}, { :class => :users, :multiple => true }
+  = f.label :additional_observer_ids, "Additional Observers"
+  = f.collection_select :additional_observer_ids, User.all, :id, :first_and_last_name, |
+      { :include_blank => true}, { :class => :users, :multiple => true }
 %p
   = f.label :obs_datetime, 'Observation Time'
   = text_field_tag 'date'

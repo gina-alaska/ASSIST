@@ -1,4 +1,4 @@
-= fields_for meteorology do |m|
+= f.fields_for :meteorology do |m|
   %p
     = m.label :visibility_lookup_id
     = m.collection_select :visibility_lookup_id, VisibilityLookup.all, :id, :code_with_name, |

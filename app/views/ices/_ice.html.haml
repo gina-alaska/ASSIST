@@ -1,11 +1,11 @@
-= fields_for ice do |i|
+= f.fields_for :ice do |i|
   %p
     = i.label :thin_ice_lookup_id, "Thin Ice Type"
-    = i.collection_select :thin_ice_lookup_id, IceLookup.all, :id, :name, |
+    = i.collection_select :thin_ice_lookup_id, IceLookup.all, :id, :code_with_name, |
       { :include_blank => true }, { :class => :combobox }
   %p
     = i.label :thick_ice_lookup_id, "Thick Ice Type"
-    = i.collection_select :thick_ice_lookup_id, IceLookup.all, :id, :name, |
+    = i.collection_select :thick_ice_lookup_id, IceLookup.all, :id, :code_with_name, |
       { :include_blank => true }, { :class => :combobox }
   %p
     = i.label :total_concentration, 'Total Sea Ice Concentration'
@@ -14,5 +14,3 @@
     = i.label :open_water_lookup_id, 'Open Water'
     = i.collection_select :open_water_lookup_id, OpenWaterLookup.all, :id, :code_with_name, |
       { :include_blank => true }, { :class => :combobox }
-  %p
-    = i.submit

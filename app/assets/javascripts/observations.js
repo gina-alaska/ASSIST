@@ -6,6 +6,8 @@
 
 $(document).ready(function() {
   var $userForm = $('#user_form');
+  var $obsForm = $('#observation_form');
+
   $("#observation_form").tabs({
     show: function(event, ui) {
       $(ui.panel).find('.combobox').chosen();
@@ -58,5 +60,22 @@ $(document).ready(function() {
     $('select.users').chosen().trigger("liszt:updated");
     $userForm.dialog('close');
   });
+
+  $obsForm.bind("ajax:beforeSend", function() {
+    var $dialog = $("#status_dialog");
+    $dialog.html("Saving form, please wait");
+    $dialog.dialog({
+      modal:true,
+      resizable: false,
+      closable: false
+    });
+
+  });
+
+  $obsForm.bind("ajax:success", function(evt, data, status, xhr) {
+    var $dialog = $("#status_dialog");
+
+    $dialog.dialog("close");
+  })
 
 });
