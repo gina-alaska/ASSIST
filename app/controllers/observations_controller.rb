@@ -26,6 +26,7 @@ class ObservationsController < ApplicationController
     @observation.build_ice if @observation.ice.nil?
     @observation.build_meteorology if @observation.meteorology.nil?
     @observation.build_primary_observer if @observation.primary_observer.nil?
+    @observation.photos.build if @observation.photos.empty?
     @observation.additional_observers.build if @observation.additional_observers.empty?
     if @observation.ice_observations.empty?
      @observation.ice_observations.build

@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  observation_id: 1
+  on_boat_location_lookup_id: 1
+  name: MyString
+
+two:
+  observation_id: 1
+  on_boat_location_lookup_id: 1
+  name: MyString

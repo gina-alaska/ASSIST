@@ -1,20 +1,20 @@
 
-%p
+%p.half_size
   = f.label :primary_observer, "Primary Observer"
   = f.collection_select :primary_observer_id, User.all, :id, :first_and_last_name, |
     { :include_blank => true }, { :class => [:users] }
   = link_to "[+]", new_user_url, :id => "add_user"
-%p
+%p.half_size
   = f.label :additional_observer_ids, "Additional Observers"
   = f.collection_select :additional_observer_ids, User.all, :id, :first_and_last_name, |
-      { :include_blank => true}, { :class => :users, :multiple => true }
+    { :include_blank => true}, { :class => :users, :multiple => true }
 %p
   = f.label :obs_datetime, 'Observation Time'
   = text_field_tag 'date'
   = f.time_select :obs_datetime, :minute_step => 60
-%p
+%p.half_size
   = f.label :latitude
   = f.text_field :latitude
-%p
+%p.half_size
   = f.label :longitude
   = f.text_field :longitude

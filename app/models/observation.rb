@@ -1,5 +1,6 @@
 class Observation < ActiveRecord::Base
   has_one  :ice
+  has_many  :photos
   has_many :ice_observations
   has_one  :meteorology
   has_many :observation_users
@@ -8,5 +9,6 @@ class Observation < ActiveRecord::Base
   accepts_nested_attributes_for :ice
   accepts_nested_attributes_for :ice_observations
   accepts_nested_attributes_for :meteorology
+  accepts_nested_attributes_for :photos
 
 end

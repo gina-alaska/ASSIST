@@ -15,10 +15,11 @@ $(document).ready(function() {
       });
     }
   });
-  $("#observation_form").tabs().addClass('ui-tabs-vertical ui-helper-clearfix');
-	$("#observation_form li").removeClass('ui-corner-top').addClass('ui-corner-left');
-  //$("li").button();
+//  $("#observation_form").tabs().addClass('ui-tabs-vertical ui-helper-clearfix');
+//	$("#observation_form li").removeClass('ui-corner-top').addClass('ui-corner-left');
+
   $("#observation_date").datepicker();
+  $(".ice_obs").button();
   $userForm.dialog({
     modal: true,
     autoOpen: false,
