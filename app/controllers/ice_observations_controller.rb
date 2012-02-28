@@ -1,0 +1,2 @@
+class IceObservationsController < ApplicationController
+end

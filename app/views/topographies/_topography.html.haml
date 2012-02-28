@@ -1,0 +1,12 @@
+= f.fields_for :topography do |t|
+  = field_set_tag "Topography" do
+    %p
+      = t.label :topography_lookup_id, "Topography"
+      = t.collection_select :topography_lookup_id, TopographyLookup.all, :id, :code_with_name, |
+        { :include_blank => true }, { :class => :combobox }
+    %p
+      = t.label :ridge_height
+      = t.text_field :ridge_height
+    %p
+      = t.label :concentration
+      = t.text_field :concentration

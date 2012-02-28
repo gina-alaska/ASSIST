@@ -27,6 +27,14 @@ class ObservationsController < ApplicationController
     @observation.build_meteorology if @observation.meteorology.nil?
     @observation.build_primary_observer if @observation.primary_observer.nil?
     @observation.additional_observers.build if @observation.additional_observers.empty?
+    if @observation.ice_observations.empty?
+     @observation.ice_observations.build
+      @observation.ice_observations.each do |ice|
+        ice.build_melt_pond
+        ice.build_topography
+      end
+    end
+
     respond_with @observation
   end
 

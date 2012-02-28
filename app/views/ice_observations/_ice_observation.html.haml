@@ -1,0 +1,34 @@
+=f.fields_for :ice_observations do |i|
+  %p
+    = i.label :partial_concentration, "Partial Concentration"
+    = i.text_field :partial_concentration
+  %p
+    = i.label :ice_lookup_id, "Ice Type"
+    = i.collection_select :ice_lookup_id, IceLookup.all, :id, :code_with_name, |
+      { :include_blank => true }, { :class => :combobox }
+  %p
+    = i.label :thickness
+    = i.text_field :thickness
+  %p
+    = i.label :floe_size_lookup_id, "Floe Size"
+    = i.collection_select :floe_size_lookup_id, FloeSizeLookup.all, :id, :code_with_name, |
+      { :include_blank => true }, { :class => :combobox }
+  %p
+    = render :partial => ice_observation.topography, :locals => {:f => i}
+  %p
+    = i.label :snow_lookup_id, "Snow Type"
+    = i.collection_select :snow_lookup_id, SnowLookup.all, :id, :code_with_name, |
+      { :include_blank => true }, { :class => :combobox }
+  %p
+    = i.label :snow_thickness, "Snow Thickness"
+    = i.text_field :snow_thickness
+  %p
+    = render :partial => ice_observation.melt_pond, :locals => {:f => i}
+  %p
+    = i.label :biota_lookup_id, "Biota"
+    = i.collection_select :biota_lookup_id, BiotaLookup.all, :id, :code_with_name, |
+      { :include_blank => true }, { :class => :combobox }
+  %p
+    = i.label :sediment_lookup_id, "Sediment"
+    = i.collection_select :sediment_lookup_id, SedimentLookup.all, :id, :code_with_name, |
+      { :include_blank => true }, { :class => :combobox }

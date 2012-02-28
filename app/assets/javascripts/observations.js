@@ -1,7 +1,6 @@
 /*
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 */
 
 $(document).ready(function() {
@@ -18,8 +17,8 @@ $(document).ready(function() {
   });
   $("#observation_form").tabs().addClass('ui-tabs-vertical ui-helper-clearfix');
 	$("#observation_form li").removeClass('ui-corner-top').addClass('ui-corner-left');
+  //$("li").button();
   $("#observation_date").datepicker();
-
   $userForm.dialog({
     modal: true,
     autoOpen: false,
@@ -63,12 +62,12 @@ $(document).ready(function() {
 
   $obsForm.bind("ajax:beforeSend", function() {
     var $dialog = $("#status_dialog");
-    $dialog.html("Saving form, please wait");
     $dialog.dialog({
+      title: "Saving, please wait...",
       modal:true,
       resizable: false,
       closable: false
-    });
+    })
 
   });
 

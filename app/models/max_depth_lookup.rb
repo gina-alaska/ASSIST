@@ -1,4 +1,4 @@
-class FloeSizeLookup < ActiveRecord::Base
+class MaxDepthLookup < ActiveRecord::Base
 
   def as_json(options=nil)
     serializable_hash({:only => [:id,:name, :code] })

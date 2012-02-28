@@ -1,0 +1,2 @@
+class MeltPondsController < ApplicationController
+end

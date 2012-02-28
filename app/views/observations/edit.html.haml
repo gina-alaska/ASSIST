@@ -1,20 +1,23 @@
-%h1 Edit Observation
+%h1 Editing #{@observation.obs_datetime}
 
 #observation_form.ui-tabs-vertical
   %ul
     %li= link_to 'General', '#general'
     %li= link_to 'Ice', '#ice'
     %li= link_to 'Meteorological', '#meteorological'
+    %li= link_to 'Ice Observations', '#ice_observations'
     %li= link_to 'Comments', '#comments'
     %li= link_to 'Preview', '#preview'
 
   = form_for @observation, :remote => true do |f|
     #general
-      =render :partial => 'general', :locals => {:f => f}
+      = render :partial => 'general', :locals => {:f => f}
     #ice
-      =render :partial => @observation.ice, :locals => {:f => f}
+      = render :partial => @observation.ice, :locals => {:f => f}
     #meteorological
-      =render :partial => @observation.meteorology, :locals => {:f => f}
+      = render :partial => @observation.meteorology, :locals => {:f => f}
+    #ice_observations
+      = render :partial => @observation.ice_observations, :locals => {:f => f}
     #comments
       = render :partial => 'comments', :locals => {:f => f}
     #preview
@@ -23,3 +26,4 @@
 #user_form
   = render User.new
 #status_dialog
+  #status_bar
