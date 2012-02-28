@@ -6,8 +6,6 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-
-#TODO: ridge_type
 %w{
 algae_distribution_lookup
 animal_lookup
@@ -16,9 +14,9 @@ cloud_lookup
 floe_size_lookup
 ice_discoloration_lookup
 ice_lookup
-melt_pond_max_depth_lookup
-melt_pond_pattern_lookup
-melt_pond_surface_lookup
+max_depth_lookup
+pattern_lookup
+surface_lookup
 on_boat_location_lookup
 open_water_lookup
 progress_lookup
@@ -26,6 +24,7 @@ region_lookup
 sea_state_lookup
 sediment_lookup
 snow_lookup
+topography_lookup
 visibility_lookup
 weather_lookup
 }.each do |file|

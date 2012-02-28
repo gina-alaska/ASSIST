@@ -80,7 +80,7 @@ ActiveRecord::Schema.define(:version => 20120223194233) do
     t.integer  "partial_concentration"
     t.integer  "ice_lookup_id"
     t.integer  "thickness"
-    t.integer  "floe_size_id"
+    t.integer  "floe_size_lookup_id"
     t.integer  "snow_lookup_id"
     t.integer  "snow_thickness"
     t.integer  "biota_lookup_id"
@@ -99,21 +99,7 @@ ActiveRecord::Schema.define(:version => 20120223194233) do
     t.datetime "updated_at",           :null => false
   end
 
-  create_table "melt_pond_max_depth_lookups", :force => true do |t|
-    t.string   "name"
-    t.integer  "code"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "melt_pond_pattern_lookups", :force => true do |t|
-    t.string   "name"
-    t.integer  "code"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "melt_pond_surface_lookups", :force => true do |t|
+  create_table "max_depth_lookups", :force => true do |t|
     t.string   "name"
     t.integer  "code"
     t.datetime "created_at", :null => false
@@ -121,7 +107,7 @@ ActiveRecord::Schema.define(:version => 20120223194233) do
   end
 
   create_table "melt_ponds", :force => true do |t|
-    t.integer  "ices_id"
+    t.integer  "ice_observation_id"
     t.integer  "surface_coverage"
     t.integer  "max_depth_lookup_id"
     t.integer  "surface_lookup_id"
@@ -177,6 +163,13 @@ ActiveRecord::Schema.define(:version => 20120223194233) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "pattern_lookups", :force => true do |t|
+    t.string   "name"
+    t.integer  "code"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "progress_lookups", :force => true do |t|
     t.string   "name"
     t.integer  "code"
@@ -220,8 +213,16 @@ ActiveRecord::Schema.define(:version => 20120223194233) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "surface_lookups", :force => true do |t|
+    t.string   "name"
+    t.integer  "code"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "topographies", :force => true do |t|
     t.integer  "topography_lookup_id"
+    t.integer  "ice_observation_id"
     t.boolean  "old"
     t.boolean  "consolidated"
     t.boolean  "snow_covered"
@@ -231,7 +232,7 @@ ActiveRecord::Schema.define(:version => 20120223194233) do
     t.datetime "updated_at",           :null => false
   end
 
-  create_table "topography_types", :force => true do |t|
+  create_table "topography_lookups", :force => true do |t|
     t.string   "name"
     t.integer  "code"
     t.datetime "created_at", :null => false
