@@ -20,6 +20,7 @@ $(document).ready(function() {
 
   $("#observation_date").datepicker();
   $(".ice_obs").button();
+  $("#ice_obs_buttons").buttonset();
   $userForm.dialog({
     modal: true,
     autoOpen: false,
