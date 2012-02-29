@@ -2,6 +2,13 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+$border-color: #000;
+#obslist {
+  th {
+    text-align: left;
+  }
+}
+
 #observation_form {
   label {
     display:block;

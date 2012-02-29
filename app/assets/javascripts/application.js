@@ -14,4 +14,5 @@
 //= require jquery_ujs
 //= require jquery-ui
 //= require chosen/chosen/chosen.jquery
+//= require datatables-1.9.0/js/jquery.dataTables
 //= require_tree .

@@ -8,20 +8,28 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
- *= require chosen/chosen/chosen
  *= require_self
  *= require_tree .
+ *= require smoothness/css/smoothness/jquery-ui-1.8.18.custom
+ *= require chosen/chosen/chosen
+ *= require datatables-1.9.0/css/jquery.dataTables
+ *= require datatables-1.9.0/css/jquery.dataTables_themeroller
 */
+
+body {
+  font-size: 14px;
+}
 
 #header {
   #title {
-    font-size: 2em;
+    font-size: 2.2em;
     font-weight: bold;
   }
   #navigation {
     position: absolute;
-    top: 0px;
-    right: 15px;
+    top: -5px;
+    right: 10px;
+    font-size: 1.1em;
     
     li {
       list-style: none;
