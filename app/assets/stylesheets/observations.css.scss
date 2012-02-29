@@ -15,6 +15,20 @@
     width: 50%;
     float: left;
   }
+
+  h1 {
+    font-size: 1.2em;
+    text-decoration: underline;
+  }
+
+  select {
+    &.combobox {
+      min-width: 200px;    
+    }
+    &.users {
+      min-width: 200px;
+    }
+  }
 }
 /*
 .ui-tabs-vertical { width: 100%; margin:0; padding: 0; }
