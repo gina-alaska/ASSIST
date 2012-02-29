@@ -1,10 +1,18 @@
 %h1 New Observation
 
-#observation_form.ui-tabs-vertical
+#new_observation
   = form_for @observation do |f|
-    = render 'general', :locals => { :f => f }
-    %p
-      = f.submit
-
+    #general
+      = render :partial => 'general', :locals => {:f => f}
+      %p
+        = f.submit
 #user_form
   = render User.new
+  
+:javascript
+  $(document).ready(function() {
+    $('.combobox').chosen();
+    $('.users').chosen({
+      no_results_text: "That user was not found."
+    });
+  });
