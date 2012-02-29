@@ -1,8 +1,7 @@
-%h1 New Observation
+%h1 Observations:
 
-Started Observations:
-= @observations.each do |o|
+- @observations.each do |o|
   %p
     .observation
       = o.obs_datetime
-      = link_to "[edit]", edit_observation_url(o)
+      = link_to "[edit]", edit_observation_path(o)

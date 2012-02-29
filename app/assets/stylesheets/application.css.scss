@@ -12,3 +12,31 @@
  *= require_self
  *= require_tree .
 */
+
+#header {
+  #title {
+    font-size: 2em;
+    font-weight: bold;
+  }
+  #navigation {
+    position: absolute;
+    top: 0px;
+    right: 15px;
+    
+    li {
+      list-style: none;
+      display: inline-block;
+    }
+    li.last:after {
+      content: '';
+    }
+    li:after {
+      content: ' | ';
+    }
+  }
+}
+
+h1 {
+  font-size: 1.2em;
+  text-decoration: underline;
+}
