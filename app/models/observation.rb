@@ -11,4 +11,8 @@ class Observation < ActiveRecord::Base
   accepts_nested_attributes_for :meteorology
   accepts_nested_attributes_for :photos
 
+  def finalized?
+    #self.finalized_at
+    false
+  end
 end

@@ -4,12 +4,14 @@
     %tr
       %th Date
       %th Primary Observer
+      %th Finalized?
       %th Actions
   %tbody
     - @observations.each do |o|
       %tr.observation
         %td= o.obs_datetime
         %td= o.primary_observer.first_and_last_name
+        %td= o.finalized? ? 'Yes' : 'No'
         %td= link_to "[edit]", edit_observation_path(o)
 :javascript
   $('table#obslist').dataTable({
