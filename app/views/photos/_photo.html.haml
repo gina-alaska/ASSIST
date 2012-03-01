@@ -1,1 +1,15 @@
-Placeholder
+#photo_form
+  =form_for Photo.new(:observation_id => @observation.id), :remote => true do |f|
+    =f.hidden_field :observation_id
+    %p
+      = f.label :on_boat_location_lookup_id, "Taken from"
+      = f.collection_select :on_boat_location_lookup_id, OnBoatLocationLookup.all, :id, :name
+    %p
+      = f.label :data, ""
+      = f.file_field :data
+    %p
+      = f.submit "Upload Photo"
+
+#attached_photos
+  - @observation.photos.each do |photo|
+    = image_tag "/uploads/observation_#{photo.observation_id}/#{photo.name}"

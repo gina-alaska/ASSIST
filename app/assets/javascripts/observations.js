@@ -6,7 +6,7 @@
 $(document).ready(function() {
   var $userForm = $('#user_form');
   var $obsForm = $('#observation_form');
-
+  var $photoForm = $('#photo_form');
   $("#observation_form").tabs({
     show: function(event, ui) {
       $(ui.panel).find('.combobox').chosen();
@@ -61,6 +61,17 @@ $(document).ready(function() {
     });
     $('select.users').chosen().trigger("liszt:updated");
     $userForm.dialog('close');
+  });
+
+  $photoForm.bind("ajax:beforeSend", function(evt, data, status, xhr) {
+    var $form = $(this);
+    var d = $.parsJSON(data);
+
+    $("#attached_photos").append(data);
+  });
+
+  $photoForm.bind("ajax.success", function() {
+    $()
   });
 
   $obsForm.bind("ajax:beforeSend", function() {
