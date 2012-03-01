@@ -16,7 +16,7 @@ class ObservationsController < ApplicationController
 
     if @observation.save!
       respond_with @observation do |format|
-        format.html { render :action => :edit}
+        format.html { redirect_to proc {edit_observation_url @observation}}
       end
     end
   end
