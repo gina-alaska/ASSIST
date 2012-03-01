@@ -22,12 +22,13 @@
       = render :partial => @observation.ice_observations, :locals => {:f => f}
     #comments
       = render :partial => 'comments', :locals => {:f => f}
-    #photos
-      = render :partial => @observation.photos, :locals => {:f => f}
-    #preview
-      = render 'preview'
 
     = f.submit "Save Report"
+  #photos
+    = render :partial => @observation.photos
+  #preview
+    = render 'preview'
+
 #user_form
   = render User.new
 #status_dialog
