@@ -18,6 +18,8 @@ $(document).ready(function() {
 
 //  $("#observation_form").tabs().addClass('ui-tabs-vertical ui-helper-clearfix');
 //	$("#observation_form li").removeClass('ui-corner-top').addClass('ui-corner-left');
+//  $(".photo_locations").buttonset();
+  $(".photo_locations").buttonset();
 
   $("#observation_date").datepicker();
   $(".ice_obs").button();
@@ -70,8 +72,8 @@ $(document).ready(function() {
     $("#attached_photos").append(data);
   });
 
-  $photoForm.bind("ajax.success", function() {
-    $()
+  $photoForm.bind("ajax.success", function(evt, data, status, xhr) {
+    console.log(xhr.response);
   });
 
   $obsForm.bind("ajax:beforeSend", function() {

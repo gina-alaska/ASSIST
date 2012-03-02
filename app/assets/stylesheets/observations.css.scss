@@ -16,6 +16,9 @@ $border-color: #000;
     text-align: left;
 
   }
+  label.radioset {
+    display: inline-block;
+  }
   p.half_size {
     padding-top: 0;
     margin-top: 0;
@@ -37,6 +40,39 @@ $border-color: #000;
     }
   }
 }
+
+#photo_form {
+  padding: 10px 0px 30px 0px;
+}
+#attached_photos {
+  display: block;
+
+  .attached_photo {
+    height:75px;
+    
+
+    .edit_photo_form {
+      margin-left: 100px;
+      height: 35px;
+      vertical-align: top;
+      display: inline-block;
+    }
+    form {
+      display: inline-block;
+
+
+    }
+    .thumbnail {
+      height: 75px;
+      display: inline-block;
+    }
+    .photo_locations {
+      display: inline-block;
+      height: 35px;
+    }
+  }
+}
+
 /*
 .ui-tabs-vertical { width: 100%; margin:0; padding: 0; }
 .ui-tabs-vertical .ui-tabs-nav { padding: .2em .1em .2em .2em; width: 200px; top: -1px; left: -1px; position: absolute; }

@@ -2,10 +2,11 @@ Iceobs::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
-  resources :observations
+  resources :observations do
+    resources :photos
+  end
   resources :users
   resources :ices
-  resources :photos
   
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'

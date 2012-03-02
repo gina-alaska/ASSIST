@@ -1,7 +1,10 @@
 class PhotosController < ApplicationController
   def create
-    uploaded_file = params[:photo].delete(:data)
-    @photo = Photo.new(params[:photo])
+    photo = params[:photo]
+    uploaded_file = photo.delete(:data)
+
+    @observation = Observation.find(params[:observation_id])
+    @photo = @observation.photos.build photo
     @photo.name = uploaded_file.original_filename
 
     FileUtils.mkdir_p(Rails.root.join('public', 'uploads', "observation_#{@photo.observation_id}"))
@@ -12,7 +15,7 @@ class PhotosController < ApplicationController
 
     if(@photo.save)
       if request.xhr?
-        render :json => @photo, :layout => false, :status => :created
+        render 'photos/uploaded', :layout => false, :status => :created, :locals => {:uploaded => @photo}
       else
         redirect_to edit_observation_url(@photo.observation)
       end
@@ -21,6 +24,16 @@ class PhotosController < ApplicationController
         render :json => @photo.errors, :layout => false, :status => :unprocessable_entity
       end
         render edit_observation_url(@photo.observation_id), :status => :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @photo = Photo.find(params[:id])
+
+    if @photo.destroy
+      if request.xhr?
+        render :json => {:success => true}, :status => :ok
+      end
     end
   end
 end
