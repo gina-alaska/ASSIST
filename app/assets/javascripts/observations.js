@@ -16,14 +16,15 @@ $(document).ready(function() {
     }
   });
 
-//  $("#observation_form").tabs().addClass('ui-tabs-vertical ui-helper-clearfix');
-//	$("#observation_form li").removeClass('ui-corner-top').addClass('ui-corner-left');
-//  $(".photo_locations").buttonset();
   $(".photo_locations").buttonset();
-
-  $("#observation_date").datepicker();
-  $(".ice_obs").button();
   $("#ice_obs_buttons").buttonset();
+
+  $(".buttontab").click( function(event, button) {
+    console.log(event);
+    console.log($(this).attr('href'));
+    $(this).addClass('hidden')
+    $( $(this).attr('href') ).removeClass('hidden')
+  });
   $userForm.dialog({
     modal: true,
     autoOpen: false,
@@ -52,8 +53,6 @@ $(document).ready(function() {
     }
     $form.find('div.errors').html(errorText);
   });
-
-
   $userForm.bind("ajax:success", function(evt, data, status, xhr) {
     var $form = $(this);
     var d = $.parseJSON(data);
@@ -65,17 +64,11 @@ $(document).ready(function() {
     $userForm.dialog('close');
   });
 
-  $photoForm.bind("ajax:beforeSend", function(evt, data, status, xhr) {
-    var $form = $(this);
-    var d = $.parsJSON(data);
-
-    $("#attached_photos").append(data);
+  $photoForm.fileupload({
+    dataType: 'json',
+    url: $photoForm.attr('action'),
+    done: appendPhoto
   });
-
-  $photoForm.bind("ajax.success", function(evt, data, status, xhr) {
-    console.log(xhr.response);
-  });
-
   $obsForm.bind("ajax:beforeSend", function() {
     var $dialog = $("#status_dialog");
     $dialog.dialog({
@@ -93,4 +86,27 @@ $(document).ready(function() {
     $dialog.dialog("close");
   })
 
+  $(document).delegate(".delete_photo", "ajax:success", removePhoto)
+  $(document).delegate(".photo_locations input", "click", updatePhotoLocation)
 });
+
+
+function appendPhoto(e, data) {
+  var r = data.result;
+  var url = "/observations/" + r.observation_id + "/photos/" + r.id;
+  var photo = $.get( url, function(data) {
+      $("#attached_photos").append(data);
+      $(".photo_locations").buttonset();
+  });
+}
+
+function removePhoto() {
+  console.log($(this));
+  $(this).parents(".attached_photo").remove();
+}
+
+function updatePhotoLocation() {
+  var form = $(this).parents('form');
+  var url =$(form).attr('action');
+  $.post( url, $(form).serialize());
+}

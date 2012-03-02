@@ -1,4 +1,3 @@
 #photo_form
   =form_for [@observation,@observation.photos.build], :remote => true do |f|
     = f.file_field :data
-    = f.submit "Upload Photo"

@@ -1,12 +1,13 @@
 -unless photo.new_record?
   .attached_photo
-    = image_tag "/uploads/observation_#{photo.observation_id}/#{photo.name}", :class => :thumbnail
+    .thumbnail
+      = image_tag "/uploads/observation_#{photo.observation_id}/#{photo.name}"
     .edit_photo_form
       = form_for [@observation, photo], :remote => true do |f|
         .photo_locations{:id=> "photo_#{photo.id}"}
           - OnBoatLocationLookup.all.each do |loc|
             = f.label "location_lookup_id_#{loc.id}_#{photo.id}", loc.name, :class => :radioset
             = f.radio_button :on_boat_location_lookup_id,  loc.id, :checked => photo.on_boat_location_lookup_id == loc.id ? true : false, :id => "photo_location_lookup_id_#{loc.id}_#{photo.id}"
-      = form_for [@observation, photo], :remote => true, :method => :delete do |f|
+      = form_for [@observation, photo], :remote => true, :method => :delete, :html => {:class => "delete_photo"} do |f|
         =f.submit "Delete", :action => :delete, :class => 'ui-button'
 

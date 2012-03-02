@@ -42,20 +42,34 @@ $border-color: #000;
 }
 
 #photo_form {
-  padding: 10px 0px 30px 0px;
+  padding-top: 10px;
+  margin: 10px 0px 30px 0px;
+  text-align: center;
+  height: 100px;
+  background: #AAAAAA;
+  border: solid 1px #000000;
 }
+.hidden {
+  display: none;
+}
+
+#ice_obs_buttons {
+  padding-bottom: 15px;
+}
+
 #attached_photos {
   display: block;
 
   .attached_photo {
     height:75px;
-    
+    margin: 10px;
 
     .edit_photo_form {
-      margin-left: 100px;
+      margin-top: 20px;
       height: 35px;
       vertical-align: top;
       display: inline-block;
+
     }
     form {
       display: inline-block;
@@ -63,8 +77,14 @@ $border-color: #000;
 
     }
     .thumbnail {
+
       height: 75px;
+      width: 200px;
       display: inline-block;
+      overflow: hidden;
+      img {
+        height: 75px;
+      }
     }
     .photo_locations {
       display: inline-block;

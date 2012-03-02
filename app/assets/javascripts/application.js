@@ -13,7 +13,10 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
-//= require jquery.remotipart
+//=# require jquery.remotipart
 //= require chosen/chosen/chosen.jquery
 //= require datatables-1.9.0/js/jquery.dataTables
+//= require jquery-file-upload/js/vendor/jquery.ui.widget.js
+//= require jquery-file-upload/js/jquery.iframe-transport.js
+//= require jquery-file-upload/js/jquery.fileupload.js
 //= require_tree .

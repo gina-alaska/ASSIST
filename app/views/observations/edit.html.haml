@@ -16,7 +16,20 @@
       = render :partial => 'general', :locals => {:f => f}
       = f.submit "Save Report"
     #ice
-      = render :partial => @observation.ice, :locals => {:f => f}
+      #ice_obs_buttons
+        =link_to "Global", "#global", :class => 'buttontab'
+        =link_to "Primary", "#primary", :class => 'buttontab'
+        =link_to "Secondary","#secondary", :class => 'buttontab'
+        =link_to "Tertiary","#tertiary", :class => 'buttontab'
+
+      #global
+        = render :partial => @observation.ice, :locals => {:f => f}
+      #primary.hidden
+        = render :partial => @observation.ice_observations.build, :locals => {:f => f}
+      #secondary.hidden
+        =# render :partial => @observation.ice_observations, :locals => {:f => f}
+      #tertiary.hidden
+        =# render :partial => @observation.ice_observations, :locals => {:f => f}
       = f.submit "Save Report"
     #meteorological
       = render :partial => @observation.meteorology, :locals => {:f => f}
