@@ -10,7 +10,7 @@ $(document).ready(function() {
   var $photoForm = $('#photo_form');
   $obsForm.tabs({
     show: function(event, ui) {
-      $(ui.panel).find('.combobox').chosen();
+      $(ui.panel).find('.combobox:visible').chosen();
       $(ui.panel).find('.users').chosen({
         no_results_text: "That user was not found."
       });
