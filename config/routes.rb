@@ -4,6 +4,7 @@ Iceobs::Application.routes.draw do
 
   resources :observations do
     resources :photos
+    resources :ice_observations
   end
   resources :users
   resources :ices

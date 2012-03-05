@@ -5,41 +5,36 @@
     %li= link_to 'General', '#general'
     %li= link_to 'Ice', '#ice'
     %li= link_to 'Meteorological', '#meteorological'
-    %li= link_to 'Ice Observations', '#ice_observations'
     %li= link_to 'Comments', '#comments'
     %li= link_to 'Photos', '#photos'
     %li= link_to 'Preview', '#preview'
+    = button_to "Save", {}, :id => "save_observations", :class => "save_button"
 
+  =# form_for @observation, :remote => true do |f|
+  #general
+    = render 'general'
+  #ice
+    #ice_obs_buttons
+      = label_tag "global_ice", "Global"
+      = radio_button_tag "ice_observation_button", "#global", true,  :id => "global_ice"
+      = label_tag "primary_ice", "Primary"
+      = radio_button_tag "ice_observation_button", "#primary", false,  :id => "primary_ice"
+      = label_tag "secondary_ice", "Secondary"
+      = radio_button_tag "ice_observation_button", "#secondary", false,  :id => "secondary_ice"
+      = label_tag "tertiary_ice", "Tertiary"
+      = radio_button_tag "ice_observation_button", "#tertiary", false,  :id => "tertiary_ice"
 
-  = form_for @observation, :remote => true do |f|
-    #general
-      = render :partial => 'general', :locals => {:f => f}
-      = f.submit "Save Report"
-    #ice
-      #ice_obs_buttons
-        =link_to "Global", "#global", :class => 'buttontab'
-        =link_to "Primary", "#primary", :class => 'buttontab'
-        =link_to "Secondary","#secondary", :class => 'buttontab'
-        =link_to "Tertiary","#tertiary", :class => 'buttontab'
+    #global.selected
+      = render @observation.ice
+    = render @observation.ice_observations
 
-      #global
-        = render :partial => @observation.ice, :locals => {:f => f}
-      #primary.hidden
-        = render :partial => @observation.ice_observations.build, :locals => {:f => f}
-      #secondary.hidden
-        =# render :partial => @observation.ice_observations, :locals => {:f => f}
-      #tertiary.hidden
-        =# render :partial => @observation.ice_observations, :locals => {:f => f}
-      = f.submit "Save Report"
-    #meteorological
-      = render :partial => @observation.meteorology, :locals => {:f => f}
-      = f.submit "Save Report"
-    #ice_observations
-      = render :partial => @observation.ice_observations, :locals => {:f => f}
-      = f.submit "Save Report"
-    #comments
-      = render :partial => 'comments', :locals => {:f => f}
-      = f.submit "Save Report"
+  #meteorological
+    =# render :partial => @observation.meteorology, :locals => {:f => f}
+    =# f.submit "Save Report"
+
+  #comments
+    =# render :partial => 'comments', :locals => {:f => f}
+    =# f.submit "Save Report"
 
 
   #photos

@@ -13,6 +13,9 @@ class ObservationsController < ApplicationController
 
   def create
     @observation = Observation.new params[:observation]
+    @observation.ice_observations << IceObservation.new(:obs_type => "primary")
+    @observation.ice_observations << IceObservation.new(:obs_type => "secondary")
+    @observation.ice_observations << IceObservation.new(:obs_type => "tertiary")
 
     if @observation.save!
       respond_with @observation do |format|

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120228201042) do
+ActiveRecord::Schema.define(:version => 20120303005406) do
 
   create_table "algae_distribution_lookups", :force => true do |t|
     t.string   "name"
@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(:version => 20120228201042) do
     t.integer  "sediment_lookup_id"
     t.datetime "created_at",            :null => false
     t.datetime "updated_at",            :null => false
+    t.string   "obs_type"
   end
 
   create_table "ices", :force => true do |t|

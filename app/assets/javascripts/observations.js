@@ -4,6 +4,7 @@
 */
 
 $(document).ready(function() {
+
   var $userForm = $('#user_form');
   var $obsForm = $('#observation_form');
   var $photoForm = $('#photo_form');
@@ -18,13 +19,15 @@ $(document).ready(function() {
 
   $(".photo_locations").buttonset();
   $("#ice_obs_buttons").buttonset();
-
-  $(".buttontab").click( function(event, button) {
-    console.log(event);
-    console.log($(this).attr('href'));
-    $(this).addClass('hidden')
-    $( $(this).attr('href') ).removeClass('hidden')
+  $("#ice_obs_buttons input").click( function() {
+    var target = $(this).attr('value');
+    $("#ice .selected").hide().removeClass('selected');
+    $(target).addClass('selected').show(0, function() {
+      $(this).find('.combobox').chosen();
+      console.log($(this).find('.combobox'));
+    });
   });
+  $(".ice_obs").hide();
   $userForm.dialog({
     modal: true,
     autoOpen: false,
@@ -67,6 +70,12 @@ $(document).ready(function() {
   $photoForm.fileupload({
     dataType: 'json',
     url: $photoForm.attr('action'),
+    add: function(e, data) {
+      $(this).block({
+        message: "Please Wait..."
+      });
+      data.submit();
+    },
     done: appendPhoto
   });
   $obsForm.bind("ajax:beforeSend", function() {
@@ -98,6 +107,7 @@ function appendPhoto(e, data) {
       $("#attached_photos").append(data);
       $(".photo_locations").buttonset();
   });
+  $("#photo_form").unblock();
 }
 
 function removePhoto() {

@@ -1,3 +1,6 @@
 [submodule "vendor/assets/jquery-plugins/jquery-file-upload"]
 	path = vendor/assets/jquery-plugins/jquery-file-upload
 	url = http://github.com/blueimp/jQuery-File-Upload
+[submodule "vendor/assets/jquery-plugins/jquery-blockUI"]
+	path = vendor/assets/jquery-plugins/jquery-blockUI
+	url = https://github.com/malsup/blockui.git

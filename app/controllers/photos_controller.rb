@@ -8,6 +8,7 @@ class PhotosController < ApplicationController
     @observation = Observation.find(params[:observation_id])
     @photo = @observation.photos.build photo
     @photo.name = uploaded_file.original_filename
+    @photo.on_boat_location_lookup_id ||= OnBoatLocationLookup.where(:name => 'other').first
 
     FileUtils.mkdir_p( @photo.directory )
 
