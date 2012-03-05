@@ -29,7 +29,7 @@
     = render @observation.ice_observations
 
   #meteorological
-    =# render :partial => @observation.meteorology, :locals => {:f => f}
+    = render @observation.meteorology
     =# f.submit "Save Report"
 
   #comments

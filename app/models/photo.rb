@@ -1,4 +1,6 @@
 class Photo < ActiveRecord::Base
+  validates_uniqueness_of :name, :message => "That photo has already been uploaded"
+
   belongs_to :observation
   belongs_to :on_boat_location_lookup
 

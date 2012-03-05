@@ -10,7 +10,7 @@
     - @observations.each do |o|
       %tr.observation
         %td= o.obs_datetime
-        %td= o.primary_observer.first_and_last_name
+        %td= o.primary_observer.try(:first_and_last_name)
         %td= o.finalized? ? 'Yes' : 'No'
         %td= link_to "[edit]", edit_observation_path(o)
 :javascript

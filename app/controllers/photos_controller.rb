@@ -25,14 +25,17 @@ class PhotosController < ApplicationController
     else
       if request.xhr?
         render :json => @photo.errors, :layout => false, :status => :unprocessable_entity
-      end
+      else
         render edit_observation_url(@photo.observation_id), :status => :unprocessable_entity
+      end
     end
   end
 
   def destroy
     @photo = Photo.find(params[:id])
-    FileUtils.rm( File.join( @photo.directory, @photo.name ) )
+    file = File.join( @photo.directory, @photo.name );
+    FileUtils.rm( file ) if File.exists? file
+
     if @photo.destroy
       if request.xhr?
         render :json => {:success => true}, :status => :ok
