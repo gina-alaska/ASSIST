@@ -16,9 +16,7 @@ $border-color: #000;
     text-align: left;
 
   }
-  label.radioset {
-    display: inline-block;
-  }
+
   p.half_size {
     padding-top: 0;
     margin-top: 0;
@@ -38,6 +36,15 @@ $border-color: #000;
     &.users {
       min-width: 200px;
     }
+  }
+  .radioset {
+    label {
+      display: inline-block;
+    }
+  }
+  .toggle_label {
+    display: inline-block;
+    width: 150px;
   }
 }
 
@@ -103,6 +110,12 @@ $border-color: #000;
   }
 }
 
+.button_to {
+  .ui-button {
+    background-color: #f59a2e;
+    background-image: url('http://iceobs.soup.gina.alaska.edu/assets/seaice/css/custom-theme/images/ui-bg_flat_75_e6e6e6_40x100.png');
+  }
+}
 /*
 .ui-tabs-vertical { width: 100%; margin:0; padding: 0; }
 .ui-tabs-vertical .ui-tabs-nav { padding: .2em .1em .2em .2em; width: 200px; top: -1px; left: -1px; position: absolute; }

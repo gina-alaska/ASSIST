@@ -14,7 +14,7 @@
     %p.half_size
       = m.label :freeboard
       = m.text_field :freeboard
-    %p.half_size  
+    %p.half_size
       = m.label :pattern_lookup_id,  "Pattern"
       = m.collection_select :pattern_lookup_id, PatternLookup.all, :id, :code_with_name, |
         { :include_blank => true }, { :class => :combobox }
