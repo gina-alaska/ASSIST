@@ -10,8 +10,12 @@
       { :include_blank => true}, { :class => :users, :multiple => true }
   %p
     = f.label :obs_datetime, 'Observation Time'
-    = text_field_tag 'date'
-    = f.time_select :obs_datetime, :minute_step => 60
+    =# text_field_tag :obs_date, DateTime.now.strftime("%Y-%m-%d")
+    =# select_tag :obs_time, options_for_select( (0..23).collect{|hour| ["#{hour}:00".rjust(5, "0"), hour]}, Time.now.hour), |
+      { :html => {:id => "observation_obs_datetime_4i", :class => :combobox, |
+      :name => "observation[obs_datetime(4i)]" } }
+    = f.datetime_select :obs_datetime, {}, :class => :combobox
+
   %p.half_size
     = f.label :latitude
     = f.text_field :latitude

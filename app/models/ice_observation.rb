@@ -5,4 +5,6 @@ class IceObservation < ActiveRecord::Base
 
   accepts_nested_attributes_for :melt_pond
   accepts_nested_attributes_for :topography
+
+
 end

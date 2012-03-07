@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120303005406) do
+ActiveRecord::Schema.define(:version => 20120307020458) do
 
   create_table "algae_distribution_lookups", :force => true do |t|
     t.string   "name"
@@ -139,7 +139,7 @@ ActiveRecord::Schema.define(:version => 20120303005406) do
 
   create_table "observations", :force => true do |t|
     t.integer  "cruise_id"
-    t.date     "obs_datetime"
+    t.datetime "obs_datetime"
     t.string   "latitude"
     t.string   "longitude"
     t.string   "hexcode"

@@ -16,7 +16,7 @@
         = i.collection_select :floe_size_lookup_id, FloeSizeLookup.all, :id, :code_with_name, |
           { :include_blank => true }, { :class => :combobox }
     %p
-      = render :partial => ice_observation.build_topography, :locals => {:f => i}
+      = render :partial => ice_observation.topography, :locals => {:f => i}
     = field_set_tag "Snow" do
       %p.half_size
         = i.label :snow_lookup_id, "Snow Type"
@@ -26,7 +26,7 @@
         = i.label :snow_thickness, "Snow Thickness"
         = i.text_field :snow_thickness
     %p
-      = render :partial => ice_observation.build_melt_pond, :locals => {:f => i}
+      = render :partial => ice_observation.melt_pond, :locals => {:f => i}
     = field_set_tag "Other" do
       %p.half_size
         = i.label :biota_lookup_id, "Biota"

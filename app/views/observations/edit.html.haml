@@ -26,7 +26,9 @@
 
     #global.selected
       = render @observation.ice
-    = render @observation.ice_observations
+    = render @observation.ice_observations.primary
+    = render @observation.ice_observations.secondary
+    = render @observation.ice_observations.tertiary
 
   #meteorological
     = render @observation.meteorology

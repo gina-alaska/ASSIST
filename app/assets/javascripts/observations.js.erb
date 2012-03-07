@@ -14,6 +14,8 @@ $(document).ready(function() {
       $(ui.panel).find('.users').chosen({
         no_results_text: "That user was not found."
       });
+      var button = $("#save_observations");
+      var form = $(ui.panel).find('form');
     }
   });
   $(".ridges").hide();
@@ -42,6 +44,12 @@ $(document).ready(function() {
     return false;
   });
 
+  $("#save_observations").click( function(event) {
+    var form = $(".ui-tabs-panel form:visible");
+    $.rails.handleRemote( $(form) );
+    event.preventDefault();
+  });
+
   $userForm.bind("ajax:error", function( e, xhr, status ) {
     var $form = $(this);
     var errors;
@@ -64,7 +72,10 @@ $(document).ready(function() {
     $('select.users').each( function(index, item) {
       $(item).append(new Option(d.firstname + " " + d.lastname, d.id));
     });
+    $("#observation_primary_observer_id option:selected").removeAttr("selected");
+    $("#observation_primary_observer_id option[value='"+d.id+"']").attr("selected", true);
     $('select.users').chosen().trigger("liszt:updated");
+
     $userForm.dialog('close');
   });
 
