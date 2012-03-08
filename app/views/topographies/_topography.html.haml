@@ -8,27 +8,28 @@
     %p.ridges.rafts.half_size
       = t.label :ridge_height
       = t.text_field :ridge_height
-    %p.ridges
+    %p.ridges.half_size
       = t.label :concentration
       = t.text_field :concentration
-    .radioset.ridges
-      %span.toggle_label
-        New Ice?
-      = t.label "topography_old_yes", "Yes"
-      = t.radio_button :old, true, :id => "ice_observation_topography_attributes_topography_old_yes"
-      = t.label "topography_old_no", "No"
-      = t.radio_button :old, false, :id => "ice_observation_topography_attributes_topography_old_no"
-    .radioset.ridges
-      %span.toggle_label
-        Consolidated?
-      = t.label "topography_consolidated_yes", "Yes"
-      = t.radio_button :consolidated, true, :id => "ice_observation_topography_attributes_topography_consolidated_yes"
-      = t.label "topography_consolidated_no", "No"
-      = t.radio_button :consolidated, false, :id => "ice_observation_topography_attributes_topography_consolidated_no"
-    .radioset.ridges
-      %span.toggle_label
-        Snow Covered?
-      = t.label "topography_snow_yes", "Yes"
-      = t.radio_button :snow_covered, true, :id => "ice_observation_topography_attributes_topography_snow_yes"
-      = t.label "topography_snow_no", "No"
-      = t.radio_button :snow_covered, false, :id => "ice_observation_topography_attributes_topography_snow_no"
+    %p.half_size
+      .radioset.ridges
+        %span.toggle_label
+          New Ice?
+        = t.label "topography_old_yes", "Yes"
+        = t.radio_button :old, true, :id => "ice_observation_topography_attributes_topography_old_yes"
+        = t.label "topography_old_no", "No"
+        = t.radio_button :old, false, :id => "ice_observation_topography_attributes_topography_old_no"
+      .radioset.ridges
+        %span.toggle_label
+          Consolidated?
+        = t.label "topography_consolidated_yes", "Yes"
+        = t.radio_button :consolidated, true, :id => "ice_observation_topography_attributes_topography_consolidated_yes"
+        = t.label "topography_consolidated_no", "No"
+        = t.radio_button :consolidated, false, :id => "ice_observation_topography_attributes_topography_consolidated_no"
+      .radioset.ridges
+        %span.toggle_label
+          Snow Covered?
+        = t.label "topography_snow_yes", "Yes"
+        = t.radio_button :snow_covered, true, :id => "ice_observation_topography_attributes_topography_snow_yes"
+        = t.label "topography_snow_no", "No"
+        = t.radio_button :snow_covered, false, :id => "ice_observation_topography_attributes_topography_snow_no"
