@@ -38,9 +38,9 @@
     =# f.submit "Save Report"
 
   #comments
-    =# render :partial => 'comments', :locals => {:f => f}
-    =# f.submit "Save Report"
-
+    = render :partial => 'comments/form'
+    #obs_comments
+      = render @observation.comments
 
   #photos
     = render :partial => 'photos/upload'

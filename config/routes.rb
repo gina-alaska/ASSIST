@@ -5,6 +5,7 @@ Iceobs::Application.routes.draw do
   resources :observations do
     get :preview
     resources :photos
+    resources :comments
     resources :ice_observations
     resources :ices
     resources :meteorologies

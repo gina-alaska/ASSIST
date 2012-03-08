@@ -85,6 +85,14 @@ $(document).ready(function() {
     $userForm.dialog('close');
   });
 
+  $("form.autosave").bind("ajax:beforeSend", function(e) {
+    $.growlUI("", "Saving");
+  });
+  $("form.autosave").bind("ajax:success", function(evt, data, status, xhr) {
+    $.growlUI("","Save Successful");
+  });
+  $("#comments_form").bind("ajax:success", appendComment );
+
   $photoForm.fileupload({
     dataType: 'json',
     url: $photoForm.attr('action'),
@@ -97,24 +105,7 @@ $(document).ready(function() {
     done: appendPhoto,
     error: uploadPhotoError
   });
-/*
-  $obsForm.bind("ajax:beforeSend", function() {
-    var $dialog = $("#status_dialog");
-    $dialog.dialog({
-      title: "Saving, please wait...",
-      modal:true,
-      resizable: false,
-      closable: false
-    })
 
-  });
-/*
-  $obsForm.bind("ajax:success", function(evt, data, status, xhr) {
-    var $dialog = $("#status_dialog");
-
-    $dialog.dialog("close");
-  });
-*/
  $(document).delegate('.delete_photo form input[type="submit"]', "click", function() {
 
    $(this).parents(".attached_photo").block({
@@ -137,6 +128,14 @@ function appendPhoto(e, data) {
   });
   $("#photo_form").unblock();
 }
+
+function appendComment(e, data) {
+  var url = "/observations/" + data.observation_id + "/comments/" + data.id;
+  var comment = $.get( url, function(data) {
+    $("#obs_comments").append(data);
+  });
+}
+
 
 function uploadPhotoError(jqXHR, textStatus, error) {
 

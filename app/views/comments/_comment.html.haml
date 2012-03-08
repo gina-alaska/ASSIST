@@ -1,0 +1,7 @@
+-unless comment.new_record?
+  .user_comment
+    .user
+      = comment.user.first_and_last_name
+    .comment
+      = comment.data
+

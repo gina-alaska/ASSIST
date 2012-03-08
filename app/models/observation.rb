@@ -1,6 +1,7 @@
 class Observation < ActiveRecord::Base
   has_one  :ice
   has_many :photos
+  has_many :comments
   has_many :ice_observations do
     def obs_type o
       o = o.to_sym

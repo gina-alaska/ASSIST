@@ -1,0 +1,6 @@
+#comments_form
+  =form_for [@observation,@observation.comments.build], :remote => true do |f|
+    = f.label :user_id, "Observer"
+    = f.collection_select :user_id, User.all, :id, :first_and_last_name, |
+      { :include_blank => true }, { :class => [:users] }
+    = f.text_area :data, :size => "40x10"
