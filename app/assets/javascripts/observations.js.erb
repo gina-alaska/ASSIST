@@ -134,6 +134,7 @@ function appendComment(e, data) {
   var comment = $.get( url, function(data) {
     $("#obs_comments").append(data);
   });
+  $("#comments_form textarea").val("");
 }
 
 
