@@ -46,11 +46,23 @@ $border-color: #000;
     display: inline-block;
     width: 150px;
   }
+
 }
 
-#save_observations {
+#nav_buttons {
   float: right;
-  margin-top: 4px;
+  top: 4px;
+  right: 5px;
+  position: absolute;
+
+  button.save_button {
+    color: #000000;
+    background:#38820d url(/assets/seaice/css/custom-theme/images/ui-bg_highlight-soft_45_38820d_1x100.png) 50% 50% repeat-x;
+  }
+  button.next_button {
+    color: #000000;
+    background:#38820d url(/assets/seaice/css/custom-theme/images/ui-bg_highlight-soft_45_38820d_1x100.png) 50% 50% repeat-x;
+  }
 }
 
 #ice_obs_buttons {
@@ -110,12 +122,7 @@ $border-color: #000;
   }
 }
 
-.button_to {
-  .ui-button {
-    background-color: #f59a2e;
-    background-image: url('http://iceobs.soup.gina.alaska.edu/assets/seaice/css/custom-theme/images/ui-bg_flat_75_e6e6e6_40x100.png');
-  }
-}
+
 /*
 .ui-tabs-vertical { width: 100%; margin:0; padding: 0; }
 .ui-tabs-vertical .ui-tabs-nav { padding: .2em .1em .2em .2em; width: 200px; top: -1px; left: -1px; position: absolute; }

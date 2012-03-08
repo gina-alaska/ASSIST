@@ -14,10 +14,9 @@ $(document).ready(function() {
       $(ui.panel).find('.users').chosen({
         no_results_text: "That user was not found."
       });
-      var button = $("#save_observations");
-      var form = $(ui.panel).find('form');
     }
   });
+  $("#nav_buttons").buttonset();
   $(".ridges").hide();
   $(".photo_locations").buttonset();
   $("#ice_obs_buttons").buttonset();
@@ -44,10 +43,17 @@ $(document).ready(function() {
     return false;
   });
 
-  $("#save_observations").click( function(event) {
+  $("#nav_buttons .save_button").click( function(event) {
     var form = $(".ui-tabs-panel form:visible");
     $.rails.handleRemote( $(form) );
     event.preventDefault();
+  });
+  $("#nav_buttons .next_button").click( function(event) {
+
+    event.preventDefault();
+    var $panel = $("#observation_form");
+    var tab = $panel.tabs('option', "selected");
+    $panel.tabs('option', 'selected', tab + 1 );
   });
 
   $userForm.bind("ajax:error", function( e, xhr, status ) {

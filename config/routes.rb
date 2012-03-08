@@ -3,6 +3,7 @@ Iceobs::Application.routes.draw do
   # first created -> highest priority.
 
   resources :observations do
+    get :preview
     resources :photos
     resources :ice_observations
     resources :ices

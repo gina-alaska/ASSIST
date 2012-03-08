@@ -7,10 +7,13 @@
     %li= link_to 'Meteorological', '#meteorological'
     %li= link_to 'Comments', '#comments'
     %li= link_to 'Photos', '#photos'
-    %li= link_to 'Preview', '#preview'
-    = button_to "Save", {}, :id => "save_observations", :class => "save_button"
+    %li= link_to 'Preview', observation_preview_path(@observation)
 
-  =# form_for @observation, :remote => true do |f|
+  #nav_buttons
+    = form_tag do
+      = button_tag "Save",  :class => "save_button"
+      = button_tag "Next", :class => "next_button"
+
   #general
     = render 'general'
   #ice
@@ -44,8 +47,7 @@
     #attached_photos
       - @observation.photos.each do |p|
         = render p
-  #preview
-    = render 'preview'
+
 
 #user_form
   = render User.new

@@ -60,4 +60,15 @@ class ObservationsController < ApplicationController
       end
     end
   end
+
+  def preview
+    @observation = Observation.where(:id => params[:observation_id]).first
+
+    if request.xhr?
+      respond_with @observation, :layout => false
+    else
+      respond_with @observation
+    end
+  end
+
 end
