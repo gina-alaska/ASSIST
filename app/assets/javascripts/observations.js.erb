@@ -141,8 +141,7 @@ function appendComment(e, data) {
 function uploadPhotoError(jqXHR, textStatus, error) {
 
   var msg = $.parseJSON(jqXHR.responseText);
-  console.log(msg);
-  $.each(msg.name, function(index, value) {
+  $.each(msg, function(index, value) {
     $.growlUI(value);
   });
   $("#photo_form").unblock();
@@ -162,7 +161,7 @@ function updatePhotoLocation() {
 
 }
 
-function handleTopographies() {
+function handleTopographies( ) {
   var fields = $(this).parents("fieldset");
   var value = parseInt($(this).val());
 

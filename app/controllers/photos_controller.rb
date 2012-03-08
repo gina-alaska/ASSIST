@@ -1,3 +1,5 @@
+require 'digest'
+
 class PhotosController < ApplicationController
   respond_to :html, :json, :js
 
@@ -9,14 +11,16 @@ class PhotosController < ApplicationController
     @photo = @observation.photos.build photo
     @photo.name = uploaded_file.original_filename
     @photo.on_boat_location_lookup_id ||= OnBoatLocationLookup.where(:name => 'other').first
-
-    FileUtils.mkdir_p( @photo.directory )
-
-    File.open( File.join( @photo.directory, @photo.name ), 'wb') do |file|
-      file.write(uploaded_file.read)
-    end
+    uploaded_file.rewind
+    @photo.checksum_id = Digest::MD5.hexdigest( "#{@observation.id}_#{uploaded_file.read}")
 
     if(@photo.save)
+      FileUtils.mkdir_p( @photo.directory )
+      File.open( File.join( @photo.directory, @photo.name ), 'wb') do |file|
+        uploaded_file.rewind
+        file.write(uploaded_file.read)
+      end
+
       if request.xhr?
         render :json => @photo, :status => :ok
       else
