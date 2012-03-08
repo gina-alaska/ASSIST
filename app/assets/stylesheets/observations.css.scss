@@ -11,32 +11,19 @@ $border-color: #000;
   }
 }
 
-.columns {
-  @include column-count(2);
-  @include column-gap(20px);
-  @include column-width(100px);
-}
-
-.column {
-  @include column-count(1);
-}
-
 #observation_form {
-
   label {
     display:block;
     //width: 175px;
     text-align: left;
-
   }
-/*
-  p.half_size {
+  .half_size {
     padding-top: 0;
     margin-top: 0;
     display: inline-block;
-    min-width: 275px;
+    min-width: 300px;
+    padding-right: 20px;
   }
-*/
   h1 {
     font-size: 1.2em;
     text-decoration: underline;
