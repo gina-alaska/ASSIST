@@ -1,5 +1,6 @@
 .ice_obs{:id => ice_observation.obs_type}
-  =form_for [@observation, ice_observation], :namespace => ice_observation.id do |i|
+  =form_for [@observation, ice_observation], :namespace => ice_observation.id, |
+    :html => {:class => :autosave } do |i|
     = field_set_tag "Ice" do
       %p.half_size
         = i.label :partial_concentration, "Partial Concentration"
