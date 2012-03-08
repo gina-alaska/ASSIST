@@ -50,7 +50,7 @@ class PhotosController < ApplicationController
     if request.xhr?
       respond_with [@photo, @observation], :layout => false
     else
-      respond_with @phoot, @observation
+      respond_with @photo, @observation
     end
   end
 
