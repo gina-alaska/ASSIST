@@ -1,14 +1,11 @@
 %h1 New Observation
-
 #observation_form
-  = form_for @observation do |f|
-    #general
-      = render :partial => 'general', :locals => {:f => f}
-      %p
-        = f.submit
+  = render 'general'
+
+
 #user_form
   = render User.new
-  
+
 :javascript
   $(document).ready(function() {
     $('.combobox').chosen();

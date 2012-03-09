@@ -11,6 +11,12 @@ $border-color: #000;
   }
 }
 
+.field_with_errors {
+  display: inline-block;
+  background: lighten(#F00, 30%);
+  border: solid 1px red;
+}
+
 #observation_form {
   label {
     display:block;
@@ -22,7 +28,12 @@ $border-color: #000;
     margin-top: 0;
     display: inline-block;
     min-width: 300px;
-    padding-right: 20px;
+    padding: 5px 20px 20px 5px;
+    vertical-align: top;
+
+  }
+  #adduser {
+    vertical-align: top;
   }
   h1 {
     font-size: 1.2em;
@@ -55,13 +66,14 @@ $border-color: #000;
   right: 5px;
   position: absolute;
 
-  button.save_button {
+  #save_button {
     color: #000000;
-    background:#38820d url(/assets/seaice/css/custom-theme/images/ui-bg_highlight-soft_45_38820d_1x100.png) 50% 50% repeat-x;
+   // background:#38820d url(/assets/seaice/css/custom-theme/images/ui-bg_highlight-soft_45_38820d_1x100.png) 50% 50% repeat-x;
+    @include background(linear-gradient(#ff9900,#c26400 ));
   }
-  button.next_button {
+  #next_button {
     color: #000000;
-    background:#38820d url(/assets/seaice/css/custom-theme/images/ui-bg_highlight-soft_45_38820d_1x100.png) 50% 50% repeat-x;
+    @include background(linear-gradient(#0ac200 ,#38820d));
   }
 }
 

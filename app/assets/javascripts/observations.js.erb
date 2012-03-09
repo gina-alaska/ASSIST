@@ -3,6 +3,9 @@
 # All this logic will automatically be available in application.js.
 */
 
+var latDMSRegex = /^(\+|-)?[0-9]{1,2}\.[0-9]{2}(\.[0-9]{2})?\s?[NS]?$/;
+var lonDMSRegex = /^(\+|-)?[0-9]{1,3}\.[0-9]{2}(\.[0-9]{2})?\s?[EW]?$/;
+
 $(document).ready(function() {
 
   var $userForm = $('#user_form');
@@ -17,10 +20,29 @@ $(document).ready(function() {
     }
   });
   $("#nav_buttons").buttonset();
-  $(".ridges").hide();
   $(".photo_locations").buttonset();
   $("#ice_obs_buttons").buttonset();
   $(".radioset").buttonset();
+  $("#adduser").button({
+    icons: {
+      primary: 'ui-icon-plusthick'
+    }
+  });
+
+
+
+  $(".ridges").hide();
+  $(".ice_obs").hide();
+
+
+  $userForm.dialog({
+    modal: true,
+    autoOpen: false,
+    resizable: false,
+    minWidth: 400,
+    minHeight: 200
+  });
+
   $("#ice_obs_buttons input").click( function() {
     var target = $(this).attr('value');
     $("#ice .selected").hide().removeClass('selected');
@@ -29,26 +51,18 @@ $(document).ready(function() {
       $(this).find('.topography').chosen().change( handleTopographies ).removeClass("topography");
     });
   });
-  $(".ice_obs").hide();
-  $userForm.dialog({
-    modal: true,
-    autoOpen: false,
-    resizable: false,
-    minWidth: 400,
-    minHeight: 300
-  });
 
-  $("#add_user").click( function() {
+  $("#adduser").click( function() {
     $userForm.dialog("open");
     return false;
   });
 
-  $("#nav_buttons .save_button").click( function(event) {
+  $("#save_button").click( function(event) {
     var form = $(".ui-tabs-panel form:visible");
     $.rails.handleRemote( $(form) );
     event.preventDefault();
   });
-  $("#nav_buttons .next_button").click( function(event) {
+  $("#nav_buttons #next_button").click( function(event) {
 
     event.preventDefault();
     var $panel = $("#observation_form");
@@ -85,10 +99,21 @@ $(document).ready(function() {
     $userForm.dialog('close');
   });
 
-  $("form.autosave").bind("ajax:beforeSend", function(e) {
+  $("form.notify").bind("ajax:beforeSend", function(e) {
+    $(".field_with_errors").removeClass("field_with_errors");
     $.growlUI("", "Saving");
   });
-  $("form.autosave").bind("ajax:success", function(evt, data, status, xhr) {
+  $("form.notify").bind("ajax:error", function(evt, xhr, status, error) {
+    var errors = $.parseJSON(xhr.responseText);
+    console.log(errors);
+    var msg = [];
+    $.each(errors, function( key, values) {
+      $("."+key).addClass("field_with_errors");
+      msg += key + ": " + values[0] + "<br />";
+    });
+    $.growlUI("Errors", msg);
+  });
+  $("form.notify").bind("ajax:success", function(evt, data, status, xhr) {
     $.growlUI("","Save Successful");
   });
   $("#comments_form").bind("ajax:success", appendComment );

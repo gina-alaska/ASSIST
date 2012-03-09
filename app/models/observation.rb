@@ -31,6 +31,10 @@ class Observation < ActiveRecord::Base
   accepts_nested_attributes_for :meteorology
   accepts_nested_attributes_for :photos
 
+  validates_presence_of :primary_observer_id
+  validates_format_of :latitude, :with => /^(\+|-)?[0-9]{1,2}\.[0-9]{2}(\.[0-9]{2})?\s?[NS]?$/
+  validates_format_of :longitude, :with => /^(\+|-)?[0-9]{1,3}\.[0-9]{2}(\.[0-9]{2})?\s?[EW]?$/
+
   after_initialize do
     create_ice if ice.nil?
     create_meteorology if meteorology.nil?

@@ -1,4 +1,4 @@
-= form_for [@observation,ice], :html => {:class => :autosave} do |i|
+= form_for [@observation,ice], :html => {:class => "autosave notify"} do |i|
   %p.half_size
     = i.label :thin_ice_lookup_id, "Thin Ice Type"
     = i.collection_select :thin_ice_lookup_id, IceLookup.all, :id, :code_with_name, |

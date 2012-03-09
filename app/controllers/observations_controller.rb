@@ -15,10 +15,12 @@ class ObservationsController < ApplicationController
     @observation = Observation.new params[:observation]
 
 
-    if @observation.save!
+    if @observation.save
       respond_with @observation do |format|
         format.html { redirect_to proc {edit_observation_url @observation}}
       end
+    else
+      render :action => :new
     end
   end
 

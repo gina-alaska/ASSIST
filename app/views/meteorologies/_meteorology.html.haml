@@ -1,4 +1,4 @@
-= form_for [@observation, meteorology], :html => {:class => :autosave }  do |m|
+= form_for [@observation, meteorology], :html => {:class => "autosave notify" }  do |m|
   %p.half_size
     = m.label :visibility_lookup_id, "Visibility"
     = m.collection_select :visibility_lookup_id, VisibilityLookup.all, :id, :code_with_name, |

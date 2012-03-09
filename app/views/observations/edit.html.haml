@@ -1,4 +1,4 @@
-%h1 Editing #{@observation.obs_datetime}
+%h1 Editing #{@observation.obs_datetime.strftime("%Y.%m.%d %H:%M")}
 
 #observation_form.ui-tabs-vertical
   %ul
@@ -11,8 +11,8 @@
 
   #nav_buttons
     = form_tag do
-      = button_tag "Save",  :class => "save_button"
-      = button_tag "Next", :class => "next_button"
+      = button_tag "Save",  :id => "save_button"
+      = button_tag "Next", :id => "next_button"
 
   #general
     = render 'general'
