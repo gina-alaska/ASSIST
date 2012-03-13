@@ -20,4 +20,33 @@
 //= require jquery-file-upload/js/jquery.iframe-transport.js
 //= require jquery-file-upload/js/jquery.fileupload.js
 //= require jquery-blockUI/jquery.blockUI
+//= require qtip/jquery.qtip
 //= require_tree .
+
+
+$(document).ready( function() {
+  $(".tooltip").qtip({
+    content: {
+      text: function(api) {
+        return $(this).find(".content").clone();
+      }
+    }
+  });
+  $(".tooltip").button({
+    icons: {
+      primary: "ui-icon-help"
+    },
+    text: false
+  });
+  $(".tooltip").click( function() {
+    var url = $(this).find(".detail");
+    if( url.length != 0 ) {
+      var content = $(url).attr("href");
+      $.get(content, function(data, status, jqXHR) {
+        $("#lookup_details").dialog();
+        $("#lookup_details").html(data);
+      });
+    }
+  });
+
+});

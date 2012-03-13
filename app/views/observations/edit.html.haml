@@ -28,10 +28,11 @@
       = radio_button_tag "ice_observation_button", "#tertiary", false,  :id => "tertiary_ice"
 
     #global.selected
-      = render @observation.ice
-    = render @observation.ice_observations.primary
-    = render @observation.ice_observations.secondary
-    = render @observation.ice_observations.tertiary
+    = render @observation.ice
+    .iceobs
+      .iceobs_column= render @observation.ice_observations.primary
+      .iceobs_column= render @observation.ice_observations.secondary
+      .iceobs_column= render @observation.ice_observations.tertiary
 
   #meteorological
     = render @observation.meteorology
@@ -51,5 +52,4 @@
 
 #user_form
   = render User.new
-#status_dialog
-  #status_bar
+#lookup_details

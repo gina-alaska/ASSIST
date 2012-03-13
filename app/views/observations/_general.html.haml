@@ -1,8 +1,8 @@
 = form_for @observation, :html => {:class => "autosave notify" } do |f|
-  .half_size
+  .half_size.primary_observer_id
     = f.label :primary_observer, "Primary Observer"
     = f.collection_select :primary_observer_id, User.all, :id, :first_and_last_name, |
-      { :include_blank => true }, { :class => :users ,:multiple => true}
+      { :include_blank => true }, { :class => :users }
     = link_to "Add User", new_user_url, :id => "adduser"
   .half_size
     = f.label :additional_observer_ids, "Additional Observers"
@@ -19,8 +19,17 @@
   .half_size.latitude
     = f.label :latitude
     = f.text_field :latitude
+    .tooltip
+      ?
+      .content
+        Latitude of ship. Acceptable formats are DD.MM and DD.MM.SS
   .half_size.longitude
     = f.label :longitude
     = f.text_field :longitude
+    .tooltip
+      ?
+      .content
+        Longitude of ship. Acceptable formats are DDD.MM and DDD.MM.SS
+
   %br
-  =f.submit "Create Observation"
+  =f.submit "Create Observation" if @observation.new_record?

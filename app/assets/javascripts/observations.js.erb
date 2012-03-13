@@ -32,8 +32,6 @@ $(document).ready(function() {
 
 
   $(".ridges").hide();
-  $(".ice_obs").hide();
-
 
   $userForm.dialog({
     modal: true,
@@ -104,14 +102,13 @@ $(document).ready(function() {
     $.growlUI("", "Saving");
   });
   $("form.notify").bind("ajax:error", function(evt, xhr, status, error) {
-    var errors = $.parseJSON(xhr.responseText);
-    console.log(errors);
-    var msg = [];
-    $.each(errors, function( key, values) {
+    var response = $.parseJSON(xhr.responseText);
+    var msg = response.flash;
+
+    $.each(response.errors, function( key, values) {
       $("."+key).addClass("field_with_errors");
-      msg += key + ": " + values[0] + "<br />";
     });
-    $.growlUI("Errors", msg);
+    $.growlUI("Errors", response.flash.join("<br />"));
   });
   $("form.notify").bind("ajax:success", function(evt, data, status, xhr) {
     $.growlUI("","Save Successful");

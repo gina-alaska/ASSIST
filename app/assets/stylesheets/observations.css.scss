@@ -27,11 +27,11 @@ $border-color: #000;
     padding-top: 0;
     margin-top: 0;
     display: inline-block;
-    min-width: 300px;
-    padding: 5px 20px 20px 5px;
+    min-width: 200px;
+   // padding: 5px 20px 20px 5px;
     vertical-align: top;
-
   }
+
   #adduser {
     vertical-align: top;
   }
@@ -42,11 +42,15 @@ $border-color: #000;
 
   select {
     &.combobox {
-      min-width: 200px;    
+      width: 80%;
     }
     &.users {
       min-width: 200px;
     }
+  }
+  input {
+    width: 80%;
+    display: inline-block;
   }
   .radioset {
     label {
@@ -97,10 +101,6 @@ $border-color: #000;
     margin: 5px;
   }
 }
-.hidden {
-  display: none;
-}
-
 #ice_obs_buttons {
   padding-bottom: 15px;
 }
@@ -121,9 +121,8 @@ $border-color: #000;
     }
     form {
       display: inline-block;
-
-
     }
+
     .thumbnail {
 
       height: 75px;
@@ -141,12 +140,13 @@ $border-color: #000;
   }
 }
 
-
-/*
-.ui-tabs-vertical { width: 100%; margin:0; padding: 0; }
-.ui-tabs-vertical .ui-tabs-nav { padding: .2em .1em .2em .2em; width: 200px; top: -1px; left: -1px; position: absolute; }
-.ui-tabs-vertical .ui-tabs-nav li { clear: left; width: 100%; border-bottom-width: 1px !important; border-right-width: 0 !important; margin: 0 -1px .2em 0; }
-.ui-tabs-vertical .ui-tabs-nav li a { display:block; width:100%; }
-.ui-tabs-vertical .ui-tabs-nav li.ui-tabs-selected { padding-bottom: 0em; padding-right: .1em; border-right-width: 1px; border-right-width: 1px; }
-.ui-tabs-vertical .ui-tabs-panel { margin-left: 200px; padding: 5px 5px 5px 15px; }
-*/
+.tooltip {
+  display: inline-block;
+  vertical-align: middle;
+  .content {
+    display: none;
+  }
+  .detail {
+    display: none;
+  }
+}

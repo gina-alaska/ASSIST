@@ -1,3 +1,16 @@
 // Place all the styles related to the ice_observations controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.iceobs {
+  width: 960px;
+  margin: 0px;
+  padding: 0px;
+  
+  .iceobs_column{
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    width: 310px;
+  }
+}

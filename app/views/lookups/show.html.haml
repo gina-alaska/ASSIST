@@ -1,0 +1,4 @@
+= link_to "Open in a new window", lookup_url(@controller), :target => "_blank"
+%ul
+  - 5.times do |count|
+    = render :partial => "lookups", :locals => {:count => count}
