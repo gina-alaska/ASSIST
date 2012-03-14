@@ -6,10 +6,14 @@
       .half_size
         = i.label :partial_concentration, "Partial Concentration"
         = i.text_field :partial_concentration
+
+
         .tooltip
           ?
           .content
             Partial concentration of Total Concentration ( P + S + T = TC )
+        #tc.infotext
+          ="Total Concentration: #{@observation.ice.total_concentration}%"
 
       .half_size
         = i.label :ice_lookup_id, "Ice Type"
@@ -21,31 +25,31 @@
             Ice Type
           = link_to "Ice", lookup_url('ice'), :class => "detail"
 
-      %p.half_size
+      .half_size
         = i.label :thickness
         = i.text_field :thickness
-      %p.half_size
+      .half_size
         = i.label :floe_size_lookup_id, "Floe Size"
         = i.collection_select :floe_size_lookup_id, FloeSizeLookup.all, :id, :code_with_name, |
           { :include_blank => true }, { :class => :combobox }
     %p
       = render :partial => ice_observation.topography, :locals => {:f => i}
     = field_set_tag "Snow" do
-      %p.half_size
+      .half_size
         = i.label :snow_lookup_id, "Snow Type"
         = i.collection_select :snow_lookup_id, SnowLookup.all, :id, :code_with_name, |
           { :include_blank => true }, { :class => :combobox }
-      %p.half_size
+      .half_size
         = i.label :snow_thickness, "Snow Thickness"
         = i.text_field :snow_thickness
     %p
       = render :partial => ice_observation.melt_pond, :locals => {:f => i}
     = field_set_tag "Other" do
-      %p.half_size
+      .half_size
         = i.label :biota_lookup_id, "Biota"
         = i.collection_select :biota_lookup_id, BiotaLookup.all, :id, :code_with_name, |
           { :include_blank => true }, { :class => :combobox }
-      %p.half_size
+      .half_size
         = i.label :sediment_lookup_id, "Sediment"
         = i.collection_select :sediment_lookup_id, SedimentLookup.all, :id, :code_with_name, |
           { :include_blank => true }, { :class => :combobox }

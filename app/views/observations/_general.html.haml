@@ -8,13 +8,13 @@
     = f.label :additional_observer_ids, "Additional Observers"
     = f.collection_select :additional_observer_ids, User.all, :id, :first_and_last_name, |
       { :include_blank => true}, { :class => :users, :multiple => true }
-  %div
+  .dateTime
     = f.label :obs_datetime, 'Observation Time'
     =# text_field_tag :obs_date, DateTime.now.strftime("%Y-%m-%d")
     =# select_tag :obs_time, options_for_select( (0..23).collect{|hour| ["#{hour}:00".rjust(5, "0"), hour]}, Time.now.hour), |
       { :html => {:id => "observation_obs_datetime_4i", :class => :combobox, |
       :name => "observation[obs_datetime(4i)]" } }
-    = f.datetime_select :obs_datetime, {}, :class => :combobox
+    = f.datetime_select :obs_datetime
 
   .half_size.latitude
     = f.label :latitude
@@ -32,4 +32,4 @@
         Longitude of ship. Acceptable formats are DDD.MM and DDD.MM.SS
 
   %br
-  =f.submit "Create Observation" if @observation.new_record?
+  =f.submit "Start Observation" if @observation.new_record?

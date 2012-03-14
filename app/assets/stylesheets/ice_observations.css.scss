@@ -6,11 +6,13 @@
   width: 960px;
   margin: 0px;
   padding: 0px;
-  
+
   .iceobs_column{
     display: inline-block;
     margin: 0;
     padding: 0;
     width: 310px;
+    top: 0;
+    vertical-align: top;
   }
 }
