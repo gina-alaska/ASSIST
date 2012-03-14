@@ -1,0 +1,55 @@
+---
+:user:
+  :first_name: Unknown
+  :last_name: Observer
+:observation:
+  :latitude: LATdm
+  :longitude: LONdm
+  :ice_attributes:
+    :total_concentration: TC
+    :thick_ice_lookup_id: TH
+    :thin_ice_lookup_id: OT
+    :open_water_lookup_id: OW
+  :ice_observation_attributes:
+    -
+      :obs_type: primary
+      :partial_concentration: C
+      :ice_lookup_id: T
+      :thickness: Z
+      :floe_size_lookup_id: F
+      :topography_attributes:
+        :topography_lookup_id: TO
+      :sediment_lookup_id: SD
+      :biota_lookup_id: AL
+      :snow_lookup_id: SY
+      :snow_thickness: SH
+      :melt_pond_attributes:
+        :surface_coverage: MP
+    -
+      :obs_type: secondary
+      :partial_concentration: C2
+      :ice_lookup_id: T2
+      :thickness: Z2
+      :floe_size_lookup_id: F2
+      :topography_attributes:
+        :topography_lookup_id: TO2
+      :sediment_lookup_id: SD2
+      :biota_lookup_id: AL2
+      :snow_lookup_id: SY2
+      :snow_thickness: SH2
+      :melt_pond_attributes:
+        :surface_coverage: MP2
+    -
+      :obs_type: tertiary
+      :partial_concentration: C3
+      :ice_lookup_id: T3
+      :thickness: Z3
+      :floe_size_lookup_id: F3
+      :topography_attributes:
+        :topography_lookup_id: TO3
+      :sediment_lookup_id: SD3
+      :biota_lookup_id: AL3
+      :snow_lookup_id: SY3
+      :snow_thickness: SH3
+      :melt_pond_attributes:
+        :surface_coverage: MP3

@@ -1,3 +1,5 @@
+require 'csv'
+
 class Observation < ActiveRecord::Base
   has_one  :ice
   has_many :photos
@@ -45,4 +47,54 @@ class Observation < ActiveRecord::Base
     #self.finalized_at
     false
   end
+
+
+  def self.from_csv csv, map = "import_map.yml"
+    if map.is_a? String
+      map = ::YAML.load_file map
+    end
+
+    if csv.is_a? String
+      csv = ::CSV.open csv, {:headers => true, :return_headers => false}
+    end
+
+    unknownObserver = User.find_or_create_by_firstname_and_lastname(map[:user][:first_name], map[:user][:last_name])
+    csv.each do |row|
+      data = parse_csv(row,map)
+
+      if data[:observation][:primary_observer_id].nil?
+        data[:observation][:primary_observer_id] = unknownObserver.id
+      else
+        name = data[:observation][:primary_observer_id].split " "
+        user = User.find_or_create_by_firstname_and_lastname(name.first, name.last)
+        data[:observation][:primary_observer_id] = user.id
+      end
+      iceObservations = data[:observation].delete(:ice_observation_attributes)
+      observation = Observation.new( data[:observation])
+      iceObservations.each do |ice|
+        observation.ice_observations << IceObservation.new(ice)
+      end
+
+      observation.save!
+      #logger.info(observation.inspect);
+    end
+
+  end
+
+  def self.parse_csv row, map
+    data = Hash.new
+    map.each do |k,v|
+      if v.is_a? String
+        data[k] = row.include?(v) ? row[v] : v
+      elsif v.is_a? Hash
+        data[k] = parse_csv(row, v)
+      elsif v.is_a? Array
+        data[k] = v.collect{|i| parse_csv(row, i) }
+      else
+        nil
+      end
+    end
+    data
+  end
+
 end
