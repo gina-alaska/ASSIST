@@ -9,12 +9,13 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new params[:user]
+    primary = params[:commit] == "Add and select as Primary Observer" ? true : false
 
     if @user.save
       respond_with do |format|
         format.html do
           if request.xhr?
-            render :json => @user, :layout => false, :status => :created
+            render :json => {:user => @user, :primary => primary}, :layout => false, :status => :created
           else
             redirect_to :root
           end

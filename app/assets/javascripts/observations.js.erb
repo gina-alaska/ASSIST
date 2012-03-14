@@ -7,14 +7,14 @@ var latDMSRegex = /^(\+|-)?[0-9]{1,2}\.[0-9]{2}(\.[0-9]{2})?\s?[NS]?$/;
 var lonDMSRegex = /^(\+|-)?[0-9]{1,3}\.[0-9]{2}(\.[0-9]{2})?\s?[EW]?$/;
 
 $(document).ready(function() {
-
-  var $userForm = $('#user_form');
   var $obsForm = $('#observation_form');
   var $photoForm = $('#photo_form');
   $obsForm.tabs({
     show: function(event, ui) {
+      $(ui.panel).find('.topography').chosen().change( handleTopographies ).removeClass("topography");
+
       $(ui.panel).find('.combobox:visible').chosen();
-      $(ui.panel).find('.users').chosen({
+      $(ui.panel).find('.users:visible').chosen({
         no_results_text: "That user was not found."
       });
     }
@@ -31,29 +31,14 @@ $(document).ready(function() {
 
 
 
-  $(".ridges").hide();
-
-  $userForm.dialog({
-    modal: true,
-    autoOpen: false,
-    resizable: false,
-    minWidth: 400,
-    minHeight: 200
-  });
-
   $("#ice_obs_buttons input").click( function() {
     var target = $(this).attr('value');
     $("#ice .selected").hide().removeClass('selected');
     $(target).addClass('selected').show(0, function() {
       $(this).find('.combobox').chosen();
-      $(this).find('.topography').chosen().change( handleTopographies ).removeClass("topography");
     });
   });
 
-  $("#adduser").click( function() {
-    $userForm.dialog("open");
-    return false;
-  });
 
   $("#save_button").click( function(event) {
     var form = $(".ui-tabs-panel form:visible");
@@ -68,34 +53,7 @@ $(document).ready(function() {
     $panel.tabs('option', 'selected', tab + 1 );
   });
 
-  $userForm.bind("ajax:error", function( e, xhr, status ) {
-    var $form = $(this);
-    var errors;
-    var errorText = "";
-    try {
-      errors = $.parseJSON(xhr.responseText)
-    } catch(err) {
-      errors = { message: "Please reload the page and try again" }
-    }
 
-    for( error in errors ) {
-      errorText += "<div class=\"error\">"+ error + ": " + errors[error] + "</div>"
-    }
-    $form.find('div.errors').html(errorText);
-  });
-  $userForm.bind("ajax:success", function(evt, data, status, xhr) {
-    var $form = $(this);
-    var d = $.parseJSON(data);
-
-    $('select.users').each( function(index, item) {
-      $(item).append(new Option(d.firstname + " " + d.lastname, d.id));
-    });
-    $("#observation_primary_observer_id option:selected").removeAttr("selected");
-    $("#observation_primary_observer_id option[value='"+d.id+"']").attr("selected", true);
-    $('select.users').chosen().trigger("liszt:updated");
-
-    $userForm.dialog('close');
-  });
 
   $("form.notify").bind("ajax:beforeSend", function(e) {
     $(".field_with_errors").removeClass("field_with_errors");
@@ -181,23 +139,4 @@ function updatePhotoLocation() {
     $.growlUI(('', 'Saved'))
   });
 
-}
-
-function handleTopographies( ) {
-  var fields = $(this).parents("fieldset");
-  var value = parseInt($(this).val());
-
-  if(<%= TopographyLookup.where("code >= 400 AND code < 500").pluck(:id) %>.indexOf(value) >= 0 )  {
-    $(fields).find(".ridges").hide();
-    $(fields).find(".ridges:not(.rafts) input").val('').removeAttr("selected").removeAttr("checked");
-    $(fields).find(".ridges label").removeClass("ui-state-active");
-    $(fields).find(".rafts").show();
-  } else if(<%= TopographyLookup.where("code >= 500 AND code < 600").pluck(:id) %>.indexOf(value) >= 0 ) {
-    $(fields).find(".ridges").show();
-  } else {
-    $(fields).find(".ridges").hide();
-    $(fields).find(".ridges input").val('').removeAttr("selected").removeAttr("checked");
-    $(fields).find(".ridges label").removeClass("ui-state-active");
-    $(fields).find(".ridges").val('');
-  }
 }
