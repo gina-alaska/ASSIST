@@ -1,11 +1,7 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
-
 function handleTopographies( ) {
   var fields = $(this).parents("fieldset");
   var value = parseInt($(this).val());
-
+  console.log($(fields));
   if(<%= TopographyLookup.where("code >= 400 AND code < 500").pluck(:id) %>.indexOf(value) >= 0 )  {
     $(fields).find(".ridges").hide();
     $(fields).find(".ridges:not(.rafts) input").val('').removeAttr("selected").removeAttr("checked");
@@ -20,3 +16,7 @@ function handleTopographies( ) {
     $(fields).find(".ridges").val('');
   }
 }
+
+$(document).ready( function() {
+  $(".ridges").hide();
+})
