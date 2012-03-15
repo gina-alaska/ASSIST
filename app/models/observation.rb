@@ -34,6 +34,7 @@ class Observation < ActiveRecord::Base
   accepts_nested_attributes_for :photos
 
   validates_presence_of :primary_observer_id
+  validates_presence_of :obs_datetime, :message => "Invalid or no date given"
   validates_format_of :latitude, :with => /^(\+|-)?[0-9]{1,2}\.[0-9]{1,3}(\.[0-9]{2})?\s?[NS]?$/
   validates_format_of :longitude, :with => /^(\+|-)?[0-9]{1,3}\.[0-9]{1,3}(\.[0-9]{2})?\s?[EW]?$/
 

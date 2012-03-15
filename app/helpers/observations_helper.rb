@@ -1,9 +1,10 @@
 module ObservationsHelper
   def date obs
-    obs.obs_datetime.strftime("%Y.%m.%d") || "#{Date.now.year}.#{Date.now.month}.#{Date.now.day}"
+    now = DateTime.now
+    obs.obs_datetime.try(:strftime,"%Y.%m.%d") || "#{now.year}.#{now.month}.#{now.day}"
   end
 
   def time obs
-    obs.obs_datetime.strftime("%H") || Time.now.hour
+    obs.obs_datetime.try(:strftime, "%H") || Time.now.hour
   end
 end

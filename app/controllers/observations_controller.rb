@@ -66,7 +66,11 @@ class ObservationsController < ApplicationController
 
 protected
   def parse_date arr
-    DateTime.parse("#{arr[:observation_date]} #{arr[:observation_time]}")
+    begin
+      DateTime.parse("#{arr[:observation_date]} #{arr[:observation_time]}")
+    rescue
+      nil
+    end
   end
 
   def dateFields p
