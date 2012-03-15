@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  cover: 1.5
+  height: 1
+  lookup_id: 1
+
+two:
+  cover: 1.5
+  height: 1
+  lookup_id: 1

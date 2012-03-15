@@ -1,0 +1,2 @@
+class CloudsController < ApplicationController
+end
