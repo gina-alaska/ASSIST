@@ -21,7 +21,6 @@ $(document).ready(function() {
   });
   $("#nav_buttons").buttonset();
   $(".photo_locations").buttonset();
-  $("#ice_obs_buttons").buttonset();
   $(".radioset").buttonset();
   $("#adduser").button({
     icons: {
@@ -30,19 +29,11 @@ $(document).ready(function() {
   });
 
 
-
-  $("#ice_obs_buttons input").click( function() {
-    var target = $(this).attr('value');
-    $("#ice .selected").hide().removeClass('selected');
-    $(target).addClass('selected').show(0, function() {
-      $(this).find('.combobox').chosen();
-    });
-  });
-
-
   $("#save_button").click( function(event) {
     var form = $(".ui-tabs-panel form:visible");
-    $.rails.handleRemote( $(form) );
+    $.each(form, function( index, f ) {
+      $.rails.handleRemote( $(f) );
+    });
     event.preventDefault();
   });
   $("#nav_buttons #next_button").click( function(event) {

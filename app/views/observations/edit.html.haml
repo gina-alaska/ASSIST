@@ -17,16 +17,6 @@
   #general
     = render 'general'
   #ice
-    #ice_obs_buttons
-      = label_tag "global_ice", "Global"
-      = radio_button_tag "ice_observation_button", "#global", true,  :id => "global_ice"
-      = label_tag "primary_ice", "Primary"
-      = radio_button_tag "ice_observation_button", "#primary", false,  :id => "primary_ice"
-      = label_tag "secondary_ice", "Secondary"
-      = radio_button_tag "ice_observation_button", "#secondary", false,  :id => "secondary_ice"
-      = label_tag "tertiary_ice", "Tertiary"
-      = radio_button_tag "ice_observation_button", "#tertiary", false,  :id => "tertiary_ice"
-
     #global.selected
     = render @observation.ice
     .iceobs

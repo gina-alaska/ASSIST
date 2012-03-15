@@ -8,7 +8,7 @@ class Observation < ActiveRecord::Base
     def obs_type o
       o = o.to_sym
       ice = where(:obs_type => o).first
-      ice ||= IceObservation.create :obs_type => o
+      ice ||= create :obs_type => o
       ice.create_topography if ice.topography.nil?
       ice.create_melt_pond if ice.melt_pond.nil?
       ice
@@ -34,8 +34,8 @@ class Observation < ActiveRecord::Base
   accepts_nested_attributes_for :photos
 
   validates_presence_of :primary_observer_id
-  validates_format_of :latitude, :with => /^(\+|-)?[0-9]{1,2}\.[0-9]{2}(\.[0-9]{2})?\s?[NS]?$/
-  validates_format_of :longitude, :with => /^(\+|-)?[0-9]{1,3}\.[0-9]{2}(\.[0-9]{2})?\s?[EW]?$/
+  validates_format_of :latitude, :with => /^(\+|-)?[0-9]{1,2}\.[0-9]{1,3}(\.[0-9]{2})?\s?[NS]?$/
+  validates_format_of :longitude, :with => /^(\+|-)?[0-9]{1,3}\.[0-9]{1,3}(\.[0-9]{2})?\s?[EW]?$/
 
   after_initialize do
     create_ice if ice.nil?
@@ -61,6 +61,9 @@ class Observation < ActiveRecord::Base
     unknownObserver = User.find_or_create_by_firstname_and_lastname(map[:user][:first_name], map[:user][:last_name])
     csv.each do |row|
       data = parse_csv(row,map)
+      logger.info("Year: #{data[:year]}")
+      logger.info(data[:time])
+      date = DateTime.parse "#{data[:year]} #{data[:time]}"
 
       if data[:observation][:primary_observer_id].nil?
         data[:observation][:primary_observer_id] = unknownObserver.id
@@ -71,6 +74,7 @@ class Observation < ActiveRecord::Base
       end
       iceObservations = data[:observation].delete(:ice_observation_attributes)
       observation = Observation.new( data[:observation])
+      observation.obs_datetime = date
       iceObservations.each do |ice|
         observation.ice_observations << IceObservation.new(ice)
       end
