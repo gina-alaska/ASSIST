@@ -13,7 +13,7 @@ class ObservationsController < ApplicationController
 
   def create
     @observation = Observation.new params[:observation]
-
+    @observation.obs_datetime = parse_date( dateFields params )
 
     if @observation.save
       respond_with @observation do |format|
@@ -37,7 +37,7 @@ class ObservationsController < ApplicationController
 
   def update
     @observation = Observation.where(:id => params[:id]).first
-
+    @observation.obs_datetime = parse_date( dateFields params )
 
     if @observation.update_attributes(params[:observation])
       if request.xhr?
@@ -64,4 +64,12 @@ class ObservationsController < ApplicationController
     end
   end
 
+protected
+  def parse_date arr
+    DateTime.parse("#{arr[:observation_date]} #{arr[:observation_time]}")
+  end
+
+  def dateFields p
+    p.slice(:observation_date, :observation_time)
+  end
 end
