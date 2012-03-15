@@ -3,16 +3,31 @@
     = c.hidden_field :id
     = c.hidden_field :cloud_type
     .half_size
-      = c.label :cloud_lookup_id, 'Cloud Type'
-      = c.collection_select :cloud_lookup_id, CloudLookup.all, :id, :code_with_name, |
-        { :include_blank => true }, |
-        { :class => :combobox, :id => "#{cloud.id}_meteorology_cloud_cloud_lookup_id" }
+      .fields
+        = c.label :cloud_lookup_id, 'Cloud Type'
+        = c.collection_select :cloud_lookup_id, CloudLookup.all, :id, :code_with_name, |
+          { :include_blank => true }, |
+          { :class => :combobox, :id => "#{cloud.id}_meteorology_cloud_cloud_lookup_id" }
+      .tooltip
+        ?
+        .content
+          Clouds
     .half_size
-      = c.label :cover, 'Cloud Cover'
-      = c.select :cover, (0..8).collect{|ii| "#{ii}/8"}, |
-        {:include_blank => true}, |
-        {:class => :combobox, :id => "#{cloud.id}_meteorology_cloud_cloud_cover"}
-    %div
-      = c.label :height, 'Cloud Height'
-      = c.number_field :height,{ :min => 0, :step => 100, :id => "#{cloud.id}_meteorology_cloud_cloud_height"}
-      meters
+      .fields
+        = c.label :cover, 'Cloud Cover'
+        = c.select :cover, (0..8).collect{|ii| "#{ii}/8"}, |
+          {:include_blank => true}, |
+          {:class => :combobox, :id => "#{cloud.id}_meteorology_cloud_cloud_cover"}
+      .tooltip
+        ?
+        .content
+          Clouds
+    .half_size
+      .fields
+        = c.label :height, 'Cloud Height'
+        = c.number_field :height,{ :min => 0, :step => 100, :id => "#{cloud.id}_meteorology_cloud_cloud_height"}
+        meters
+      .tooltip
+        ?
+        .content
+          Topography

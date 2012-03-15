@@ -30,12 +30,18 @@ $border-color: #000;
     min-width: 200px;
    // padding: 5px 20px 20px 5px;
     vertical-align: top;
+    .fields {
+      display: inline-block;
+      width: 245px;
+
+    }
+
   }
   .infotext {
     padding-bottom: 3px;
     color: #AAA;
     position: relative;
-    top: -5px;
+    top: -2px;
   }
 
   .dateTime {
@@ -56,15 +62,14 @@ $border-color: #000;
 
   select {
     &.combobox {
-      width: 80%;
+     width: 100%;
     }
     &.users {
       min-width: 200px;
     }
   }
   input {
-    width: 80%;
-    display: inline-block;
+    //display: inline-block;
   }
   .radioset {
     label {
@@ -156,7 +161,7 @@ $border-color: #000;
 
 .tooltip {
   display: inline-block;
-  vertical-align: middle;
+  vertical-align: top;
   .content {
     display: none;
   }

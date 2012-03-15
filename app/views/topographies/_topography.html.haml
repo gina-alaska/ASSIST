@@ -2,15 +2,31 @@
   = field_set_tag "Topography" do
     = t.hidden_field :id
     .half_size
-      = t.label :topography_lookup_id, "Topography"
-      = t.collection_select :topography_lookup_id, TopographyLookup.all, :id, :code_with_name, |
-        { :include_blank => true }, { :class => "combobox topography" }
+      .fields
+        = t.label :topography_lookup_id, "Topography"
+        = t.collection_select :topography_lookup_id, TopographyLookup.all, :id, :code_with_name, |
+          { :include_blank => true }, { :class => "combobox topography" }
+      .tooltip
+        ?
+        .content
+          Topography
+          = link_to "Ice", lookup_url('ice'), :class => "detail"
     .ridges.rafts.half_size
-      = t.label :ridge_height
-      = t.text_field :ridge_height
+      .fields
+        = t.label :ridge_height
+        = t.text_field :ridge_height
+      .tooltip
+        ?
+        .content
+          Topography
     .ridges.half_size
-      = t.label :concentration
-      = t.text_field :concentration
+      .fields
+        = t.label :concentration
+        = t.text_field :concentration
+      .tooltip
+        ?
+        .content
+          Topography
     .half_size
       .radioset.ridges
         %span.toggle_label
