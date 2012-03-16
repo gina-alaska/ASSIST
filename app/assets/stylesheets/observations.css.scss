@@ -91,9 +91,12 @@ $border-color: #000;
 
   #save_button {
     color: #000000;
-   // background:#38820d url(/assets/seaice/css/custom-theme/images/ui-bg_highlight-soft_45_38820d_1x100.png) 50% 50% repeat-x;
-    @include background(linear-gradient(#ff9900,#c26400 ));
+    @include background(linear-gradient(#CCC,#999 ));
+    &.dirty {
+      @include background(linear-gradient(#ff9900,#c26400 ));
+    }
   }
+
   #next_button {
     color: #000000;
     @include background(linear-gradient(#0ac200 ,#38820d));

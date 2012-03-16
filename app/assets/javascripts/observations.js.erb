@@ -31,6 +31,13 @@ $(document).ready(function() {
     constrainInput: false
   });
 
+  $("form.autosave").change( function() {
+    console.log("Changed");
+    $(this).addClass("dirty");
+    $("#save_button").addClass("dirty");
+    $("#save_button").button("enable");
+  });
+
 
   $("#save_button").click( function(event) {
     var form = $(".ui-tabs-panel form.autosave:visible");
@@ -64,6 +71,9 @@ $(document).ready(function() {
   });
   $("form.notify").bind("ajax:success", function(evt, data, status, xhr) {
     $.growlUI("","Save Successful");
+    $("form.dirty:visible").removeClass("dirty");
+    $("#save_button").removeClass("dirty");
+    $("#save_button").button("disable");
   });
   $("#comments_form").bind("ajax:success", appendComment );
 
