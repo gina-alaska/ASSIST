@@ -17,12 +17,16 @@
   #general
     = render 'general'
   #ice
-    #global.selected
+
     = render @observation.ice
     .iceobs
-      .iceobs_column= render @observation.ice_observations.primary
+      .iceobs_column.active= render @observation.ice_observations.primary
+      -#.iceobs_column
+        = render :partial => "ice_observations/ice_observation", |
+          :locals => { :ice_observation => @observation.ice_observations.primary }
       .iceobs_column= render @observation.ice_observations.secondary
       .iceobs_column= render @observation.ice_observations.tertiary
+
 
   #meteorological
     = render @observation.meteorology

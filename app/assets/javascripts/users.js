@@ -9,6 +9,7 @@ $(document).ready( function() {
       minHeight: 200
   });
 
+  $("#user_form input[type='submit']").button();
 
   $("#adduser").click( function() {
     $userForm.dialog("open");

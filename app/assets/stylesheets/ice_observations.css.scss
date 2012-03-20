@@ -2,17 +2,42 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.iceobs {
-  width: 960px;
-  margin: 0px;
-  padding: 0px;
+#observation_form {
+  .iceobs {
+    width: 100%;
+    min-width: 960px;
+    margin: 0px;
+    padding: 0px;
 
-  .iceobs_column{
-    display: inline-block;
-    margin: 0;
-    padding: 0;
-    width: 310px;
-    top: 0;
-    vertical-align: top;
+    .ice_column {
+      width: 22%;
+      display: inline-block;
+    }
+
+    .iceobs_column {
+      display: inline-block;
+      margin: 0;
+      padding: 0;
+      width: 30%;
+      top: 0;
+      vertical-align: top;
+
+      .half_size {
+        width: 100%;
+        .fields {
+          width: 198%;
+          input {
+            width: 98%;
+          }
+        }
+      }
+      &.active {
+        width: 30%;
+        .half_size {
+          width: 98%;
+        }
+      }
+
+    }
   }
 }

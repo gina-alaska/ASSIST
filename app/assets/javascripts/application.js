@@ -13,8 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
-//=# require jquery.remotipart
-//= require chosen/chosen/chosen.jquery
+//= require chosen-fork/chosen/chosen.jquery
+//=# require select2/select2
 //= require datatables-1.9.0/js/jquery.dataTables
 //= require jquery-file-upload/js/vendor/jquery.ui.widget.js
 //= require jquery-file-upload/js/jquery.iframe-transport.js
@@ -25,28 +25,28 @@
 
 
 $(document).ready( function() {
-  $(".tooltip").qtip({
+  $(".tip").qtip({
     content: {
       text: function(api) {
-        return $(this).find(".content").clone();
+        return $(this).find(".tip_content").clone();
       }
-    }
-  });
-  $(".tooltip").button({
-    icons: {
-      primary: "ui-icon-help"
     },
-    text: false
-  });
-  $(".tooltip").click( function() {
-    var url = $(this).find(".detail");
-    if( url.length != 0 ) {
-      var content = $(url).attr("href");
-      $.get(content, function(data, status, jqXHR) {
-        $("#lookup_details").dialog();
-        $("#lookup_details").html(data);
-      });
+    position: {
+      my: 'center',
+      at: 'bottom right'
+    },
+    hide: {
+      event: 'click mouseleave',
+      fixed: true,
+      inactive: 1000
     }
+  });
+
+  $("input").focus( function() {
+    $(this).parent(".fields").addClass("focus");
+  });
+  $("input").blur( function() {
+    $(this).parent(".fields").removeClass("focus");
   });
 
 });

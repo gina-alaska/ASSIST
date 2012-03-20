@@ -1,32 +1,40 @@
+
 = form_for @observation, :html => {:class => "autosave notify" } do |f|
-  .half_size.primary_observer_id
-    = f.label :primary_observer, "Primary Observer"
-    = f.collection_select :primary_observer_id, User.all, :id, :first_and_last_name, |
-      { :include_blank => true }, { :class => :users }
-  .half_size
-    = f.label :additional_observer_ids, "Additional Observers"
-    = f.collection_select :additional_observer_ids, User.all, :id, :first_and_last_name, |
-      { :include_blank => true}, { :class => :users, :multiple => true }
-    = link_to "Add User", new_user_url, :id => "adduser"
-  %div
-    = label_tag "Observation Date and Time"
-    = text_field_tag "observation_date", date(@observation)
-    = select_tag "observation_time", |
-      options_for_select( (0..23).collect{ |hour| ["#{hour}:00".rjust(5, "0"), hour]}, time(@observation))
-  .half_size.latitude
-    = f.label :latitude
-    = f.text_field :latitude
-    .tooltip
-      ?
-      .content
-        Latitude of ship. Acceptable formats are DD.MM and DD.MM.SS
-  .half_size.longitude
-    = f.label :longitude
-    = f.text_field :longitude
-    .tooltip
-      ?
-      .content
-        Longitude of ship. Acceptable formats are DDD.MM and DDD.MM.SS
+  .container
+    .column_25
+      .half_size.primary_observer_id
+        = f.label :primary_observer, "Primary Observer"
+        = f.collection_select :primary_observer_id, User.all, :id, :first_and_last_name, |
+          { :include_blank => true }, { :class => :users }
+    .column_25
+      .half_size
+        = f.label :additional_observer_ids, "Additional Observers"
+        = f.collection_select :additional_observer_ids, User.all, :id, :first_and_last_name, |
+          { :include_blank => true}, { :class => :users, :multiple => true }
+    .column_25
+      = link_to "Add User", new_user_url, :id => "adduser"
+    %br
+    .column_20
+      = label_tag "Date "
+      = text_field_tag "observation_date", date(@observation)
+    .column_25
+      = label_tag "Time"
+      = select_tag "observation_time", |
+        options_for_select( (0..23).collect{ |hour| ["#{hour}:00".rjust(5, "0"), hour]}, |
+        time(@observation)), {:class => :combobox}
+    %br
+    .column_25
+      .half_size.latitude.tip
+        = f.label :latitude
+        = f.text_field :latitude
+        .tip_content
+          Latitude of ship. Acceptable formats are DD.MM and DD.MM.SS
+    .column_25
+      .half_size.longitude.tip
+        = f.label :longitude
+        = f.text_field :longitude
+        .tip_content
+          Longitude of ship. Acceptable formats are DDD.MM and DDD.MM.SS
 
   %br
   =f.submit "Start Observation" if @observation.new_record?

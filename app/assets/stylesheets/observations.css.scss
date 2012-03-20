@@ -2,7 +2,6 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 @import 'compass/css3';
-
 $border-color: #000;
 
 #obslist {
@@ -19,30 +18,25 @@ $border-color: #000;
 
 #observation_form {
   label {
-    display:block;
-    //width: 175px;
+    display: inline-block;
     text-align: left;
+    font-size: 1.1em;
+  }
+  .label {
+    display: block;
+
   }
   .half_size {
     padding-top: 0;
     margin-top: 0;
-    display: inline-block;
-    min-width: 200px;
-   // padding: 5px 20px 20px 5px;
+    display: block;
     vertical-align: top;
-    .fields {
-      display: inline-block;
-      width: 245px;
 
+    .tip_content {
+      display: none;
     }
+  }
 
-  }
-  .infotext {
-    padding-bottom: 3px;
-    color: #AAA;
-    position: relative;
-    top: -2px;
-  }
 
   .dateTime {
     padding-top: 0;
@@ -68,9 +62,6 @@ $border-color: #000;
       min-width: 200px;
     }
   }
-  input {
-    //display: inline-block;
-  }
   .radioset {
     label {
       display: inline-block;
@@ -79,6 +70,13 @@ $border-color: #000;
   .toggle_label {
     display: inline-block;
     width: 150px;
+  }
+
+  .infotext {
+    padding-bottom: 3px;
+    color: #AAA;
+    position: relative;
+    top: -2px;
   }
 
 }
@@ -162,13 +160,51 @@ $border-color: #000;
   }
 }
 
-.tooltip {
-  display: inline-block;
+
+input[type='text'] {
+  margin: 0;
+  white-space: nowrap;
+  height:25px;
+  left:4px;
+  right:4px;
+  width: 98%;
+  background: #fff url('chosen-sprite.png') no-repeat 100% -22px;
+  background: url('chosen-sprite.png') no-repeat 100% -22px, -webkit-gradient(linear, left bottom, left top, color-stop(0.85, white), color-stop(0.99, #eeeeee));
+  background: url('chosen-sprite.png') no-repeat 100% -22px, -webkit-linear-gradient(center bottom, white 85%, #eeeeee 99%);
+  background: url('chosen-sprite.png') no-repeat 100% -22px, -moz-linear-gradient(center bottom, white 85%, #eeeeee 99%);
+  background: url('chosen-sprite.png') no-repeat 100% -22px, -o-linear-gradient(bottom, white 85%, #eeeeee 99%);
+  background: url('chosen-sprite.png') no-repeat 100% -22px, -ms-linear-gradient(top, #ffffff 85%,#eeeeee 99%);
+  background: url('chosen-sprite.png') no-repeat 100% -22px, linear-gradient(top, #ffffff 85%,#eeeeee 99%);
+  margin: 1px 0;
+  padding: 4px 20px 4px 5px;
+  outline: 0;
+  border: 1px solid #aaa;
+  font-family: sans-serif;
+  font-size: 1em;
+  width:100%;
+  /*
+    Force border-box on inputs so that % widths fit the parent
+    search container without overlap because of margin/padding.
+
+    More Info : http://www.quirksmode.org/css/box.html
+  */
+  -moz-box-sizing: border-box;    /* firefox */
+  -ms-box-sizing: border-box;     /* ie */
+  -webkit-box-sizing: border-box; /* webkit */
+  -khtml-box-sizing: border-box;  /* konqueror */
+  box-sizing: border-box;         /* css3 */
+}
+
+.container {
   vertical-align: top;
-  .content {
-    display: none;
+  .column_25 {
+    vertical-align: top;
+
+    width: 25%;
+    display: inline-block;
   }
-  .detail {
-    display: none;
+  .column_20 {
+    width: 20%;
+    display: inline-block;
   }
 }

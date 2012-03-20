@@ -9,12 +9,19 @@ $(document).ready(function() {
   var $photoForm = $('#photo_form');
   $obsForm.tabs({
     show: function(event, ui) {
-      $(ui.panel).find('.topography').chosen().change( handleTopographies ).removeClass("topography");
+      $(ui.panel).find('.topography').chosen({
+        width: '98%'
+      }).change( handleTopographies ).removeClass("topography");
 
-      $(ui.panel).find('.combobox:visible').chosen();
-      $(ui.panel).find('.users:visible').chosen({
-        no_results_text: "That user was not found."
+
+      $(ui.panel).find('.combobox:visible').chosen({
+        width: '98%'
       });
+      $(ui.panel).find('.users:visible').chosen({
+        no_results_text: "That user was not found.",
+        width: '98%'
+      });
+
     }
   });
   $("#nav_buttons").buttonset();
@@ -40,7 +47,7 @@ $(document).ready(function() {
 
 
   $("#save_button").click( function(event) {
-    var form = $(".ui-tabs-panel form.autosave:visible");
+    var form = $(".ui-tabs-panel form.autosave.dirty:visible");
     $.each(form, function( index, f ) {
       $.rails.handleRemote( $(f) );
     });
@@ -75,7 +82,6 @@ $(document).ready(function() {
     $("#save_button").removeClass("dirty");
     $("#save_button").button("disable");
   });
-  $("#comments_form").bind("ajax:success", appendComment );
 
   $photoForm.fileupload({
     dataType: 'json',
@@ -113,13 +119,6 @@ function appendPhoto(e, data) {
   $("#photo_form").unblock();
 }
 
-function appendComment(e, data) {
-  var url = "/observations/" + data.observation_id + "/comments/" + data.id;
-  var comment = $.get( url, function(data) {
-    $("#obs_comments").append(data);
-  });
-  $("#comments_form textarea").val("");
-}
 
 
 function uploadPhotoError(jqXHR, textStatus, error) {
