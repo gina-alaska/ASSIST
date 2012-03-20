@@ -2,7 +2,8 @@
 %table#obslist
   %thead
     %tr
-      %th Date
+      %th Observation Date
+      %th Last Modified
       %th Primary Observer
       %th Additional Observers
       %th # Photos
@@ -12,6 +13,7 @@
     - @observations.each do |o|
       %tr.observation
         %td= o.obs_datetime
+        %td= o.updated_at
         %td= o.primary_observer.try(:first_and_last_name)
         %td= o.additional_observers.collect(&:first_and_last_name).join ","
         %td= o.photos.count
