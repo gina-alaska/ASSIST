@@ -1,22 +1,16 @@
 = form_for [@observation, meteorology], :html => {:class => "autosave notify" } do |m|
-  .half_size
-    .fields
-      = m.label :visibility_lookup_id, "Visibility"
-      = m.collection_select :visibility_lookup_id, VisibilityLookup.all, :id, :code_with_name, |
-        { :include_blank => true }, { :class => :combobox }
-    .tooltip
-      ?
-      .content
-        Meteorology
-  .half_size
-    .fields
-      = m.label :weather_lookup_id
-      = m.collection_select :weather_lookup_id, WeatherLookup.all, :id, :code_with_name, |
-        { :include_blank => true }, { :class => :combobox }
-    .tooltip
-      ?
-      .content
-        Topography
+  .container
+    .column_25
+      .half_size
+        = m.label :visibility_lookup_id, "Visibility"
+        = m.collection_select :visibility_lookup_id, VisibilityLookup.all, :id, :code_with_name, |
+          { :include_blank => true }, { :class => :combobox }
+    .column_25
+      .half_size
+        = m.label :weather_lookup_id
+        = m.collection_select :weather_lookup_id, WeatherLookup.all, :id, :code_with_name, |
+          { :include_blank => true }, { :class => :combobox }
+
   .iceobs
     .iceobs_column
       =render :partial => meteorology.clouds.high, :locals => {:f => m}

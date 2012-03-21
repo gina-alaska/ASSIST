@@ -27,7 +27,7 @@ $border-color: #000;
 
   }
   .half_size {
-    padding-top: 0;
+    padding: 4px 0 4px 0;
     margin-top: 0;
     display: block;
     vertical-align: top;
@@ -161,7 +161,7 @@ $border-color: #000;
 }
 
 
-input[type='text'] {
+input {
   margin: 0;
   white-space: nowrap;
   height:25px;

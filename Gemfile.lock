@@ -1,3 +1,9 @@
+GIT
+  remote: https://github.com/ceromancy/awesome_print.git
+  revision: d5f72e7dbb3ce960e436484d6b553ad94d29ad0b
+  specs:
+    awesome_print (1.0.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -112,6 +118,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  awesome_print!
   coffee-rails (~> 3.2.1)
   compass-rails
   haml

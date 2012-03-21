@@ -22,7 +22,7 @@ group :assets do
 end
 
 gem 'jquery-rails'
-
+gem 'awesome_print', :git => "https://github.com/ceromancy/awesome_print.git"
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

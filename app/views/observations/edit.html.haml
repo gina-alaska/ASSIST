@@ -1,4 +1,6 @@
-%h1 Editing #{@observation.obs_datetime.strftime("%Y.%m.%d %H:%M")}
+%h1
+  #{@observation.obs_datetime.strftime("%Y.%m.%d %H:%M")} |
+  Lat: #{@observation.latitude}, Lon: #{@observation.longitude}
 
 #observation_form.ui-tabs-vertical
   %ul
