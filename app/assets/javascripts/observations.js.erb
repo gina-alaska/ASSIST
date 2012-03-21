@@ -167,11 +167,17 @@ function saveFormAndChangeTab( form, ui ) {
       return $.rails.fire( form, "ajax:beforeSend",[xhr,settings]);
     },
     success: function(data, status, xhr) {
-      $(form).unblock();
       $(form).removeClass("dirty");
       console.log(ui);
       $("#observation_form").tabs('option', 'selected', ui.index);
       form.trigger("ajax:success", [data,status,xhr]);
+    },
+    complete: function(xhr, status) {
+      form.trigger("ajax:complete", [xhr,status]);
+      $(form).unblock();
+    },
+    error: function(xhr, status, error) {
+      form.trigger("ajax:error", [xhr,status,error]);
     }
   });
 }
