@@ -74,9 +74,10 @@ $border-color: #000;
 
   .infotext {
     padding-bottom: 3px;
-    color: #AAA;
+    color: #999;
     position: relative;
-    top: -2px;
+    top: 0;
+    display: inline-block;
   }
 
 }
@@ -193,8 +194,17 @@ input {
   -webkit-box-sizing: border-box; /* webkit */
   -khtml-box-sizing: border-box;  /* konqueror */
   box-sizing: border-box;         /* css3 */
+
+  &:focus {
+    @include single-box-shadow( #2e9af5, 0px, 0px, 5px, 3px)
+  }
 }
 
+
+#observation_form .chzn-container-active {
+  border:none;
+  @include single-box-shadow( #2e9af5, 0px, 0px, 5px, 3px);
+}
 .container {
   vertical-align: top;
   .column_25 {

@@ -117,7 +117,9 @@ $(document).ready(function() {
    return true;
  });
   $(document).delegate(".delete_photo form", "ajax:success", removePhoto);
-  $(document).delegate(".photo_locations input", "click", updatePhotoLocation)
+  $(document).delegate(".photo_locations input", "click", updatePhotoLocation);
+
+  $(".coord").change(  parseCoord )
 });
 
 
@@ -180,4 +182,36 @@ function saveFormAndChangeTab( form, ui ) {
       form.trigger("ajax:error", [xhr,status,error]);
     }
   });
+}
+
+function parseCoord( evt ) {
+  var value = $(evt.target).val();
+  this.toDD = function( v) {
+    var c = v.split(" ")
+    var deg = parseFloat(c[0]);
+    var ms = c[1].split(".");
+    var min = parseInt(ms[0]);
+    var sec = ms.length > 1 ? parseInt(ms[1]) : 0;
+    var dec = (min * 60 + sec) / 3600.0;
+    var dd = deg > 0 ? deg + dec : deg - dec;
+    return "DD: " + dd.toFixed(4);
+  };
+
+  this.toDMS = function(v) {
+    var c = parseFloat(v);
+    var deg = c < 0 ? Math.ceil(c) : Math.floor(c);
+    var ms = Math.abs( c - deg )  * 60.0;
+    var min = Math.floor( ms );
+    var sec = (ms % 1 ) * 60.0;
+    return "DMS: " + deg + " " + (min + Math.round(sec) / 100.0 );
+  };
+  var altText = "";
+  if( value.match(/^(\+|-)?[0-9]{1,3}\s[0-9]{1,2}(\.[0-9]{1,2})?(\s?[NSEW])?$/)) {
+    altText = this.toDD(value)
+  } else if ( value.match(/^(\+|-)?[0-9]{1,3}\.[0-9]*(\s?[EW])?$/)) {
+    altText = this.toDMS(value)
+  }
+
+  $(evt.target).siblings(".infotext:last").html(altText);
+
 }

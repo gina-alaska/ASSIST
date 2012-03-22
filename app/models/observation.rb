@@ -35,20 +35,24 @@ class Observation < ActiveRecord::Base
 
   validates_presence_of :primary_observer_id
   validates_presence_of :obs_datetime, :message => "Invalid or no date given"
-  validates_format_of :latitude, :with => /^(\+|-)?[0-9]{1,2}\.[0-9]{1,3}(\.[0-9]{2})?\s?[NS]?$/
-  validates_format_of :longitude, :with => /^(\+|-)?[0-9]{1,3}\.[0-9]{1,3}(\.[0-9]{2})?\s?[EW]?$/
+  #Allow DD or DM(S)
+  validates_format_of :latitude, :with => /^(\+|-)?[0-9]{1,2}(\s[0-9]{1,2}(\.[0-9]{1,2})?|\.[0-9]*)(\s?[NS])?$/
+  validates_format_of :longitude, :with => /^(\+|-)?[0-9]{1,3}(\s[0-9]{1,2}(\.[0-9]{1,2})?|\.[0-9]*)(\s?[EW])?$/
 
   after_initialize do
     create_ice if ice.nil?
     create_meteorology if meteorology.nil?
   end
 
+  before_save do
+    latitude = to_dd(latitude) if latitude =~ /^(\+|-)?[0-9]{1,2}\s[0-9]{1,2}(\.[0-9]{1,2})?(\s?[NS])?$/
+    longitude = to_dd(longitude) if longitude =~ /^(\+|-)?[0-9]{1,3}\s[0-9]{1,2}(\.[0-9]{1,2})?(\s?[EW])?$/
+  end
 
   def finalized?
     #self.finalized_at
     false
   end
-
 
   def self.from_csv csv, map = "import_map.yml"
     if map.is_a? String

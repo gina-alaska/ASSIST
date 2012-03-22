@@ -24,17 +24,21 @@
         time(@observation)), {:class => :combobox}
     %br
     .column_25
-      .half_size.latitude.tip
-        = f.label :latitude
+      .half_size.latitude.coord
+        .label
+          = f.label :latitude
+          .infotext= "DD MM.SS or DD.DDDD"
         = f.text_field :latitude
-        .tip_content
-          Latitude of ship. Acceptable formats are DD.MM and DD.MM.SS
+        #lat.infotext
+          ="DMS: #{to_dms(@observation.latitude)}"
     .column_25
-      .half_size.longitude.tip
-        = f.label :longitude
+      .half_size.longitude.coord
+        .label
+          = f.label :longitude
+          .infotext= "DDD MM.SS or DDD.DDDD"
         = f.text_field :longitude
-        .tip_content
-          Longitude of ship. Acceptable formats are DDD.MM and DDD.MM.SS
+        #lon.infotext
+          ="DMS: #{to_dms(@observation.longitude)}"
 
   %br
   =f.submit "Start Observation" if @observation.new_record?
