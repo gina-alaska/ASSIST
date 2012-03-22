@@ -25,22 +25,22 @@
 
 
 $(document).ready( function() {
-  $(".tip").qtip({
-    content: {
-      text: function(api) {
-        return $(this).find(".tip_content").clone();
-      }
-    },
-    position: {
-      my: 'center',
-      at: 'bottom right'
-    },
-    hide: {
-      event: 'click mouseleave',
-      fixed: true,
-      inactive: 1000
-    }
-  });
+//  $(".tip").qtip({
+//    content: {
+//      text: function(api) {
+//        return $(this).find(".tip_content").clone();
+//      }
+//    },
+//    position: {
+//      my: 'center',
+//      at: 'bottom right'
+//    },
+//    hide: {
+//      event: 'click mouseleave',
+//      fixed: true,
+//      inactive: 1000
+//    }
+//  });
 
   $("input").focus( function() {
     $(this).parent(".fields").addClass("focus");
