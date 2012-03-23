@@ -1,7 +1,9 @@
 ---
-:year: Date
-:day: J_D
-:time: Time
+:date:
+  :year: 2011
+  :day: Date
+  :time: Time
+  :parse: '<%= "#{date[:day]}-#{date[:year]} #{date[:time]}" %>'
 :user:
   :first_name: Unknown
   :last_name: Observer

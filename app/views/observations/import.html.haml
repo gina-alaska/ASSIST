@@ -1,0 +1,3 @@
+=form_tag upload_observations_url, :multipart => true do |f|
+  = file_field_tag :csv
+  = submit_tag "Import"

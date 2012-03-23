@@ -1,0 +1,5 @@
+=form_tag import_observations_url, :multipart => true do
+  = select_tag :year, options_for_select( ["YEAR", (2000..DateTime.now.year).collect(&:to_i)].flatten )
+  .file_upload
+    Import
+    =file_field_tag :data

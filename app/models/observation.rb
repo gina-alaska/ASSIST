@@ -4,10 +4,10 @@ require 'csv'
 class Observation < ActiveRecord::Base
   include ImportHandler
 
-  has_one  :ice
-  has_many :photos
-  has_many :comments
-  has_many :ice_observations do
+  has_one  :ice, :dependent => :destroy
+  has_many :photos, :dependent => :destroy
+  has_many :comments, :dependent => :destroy
+  has_many :ice_observations, :dependent => :destroy do
     def obs_type o
       o = o.to_sym
       ice = where(:obs_type => o).first
@@ -26,7 +26,7 @@ class Observation < ActiveRecord::Base
       obs_type :tertiary
     end
   end
-  has_one  :meteorology
+  has_one  :meteorology, :dependent => :destroy
   has_many :observation_users
   belongs_to :primary_observer, :class_name => "User"
   has_many :additional_observers, :through => :observation_users, :class_name => "User", :source => :user
@@ -51,7 +51,7 @@ class Observation < ActiveRecord::Base
 
   before_validation do
     logger.info("Before Save")
-    self.hexcode = Digest::MD5.hexdigest("#{cruise_id}#{obs_datetime}#{latitude}#{longitude}#{primary_observer}")
+    self.hexcode = Digest::MD5.hexdigest("#{obs_datetime}#{latitude}#{longitude}#{primary_observer_id}")
     self.latitude = self.to_dd(latitude) if latitude =~ /^(\+|-)?[0-9]{1,2}\s[0-9]{1,2}(\.[0-9]{1,2})?(\s?[NS])?$/
     self.longitude = self.to_dd(longitude) if longitude =~ /^(\+|-)?[0-9]{1,3}\s[0-9]{1,2}(\.[0-9]{1,2})?(\s?[EW])?$/
   end
@@ -70,6 +70,9 @@ class Observation < ActiveRecord::Base
 
 
   def self.from_csv csv, map = "import_map.yml"
+    count = 0
+    errors = Array.new
+
     if map.is_a? String
       map = ::YAML.load_file map
     end
@@ -79,13 +82,15 @@ class Observation < ActiveRecord::Base
     end
 
     unknownObserver = User.find_or_create_by_firstname_and_lastname(map[:user][:first_name], map[:user][:last_name])
+   
     csv.each do |row|
       data = parse_csv(row,map)
-      logger.info("*******************************")
-      logger.info(data.inspect)
-      logger.info("#{data[:year]} #{data[:time]}")
-      date = DateTime.parse "#{data[:year]} #{data[:time]}"
-
+      begin
+        date = data[:date]
+        obs_datetime = DateTime.parse( ERB.new(date[:parse]).result(binding) )
+      rescue => e
+        logger.info("Invalid date #{data.inspect}")
+      end
       if data[:observation][:primary_observer_id].nil?
         data[:observation][:primary_observer_id] = unknownObserver.id
       else
@@ -95,10 +100,16 @@ class Observation < ActiveRecord::Base
       end
 
       observation = Observation.import(data[:observation])
-      observation.obs_datetime = date
-      observation.try(&:save!)
+      observation.obs_datetime = obs_datetime
+      
+      if(observation.save)
+        count += 1
+      else
+        errors << observation.errors
+      end
     end
 
+    {:count => count, :errors => errors}
   end
 
   def self.parse_csv row, map
@@ -106,6 +117,8 @@ class Observation < ActiveRecord::Base
     map.each do |k,v|
       if v.is_a? String
         data[k] = row.include?(v) ? row[v] : v
+      elsif v.is_a? Integer
+        data[k] = v
       elsif v.is_a? Hash
         data[k] = parse_csv(row, v)
       elsif v.is_a? Array
@@ -116,4 +129,5 @@ class Observation < ActiveRecord::Base
     end
     data
   end
+
 end

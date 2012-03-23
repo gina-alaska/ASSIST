@@ -4,7 +4,7 @@ class Meteorology < ActiveRecord::Base
   belongs_to :observation
   belongs_to :weather_lookup
   belongs_to :visibility_lookup
-  has_many :clouds do
+  has_many :clouds, :dependent => :destroy do
     def cloud_type c
       c = c.to_sym
       cld = where(:cloud_type => c).first

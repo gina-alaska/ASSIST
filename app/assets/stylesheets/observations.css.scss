@@ -218,3 +218,14 @@ input {
     display: inline-block;
   }
 }
+
+.file_upload {
+  display: inline-block;
+  input[type='file'] {
+    opacity: 0;
+    border: solid transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}

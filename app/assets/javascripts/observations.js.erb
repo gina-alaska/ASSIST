@@ -120,6 +120,27 @@ $(document).ready(function() {
   $(document).delegate(".photo_locations input", "click", updatePhotoLocation);
 
   $(".coord").change(  parseCoord )
+
+  $(".file_upload").button();
+  $(".file_upload").fileupload({
+    dataType: 'json',
+    url: $(this).attr('action'),
+    add: function( e, data ) {
+      $("body").block({
+        message: "Please wait, this may take a while"
+      });
+      data.submit();
+    },
+    done: function(e, data ) {
+      $("body").unblock();
+    }, 
+    error: function( e, data ) {
+      $.growlUI("","There was an error");
+    },
+    success: function(xhr, result) {
+      $.growlUI("", xhr['imported'] + " records imported");
+    }
+  });
 });
 
 

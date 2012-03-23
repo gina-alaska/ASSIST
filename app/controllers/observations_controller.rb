@@ -15,8 +15,7 @@ class ObservationsController < ApplicationController
     obs = params[:observation]
     @observation = Observation.new obs
     @observation.obs_datetime = parse_date( dateFields params )
-    obs[:latitude] = to_dd(obs[:latitude]) if obs[:latitude] =~ /^(\+|-)?[0-9]{1,2}\s[0-9]{1,2}(\.[0-9]{1,2})?(\s?[NS])?$/
-    obs[:longitude] = to_dd(obs[:longitude]) if obs[:longitude] =~ /^(\+|-)?[0-9]{1,3}\s[0-9]{1,2}(\.[0-9]{1,2})?(\s?[NS])?$/
+  
     if @observation.save
       respond_with @observation do |format|
         format.html { redirect_to edit_observation_url(@observation) + "#ice" }
@@ -41,9 +40,7 @@ class ObservationsController < ApplicationController
     obs = params[:observation]
     @observation = Observation.where(:id => params[:id]).first
     @observation.obs_datetime = parse_date( dateFields params )
-    #obs[:latitude] = to_dd(obs[:latitude]) if obs[:latitude] =~ /^(\+|-)?[0-9]{1,2}\s[0-9]{1,2}(\.[0-9]{1,2})?(\s?[NS])?$/
-    #obs[:longitude] = to_dd(obs[:longitude]) if obs[:longitude] =~ /^(\+|-)?[0-9]{1,3}\s[0-9]{1,2}(\.[0-9]{1,2})?(\s?[EW])?$/
-
+ 
     if @observation.update_attributes(obs)
       if request.xhr?
         render :json => @observation, :layout => false, :status => :accepted
@@ -69,18 +66,28 @@ class ObservationsController < ApplicationController
     end
   end
 
-  def import
-    @observation = Observation.new
+  def manage
 
-    respond_with @observation
   end
 
-  def upload
-    csv = params.delete(:csv)
-    logger.info(csv.tempfile.inspect)
-    Observation.from_csv(csv.tempfile.path, "config/import_map_2009.yaml");
+  def import
+    data = params[:data]
+    year = params[:year]
 
-    redirect_to observations_url
+
+    mapFile = Rails.root.join("config/import_map_#{year}.yml") 
+    mapFile = File.exists?(mapFile) ? mapFile : Rails.root.join("config/import_map.yml")
+
+    logger.info(mapFile)
+
+    results = Observation.from_csv( Rails.root.join( data.tempfile.path ).to_s, mapFile.to_s )
+
+
+    if request.xhr? 
+      render :json => {:success => true, :imported => results[:count], :errors => results[:errors] }
+    else
+      redirect_to observation_url
+    end
   end
 
 protected
@@ -95,13 +102,5 @@ protected
   def dateFields p
     p.slice(:observation_date, :observation_time)
   end
-
-
-  # def to_dd dms
-  #   deg,ms = dms.split " "
-  #   min,sec = ms.split "."
-  #   dec = (min.to_i * 60 + sec.to_i) / 3600.0
-  #   deg.to_i > 0 ? "#{deg.to_i+dec}" : "#{deg.to_i - dec}"
-  # end
 
 end

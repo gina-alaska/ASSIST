@@ -1,0 +1,58 @@
+---
+:date:
+  :date: Date
+  :parse: '<%= "#{date[:date]" %>'
+:user:
+  :first_name: Unknown
+  :last_name: Observer
+:observation:
+  :latitude: LATdm
+  :longitude: LONdm
+  :ice_attributes:
+    :total_concentration: TC
+    :thick_ice_lookup_code: TH
+    :thin_ice_lookup_code: OT
+    :open_water_lookup_code: OW
+  :ice_observations_attributes:
+    -
+      :obs_type: primary
+      :partial_concentration: C
+      :ice_lookup_code: T
+      :thickness: Z
+      :floe_size_lookup_code: F
+      :topography_attributes:
+        :topography_lookup_code: TO
+      :sediment_lookup_code: SD
+      :biota_lookup_code: AL
+      :snow_lookup_code: SY
+      :snow_thickness: SH
+      :melt_pond_attributes:
+        :surface_coverage: MP
+    -
+      :obs_type: secondary
+      :partial_concentration: C2
+      :ice_lookup_code: T2
+      :thickness: Z2
+      :floe_size_lookup_code: F2
+      :topography_attributes:
+        :topography_lookup_code: TO2
+      :sediment_lookup_code: SD2
+      :biota_lookup_code: AL2
+      :snow_lookup_code: SY2
+      :snow_thickness: SH2
+      :melt_pond_attributes:
+        :surface_coverage: MP2
+    -
+      :obs_type: tertiary
+      :partial_concentration: C3
+      :ice_lookup_code: T3
+      :thickness: Z3
+      :floe_size_lookup_code: F3
+      :topography_attributes:
+        :topography_lookup_code: TO3
+      :sediment_lookup_code: SD3
+      :biota_lookup_code: AL3
+      :snow_lookup_code: SY3
+      :snow_thickness: SH3
+      :melt_pond_attributes:
+        :surface_coverage: MP3
