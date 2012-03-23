@@ -38,6 +38,8 @@ class Observation < ActiveRecord::Base
 
   validates_presence_of :primary_observer_id
   validates_presence_of :obs_datetime, :message => "Invalid or no date given"
+  validates_presence_of :hexcode
+  validates_uniqueness_of :hexcode
   #Allow DD or DM(S)
   validates_format_of :latitude, :with => /^(\+|-)?[0-9]{1,2}(\s[0-9]{1,2}(\.[0-9]{1,2})?|\.[0-9]*)(\s?[NS])?$/
   validates_format_of :longitude, :with => /^(\+|-)?[0-9]{1,3}(\s[0-9]{1,2}(\.[0-9]{1,2})?|\.[0-9]*)(\s?[EW])?$/
@@ -47,9 +49,11 @@ class Observation < ActiveRecord::Base
     create_meteorology if meteorology.nil?
   end
 
-  before_save do
-    latitude = to_dd(latitude) if latitude =~ /^(\+|-)?[0-9]{1,2}\s[0-9]{1,2}(\.[0-9]{1,2})?(\s?[NS])?$/
-    longitude = to_dd(longitude) if longitude =~ /^(\+|-)?[0-9]{1,3}\s[0-9]{1,2}(\.[0-9]{1,2})?(\s?[EW])?$/
+  before_validation do
+    logger.info("Before Save")
+    self.hexcode = Digest::MD5.hexdigest("#{cruise_id}#{obs_datetime}#{latitude}#{longitude}#{primary_observer}")
+    self.latitude = self.to_dd(latitude) if latitude =~ /^(\+|-)?[0-9]{1,2}\s[0-9]{1,2}(\.[0-9]{1,2})?(\s?[NS])?$/
+    self.longitude = self.to_dd(longitude) if longitude =~ /^(\+|-)?[0-9]{1,3}\s[0-9]{1,2}(\.[0-9]{1,2})?(\s?[EW])?$/
   end
 
   def finalized?
@@ -57,8 +61,15 @@ class Observation < ActiveRecord::Base
     false
   end
 
-  def self.from_csv csv, map = "import_map.yml"
+  def to_dd dms
+    deg,ms = dms.split " "
+    min,sec = ms.split "."
+    dec = (min.to_i * 60 + sec.to_i) / 3600.0
+    deg.to_i > 0 ? "#{deg.to_i+dec}" : "#{deg.to_i - dec}"
+  end
 
+
+  def self.from_csv csv, map = "import_map.yml"
     if map.is_a? String
       map = ::YAML.load_file map
     end
@@ -70,6 +81,9 @@ class Observation < ActiveRecord::Base
     unknownObserver = User.find_or_create_by_firstname_and_lastname(map[:user][:first_name], map[:user][:last_name])
     csv.each do |row|
       data = parse_csv(row,map)
+      logger.info("*******************************")
+      logger.info(data.inspect)
+      logger.info("#{data[:year]} #{data[:time]}")
       date = DateTime.parse "#{data[:year]} #{data[:time]}"
 
       if data[:observation][:primary_observer_id].nil?
@@ -82,7 +96,7 @@ class Observation < ActiveRecord::Base
 
       observation = Observation.import(data[:observation])
       observation.obs_datetime = date
-      observation.save!
+      observation.try(&:save!)
     end
 
   end
