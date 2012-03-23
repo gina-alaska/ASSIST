@@ -1,6 +1,9 @@
 require 'csv'
 
+
 class Observation < ActiveRecord::Base
+  include ImportHandler
+
   has_one  :ice
   has_many :photos
   has_many :comments
@@ -55,6 +58,7 @@ class Observation < ActiveRecord::Base
   end
 
   def self.from_csv csv, map = "import_map.yml"
+
     if map.is_a? String
       map = ::YAML.load_file map
     end
@@ -66,8 +70,6 @@ class Observation < ActiveRecord::Base
     unknownObserver = User.find_or_create_by_firstname_and_lastname(map[:user][:first_name], map[:user][:last_name])
     csv.each do |row|
       data = parse_csv(row,map)
-      logger.info("Year: #{data[:year]}")
-      logger.info(data[:time])
       date = DateTime.parse "#{data[:year]} #{data[:time]}"
 
       if data[:observation][:primary_observer_id].nil?
@@ -77,15 +79,10 @@ class Observation < ActiveRecord::Base
         user = User.find_or_create_by_firstname_and_lastname(name.first, name.last)
         data[:observation][:primary_observer_id] = user.id
       end
-      iceObservations = data[:observation].delete(:ice_observation_attributes)
-      observation = Observation.new( data[:observation])
-      observation.obs_datetime = date
-      iceObservations.each do |ice|
-        observation.ice_observations << IceObservation.new(ice)
-      end
 
+      observation = Observation.import(data[:observation])
+      observation.obs_datetime = date
       observation.save!
-      #logger.info(observation.inspect);
     end
 
   end
@@ -105,5 +102,4 @@ class Observation < ActiveRecord::Base
     end
     data
   end
-
 end

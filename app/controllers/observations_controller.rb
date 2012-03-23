@@ -19,7 +19,7 @@ class ObservationsController < ApplicationController
     obs[:longitude] = to_dd(obs[:longitude]) if obs[:longitude] =~ /^(\+|-)?[0-9]{1,3}\s[0-9]{1,2}(\.[0-9]{1,2})?(\s?[NS])?$/
     if @observation.save
       respond_with @observation do |format|
-        format.html { redirect_to proc {edit_observation_url @observation}}
+        format.html { redirect_to edit_observation_url(@observation) + "#ice" }
       end
     else
       render :action => :new

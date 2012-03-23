@@ -1,4 +1,6 @@
 class MeltPond < ActiveRecord::Base
+  include ImportHandler
+
   belongs_to :ice_observation
   belongs_to :melt_pond_max_depth_lookup
   belongs_to :melt_pond_pattern_lookup

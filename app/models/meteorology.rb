@@ -1,4 +1,6 @@
 class Meteorology < ActiveRecord::Base
+  include ImportHandler
+
   belongs_to :observation
   belongs_to :weather_lookup
   belongs_to :visibility_lookup
