@@ -90,7 +90,7 @@ $(document).ready(function() {
   });
   $("form.notify").bind("ajax:success", function(evt, data, status, xhr) {
     $.growlUI("","Save Successful");
-    $("form.dirty:visible").removeClass("dirty");
+    $("form.dirty:first").removeClass("dirty");
     $("#save_button").removeClass("dirty");
     $("#save_button").button("disable");
   });
@@ -190,8 +190,6 @@ function saveFormAndChangeTab( form, ui ) {
       return $.rails.fire( form, "ajax:beforeSend",[xhr,settings]);
     },
     success: function(data, status, xhr) {
-      $(form).removeClass("dirty");
-      console.log(ui);
       $("#observation_form").tabs('option', 'selected', ui.index);
       form.trigger("ajax:success", [data,status,xhr]);
     },

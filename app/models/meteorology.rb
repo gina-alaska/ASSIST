@@ -26,4 +26,22 @@ class Meteorology < ActiveRecord::Base
   end
 
   accepts_nested_attributes_for :clouds
+
+
+  def as_csv 
+    [ 
+      visibility_lookup.try(&:code),
+      weather_lookup.try(&:code),
+      clouds.collect(&:as_csv)
+    ]
+  end
+
+  def self.headers opts={}
+    headers = %w( Visibility Weather )
+    headers.map{|h| "#{opts[:prefix]}#{h}"} if opts[:prefix]
+    headers.map{|h| "#{h}#{opts[:postfix]}"}  if opts[:postfix] 
+
+    headers.push( Cloud.headers)
+    headers.flatten.join(",")
+  end
 end

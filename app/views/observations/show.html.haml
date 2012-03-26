@@ -1,0 +1,18 @@
+%p
+  != ap @observation
+
+%p
+  Primary Observer:
+  = @observation.primary_observer.first_and_last_name
+%p
+  Additional Observers:
+  = @observation.additional_observers.join(", ")
+%p
+  Observed at:
+  = @observation.obs_datetime.strftime("%Y.%m.%d %H:%M")
+%p
+  Ice Observations:
+Global:
+!= ap @observation.ice, {:html => true}
+Primary:
+!= ap @observation.ice_observations.primary, {:html => true}

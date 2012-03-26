@@ -20,7 +20,9 @@
         %td= o.additional_observers.collect(&:first_and_last_name).join ","
         %td= o.photos.count
         %td= o.finalized? ? 'Yes' : 'No'
-        %td= link_to "[edit]", edit_observation_path(o)
+        %td
+          = link_to "[edit]", edit_observation_path(o)
+          = link_to "[export]", observation_path(o, :csv)
 :javascript
   $('table#obslist').dataTable({
     "bPaginate": true,

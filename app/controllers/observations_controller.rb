@@ -1,9 +1,15 @@
 class ObservationsController < ApplicationController
-  respond_to :html
+  respond_to :html, :csv
 
   def index
-    @observations = Observation.all
-    respond_with @observations
+   # @observations = Observation.find(params[:ids])
+    @observations ||= Observation.all
+
+
+    respond_with @observations do |format|
+      format.html
+      format.csv 
+    end
   end
 
   def new
@@ -56,8 +62,8 @@ class ObservationsController < ApplicationController
     end
   end
 
-  def preview
-    @observation = Observation.where(:id => params[:observation_id]).first
+  def show
+    @observation = Observation.where(:id => params[:id]).first
 
     if request.xhr?
       respond_with @observation, :layout => false

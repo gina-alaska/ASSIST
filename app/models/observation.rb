@@ -130,4 +130,29 @@ class Observation < ActiveRecord::Base
     data
   end
 
+  def as_csv 
+    [
+      obs_datetime,
+      primary_observer.try(&:first_and_last_name), 
+      latitude,
+      longitude,
+      hexcode,
+      ice.as_csv,
+      ice_observations.collect(&:as_csv),
+      meteorology.as_csv
+    ]
+  end
+
+  def self.headers opts={}
+
+    headers = %w( Date PrimaryObserver LATdm LONdm Hexcode)
+    headers.map!{|h| "#{opts[:prefix]}#{h}"} if opts[:prefix]
+    headers.map!{|h| "#{h}#{opts[:postfix]}"}  if opts[:postfix]
+
+    headers.push( Ice.headers)
+    %w( Primary Secondary Tertiary).each {|index| headers.push( IceObservation.headers(:prefix => index) )}
+    headers.push( Meteorology.headers )
+    headers.flatten.join(",")
+  end
+
 end
