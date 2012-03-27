@@ -9,6 +9,10 @@ class ObservationsController < ApplicationController
     respond_with @observations do |format|
       format.html
       format.csv 
+      format.zip do 
+        Observation.zip!
+        send_file Rails.root.join(Observation.path, "FinalizedObservations.zip")
+      end
     end
   end
 
@@ -65,10 +69,18 @@ class ObservationsController < ApplicationController
   def show
     @observation = Observation.where(:id => params[:id]).first
 
+
     if request.xhr?
       respond_with @observation, :layout => false
     else
-      respond_with @observation
+      respond_with @observation do |format|
+        format.html
+        format.csv
+        format.zip do
+          @observation.zip!
+          send_file Rails.root.join(@observation.path, "#{@observation.name}.zip")
+        end
+      end
     end
   end
 

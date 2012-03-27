@@ -19,6 +19,5 @@ class Ice < ActiveRecord::Base
     headers = %w( TC OW OT TH )
     headers.map{|h| "#{opts[:prefix]}#{h}"} if opts[:prefix]
     headers.map{|h| "#{h}#{opts[:postfix]}"}  if opts[:postfix] 
-    headers.flatten.join(",")
   end
 end

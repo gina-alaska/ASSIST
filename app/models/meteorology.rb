@@ -42,6 +42,5 @@ class Meteorology < ActiveRecord::Base
     headers.map{|h| "#{h}#{opts[:postfix]}"}  if opts[:postfix] 
 
     headers.push( Cloud.headers)
-    headers.flatten.join(",")
   end
 end

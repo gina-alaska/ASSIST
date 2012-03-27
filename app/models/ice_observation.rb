@@ -37,6 +37,5 @@ class IceObservation < ActiveRecord::Base
     headers.map!{|h| "#{h}#{opts[:postfix]}"}  unless opts[:postfix].nil? 
     headers.push( MeltPond.headers)
     headers.push(Topography.headers)
-    headers.flatten.join(",")
   end
 end

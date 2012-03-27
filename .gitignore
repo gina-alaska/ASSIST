@@ -19,3 +19,5 @@
 
 #Ignore uploaded files
 /public/uploads/
+/public/observation
+/public/observations

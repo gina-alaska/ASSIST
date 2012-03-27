@@ -1,7 +1,7 @@
 -unless photo.new_record?
   .attached_photo
     .thumbnail
-      = image_tag "/uploads/observation_#{photo.observation_id}/#{photo.name}"
+      = image_tag "/#{photo.url}"
     .edit_photo_form
       = form_for [@observation, photo], :remote => true do |f|
         .photo_locations.radioset{:id=> "photo_#{photo.id}"}

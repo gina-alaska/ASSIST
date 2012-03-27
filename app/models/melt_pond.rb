@@ -20,7 +20,5 @@ class MeltPond < ActiveRecord::Base
     headers = %w( SurfaceCoverage MaxDepth Pattern Surface Freeboard )
     headers.map{|h| "#{opts[:prefix]}#{h}"} if opts[:prefix]
     headers.map{|h| "#{h}#{opts[:postfix]}"}  if opts[:postfix] 
-
-    headers.flatten.join(",")
   end  
 end

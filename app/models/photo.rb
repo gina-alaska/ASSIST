@@ -9,16 +9,16 @@ class Photo < ActiveRecord::Base
   end
 
   def uri
-    "/uploads/observation_#{observation_id}/#{name}"
+    File.join(observation.path, name)
   end
 
 
   def directory
-    Rails.root.join('public', 'uploads', "observation_#{observation_id}")
+    Rails.root.join(observation.path)
   end
 
   def url
-    File.join('public','uploads', "observation_#{observation_id}", name)
+    File.join(observation.path, name).gsub!(/public\//,'')
   end
 
 end

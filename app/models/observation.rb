@@ -143,16 +143,98 @@ class Observation < ActiveRecord::Base
     ]
   end
 
+  def to_csv
+    c = CSV.generate({:headers => true}) do |csv|
+      csv << Observation.headers
+      csv << as_csv.flatten
+    end
+    c
+  end
+
+  def self.to_csv
+    c = CSV.generate({:headers => true}) do |csv|
+      csv << Observation.headers
+      Observation.all.each do |o|
+        csv << o.as_csv.flatten
+      end
+    end
+    c
+  end
+  def self.to_json
+    Observation.all.collect(&:to_json)
+  end
+
   def self.headers opts={}
 
     headers = %w( Date PrimaryObserver LATdm LONdm Hexcode)
     headers.map!{|h| "#{opts[:prefix]}#{h}"} if opts[:prefix]
     headers.map!{|h| "#{h}#{opts[:postfix]}"}  if opts[:postfix]
 
-    headers.push( Ice.headers)
+    headers.push(Ice.headers)
     %w( Primary Secondary Tertiary).each {|index| headers.push( IceObservation.headers(:prefix => index) )}
     headers.push( Meteorology.headers )
-    headers.flatten.join(",")
+    headers.flatten
   end
+
+  def zip!
+    FileUtils.mkdir(path) unless File.exists?(path)
+    FileUtils.remove(File.join(path, "#{name}.zip")) if File.exists?(File.join(path,"#{name}.zip"))
+    Observation.dump!([:csv,:json])
+    files = Dir.glob(File.join(path, "*")).collect!{|f| File.basename(f)}
+
+    Zip::ZipFile.open(File.join(path, "#{name}.zip"), Zip::ZipFile::CREATE) do |zipfile|
+      files.each do |f|
+        zipfile.add(f, File.join(path,f))
+      end
+    end
+  end
+
+  def self.zip! name="FinalizedObservations"
+
+    FileUtils.remove(File.join(path,"#{name}.zip")) if File.exists?(File.join(path,"#{name}.zip"))
+
+    files = dump!([:csv, :json])
+    Zip::ZipFile.open(File.join(path, "#{name}.zip"), Zip::ZipFile::CREATE) do |zipfile|
+      files.each do |f|
+        zipfile.add(File.basename(f), f)
+      end
+      Photo.all.each do |p|
+        zipfile.add(File.join(p.observation.name,p.name), File.join( p.observation.path, p.name))
+      end
+    end
+  end
+
+  def dump!(formats)
+    FileUtils.mkdir(path) unless File.exists?(path)
+    [formats].flatten.each do |format|
+      File.open(File.join(path, "#{name}.#{format.to_s}"),"w") do |f|
+        f.puts self.send("to_#{format.to_s}")
+      end
+    end
+  end
+
+  def self.dump!(formats)
+    FileUtils.mkdir(path) unless File.exists?(path)
+    files = []
+    [formats].flatten.each do |format|
+      file = File.join(path,"observation.#{format.to_s}")
+      File.open(file,"w") do |f|
+        f.puts Observation.send("to_#{format.to_s}")
+      end
+      files << file
+    end
+    files
+  end
+
+  def name 
+    obs_datetime.strftime("%Y.%m.%d-%H.%M")
+  end
+  def path 
+    "public/observations/#{name}"
+  end
+  def self.path
+    "public/observations"
+  end
+
 
 end
