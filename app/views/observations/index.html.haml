@@ -6,6 +6,7 @@
     %tr
       %th Observation Date
       %th Last Modified
+      %th Total Ice Concentration
       %th Primary Observer
       %th Additional Observers
       %th # Photos
@@ -16,6 +17,7 @@
       %tr.observation
         %td= o.obs_datetime
         %td= o.updated_at
+        %td= o.ice.try(:total_concentration)
         %td= o.primary_observer.try(:first_and_last_name)
         %td= o.additional_observers.collect(&:first_and_last_name).join ","
         %td= o.photos.count
