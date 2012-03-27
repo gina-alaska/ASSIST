@@ -40,7 +40,7 @@ class Meteorology < ActiveRecord::Base
     {
       visibility_lookup: visibility_lookup.try(&:code),
       weather_lookup: weather_lookup.try(&:code),
-      clouds: clouds.collect(&:as_json)
+      cloud_attributes: clouds.collect(&:as_json)
     }
   end
 

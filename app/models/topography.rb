@@ -16,7 +16,7 @@ class Topography < ActiveRecord::Base
 
   def as_json opts={}
     {
-      topography_lookup: topography_lookup.try(&:code),
+      topography_lookup_code: topography_lookup.try(&:code),
       old: old,
       consolidated: consolidated,
       concentration: concentration,

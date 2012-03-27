@@ -33,14 +33,14 @@ class IceObservation < ActiveRecord::Base
     {
       obs_type: obs_type,
       partial_concentration: partial_concentration,
-      ice_lookup: ice_lookup.try(&:code),
+      ice_lookup_code: ice_lookup.try(&:code),
       thickness: thickness,
-      floe_size_lookup: floe_size_lookup.try(&:code), 
-      snow_lookup: snow_lookup.try(&:code),
-      biota_lookup: biota_lookup.try(&:code),
-      sediment_lookup: sediment_lookup.try(&:code),
-      melt_pond: melt_pond.as_json,
-      topography: topography.as_json
+      floe_size_lookup_code: floe_size_lookup.try(&:code), 
+      snow_lookup_code: snow_lookup.try(&:code),
+      biota_lookup_code: biota_lookup.try(&:code),
+      sediment_lookup_code: sediment_lookup.try(&:code),
+      melt_pond_attributes: melt_pond.as_json,
+      topography_attributes: topography.as_json
     }
   end
 

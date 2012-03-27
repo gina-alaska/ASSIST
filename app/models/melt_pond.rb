@@ -19,9 +19,9 @@ class MeltPond < ActiveRecord::Base
   def as_json opts={}
     {
       surface_coverage: surface_coverage,
-      max_depth_lookup: max_depth_lookup.try(&:code),
-      pattern_lookup: pattern_lookup.try(&:code),
-      surface_lookup: surface_lookup.try(&:code),
+      max_depth_lookup_code: max_depth_lookup.try(&:code),
+      pattern_lookup_code: pattern_lookup.try(&:code),
+      surface_lookup_code: surface_lookup.try(&:code),
       freeboard: freeboard
     }
   end
