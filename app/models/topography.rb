@@ -16,7 +16,8 @@ class Topography < ActiveRecord::Base
 
   def self.headers opts={}
     headers = %w( Topography Old Consolidated Concentration RidgeHeight )
-    headers.map{|h| "#{opts[:prefix]}#{h}"} if opts[:prefix]
-    headers.map{|h| "#{h}#{opts[:postfix]}"}  if opts[:postfix] \
+    headers.map!{|h| "#{opts[:prefix]}#{h}"} if opts[:prefix]
+    headers.map!{|h| "#{h}#{opts[:postfix]}"}  if opts[:postfix] 
+    headers
   end 
 end

@@ -13,7 +13,8 @@ class Cloud < ActiveRecord::Base
 
   def self.headers opts={}
     headers = %w( Cover Height Cloud CloudType )
-    headers.map{|h| "#{opts[:prefix]}#{h}"} if opts[:prefix]
-    headers.map{|h| "#{h}#{opts[:postfix]}"}  if opts[:postfix] 
+    headers.map!{|h| "#{opts[:prefix]}#{h}"} if opts[:prefix]
+    headers.map!{|h| "#{h}#{opts[:postfix]}"}  if opts[:postfix] 
+    headers
   end
 end

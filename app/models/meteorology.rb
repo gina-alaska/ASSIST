@@ -38,9 +38,9 @@ class Meteorology < ActiveRecord::Base
 
   def self.headers opts={}
     headers = %w( Visibility Weather )
-    headers.map{|h| "#{opts[:prefix]}#{h}"} if opts[:prefix]
-    headers.map{|h| "#{h}#{opts[:postfix]}"}  if opts[:postfix] 
-
-    headers.push( Cloud.headers)
+    headers.map!{|h| "#{opts[:prefix]}#{h}"} if opts[:prefix]
+    headers.map!{|h| "#{h}#{opts[:postfix]}"}  if opts[:postfix] 
+    %w(High Medium Low).each{|h| headers.push(Cloud.headers(:prefix => h))}
+    headers
   end
 end

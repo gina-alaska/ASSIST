@@ -145,7 +145,7 @@ class Observation < ActiveRecord::Base
 
   def to_csv
     c = CSV.generate({:headers => true}) do |csv|
-      csv << Observation.headers
+      csv << Observation.headers.flatten
       csv << as_csv.flatten
     end
     c
@@ -153,7 +153,7 @@ class Observation < ActiveRecord::Base
 
   def self.to_csv
     c = CSV.generate({:headers => true}) do |csv|
-      csv << Observation.headers
+      csv << Observation.headers.flatten
       Observation.all.each do |o|
         csv << o.as_csv.flatten
       end
@@ -171,15 +171,14 @@ class Observation < ActiveRecord::Base
     headers.map!{|h| "#{h}#{opts[:postfix]}"}  if opts[:postfix]
 
     headers.push(Ice.headers)
-    %w( Primary Secondary Tertiary).each {|index| headers.push( IceObservation.headers(:prefix => index) )}
+    %w(Primary Secondary Tertiary).each {|index| headers.push( IceObservation.headers(:prefix => index) )}
     headers.push( Meteorology.headers )
-    headers.flatten
   end
 
   def zip!
     FileUtils.mkdir(path) unless File.exists?(path)
     FileUtils.remove(File.join(path, "#{name}.zip")) if File.exists?(File.join(path,"#{name}.zip"))
-    Observation.dump!([:csv,:json])
+    dump!([:csv,:json])
     files = Dir.glob(File.join(path, "*")).collect!{|f| File.basename(f)}
 
     Zip::ZipFile.open(File.join(path, "#{name}.zip"), Zip::ZipFile::CREATE) do |zipfile|
