@@ -14,6 +14,16 @@ class Topography < ActiveRecord::Base
     ]
   end
 
+  def as_json opts={}
+    {
+      topography_lookup: topography_lookup.try(&:code),
+      old: old,
+      consolidated: consolidated,
+      concentration: concentration,
+      ridge_height: ridge_height
+    }
+  end
+
   def self.headers opts={}
     headers = %w( Topography Old Consolidated Concentration RidgeHeight )
     headers.map!{|h| "#{opts[:prefix]}#{h}"} if opts[:prefix]

@@ -1,5 +1,5 @@
 class ObservationsController < ApplicationController
-  respond_to :html, :csv
+  respond_to :html, :csv, :json, :zip
 
   def index
    # @observations = Observation.find(params[:ids])

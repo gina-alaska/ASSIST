@@ -11,6 +11,15 @@ class Cloud < ActiveRecord::Base
     ]
   end
 
+  def as_json opts={}
+    {
+      cover: cover,
+      height: height,
+      cloud_lookup: cloud_lookup.try(&:code),
+      cloud_type: cloud_type
+    }
+  end
+
   def self.headers opts={}
     headers = %w( Cover Height Cloud CloudType )
     headers.map!{|h| "#{opts[:prefix]}#{h}"} if opts[:prefix]

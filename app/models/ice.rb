@@ -15,6 +15,15 @@ class Ice < ActiveRecord::Base
     ]
   end
 
+  def as_json opts={} 
+    {
+      total_concentration: total_concentration,
+      open_water_lookup_code: open_water_lookup.try(&:code),
+      thin_ice_lookup_code: thin_ice_lookup.try(&:code),
+      thick_ice_lookup_code: thick_ice_lookup.try(&:code)
+    }
+  end
+
   def self.headers opts={}
     headers = %w( TC OW OT TH )
     headers.map!{|h| "#{opts[:prefix]}#{h}"} if opts[:prefix]

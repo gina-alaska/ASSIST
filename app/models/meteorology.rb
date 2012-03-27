@@ -36,6 +36,14 @@ class Meteorology < ActiveRecord::Base
     ]
   end
 
+  def as_json opts={}
+    {
+      visibility_lookup: visibility_lookup.try(&:code),
+      weather_lookup: weather_lookup.try(&:code),
+      clouds: clouds.collect(&:as_json)
+    }
+  end
+
   def self.headers opts={}
     headers = %w( Visibility Weather )
     headers.map!{|h| "#{opts[:prefix]}#{h}"} if opts[:prefix]

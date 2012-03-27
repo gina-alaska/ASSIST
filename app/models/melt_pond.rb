@@ -16,6 +16,16 @@ class MeltPond < ActiveRecord::Base
     ]
   end
 
+  def as_json opts={}
+    {
+      surface_coverage: surface_coverage,
+      max_depth_lookup: max_depth_lookup.try(&:code),
+      pattern_lookup: pattern_lookup.try(&:code),
+      surface_lookup: surface_lookup.try(&:code),
+      freeboard: freeboard
+    }
+  end
+  
   def self.headers opts={}
     headers = %w( SurfaceCoverage MaxDepth Pattern Surface Freeboard )
     headers.map!{|h| "#{opts[:prefix]}#{h}"} if opts[:prefix]

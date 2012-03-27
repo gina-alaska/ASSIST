@@ -29,6 +29,21 @@ class IceObservation < ActiveRecord::Base
     ]
   end
 
+  def as_json opts={}
+    {
+      obs_type: obs_type,
+      partial_concentration: partial_concentration,
+      ice_lookup: ice_lookup.try(&:code),
+      thickness: thickness,
+      floe_size_lookup: floe_size_lookup.try(&:code), 
+      snow_lookup: snow_lookup.try(&:code),
+      biota_lookup: biota_lookup.try(&:code),
+      sediment_lookup: sediment_lookup.try(&:code),
+      melt_pond: melt_pond.as_json,
+      topography: topography.as_json
+    }
+  end
+
 
   def self.headers opts={}
     puts opts

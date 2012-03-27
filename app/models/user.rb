@@ -8,4 +8,11 @@ class User < ActiveRecord::Base
   def first_and_last_name
     [firstname, lastname].join " "
   end
+
+  def as_json 
+    { 
+      firstname: firstname,
+      lastname: lastname
+    }
+  end
 end

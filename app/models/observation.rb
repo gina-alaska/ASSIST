@@ -160,6 +160,20 @@ class Observation < ActiveRecord::Base
     end
     c
   end
+
+  def as_json opts={}
+    {
+      obs_datetime: obs_datetime,
+      primary_observer: primary_observer.as_json,
+      latitude: latitude,
+      longitude: longitude,
+      hexcode: hexcode,
+      ice: ice.as_json,
+      ice_observations: ice_observations.collect(&:as_json),
+      meteorology: meteorology.as_json
+    }
+  end
+
   def self.to_json
     Observation.all.collect(&:to_json)
   end
