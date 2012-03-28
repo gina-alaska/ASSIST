@@ -112,6 +112,25 @@ class Observation < ActiveRecord::Base
     {:count => count, :errors => errors}
   end
 
+  def self.from_json jsonFile 
+    count = 0
+    errors = Array.new
+
+    data = JSON.parse(File.read(jsonFile))
+
+    [data].flatten.each do |obs|
+
+      observation = Observation.import(ActiveSupport::JSON.decode(obs))
+
+      if(observation.save)
+        count += 1
+      else 
+        errors << observation.errors
+      end
+    end
+    {count: count, errors: errors}
+  end
+
   def self.parse_csv row, map
     data = Hash.new
     map.each do |k,v|
@@ -164,14 +183,18 @@ class Observation < ActiveRecord::Base
   def as_json opts={}
     {
       obs_datetime: obs_datetime,
-      primary_observer_id: primary_observer.first_and_last_name,
+      primary_observer_id: primary_observer.try(&:first_and_last_name),
       latitude: latitude,
       longitude: longitude,
       hexcode: hexcode,
       ice_attributes: ice.as_json,
-      ice_observation_attributes: ice_observations.collect(&:as_json),
+      ice_observations_attributes: ice_observations.collect(&:as_json),
       meteorology_attributes: meteorology.as_json
     }
+  end
+
+  def self.as_json
+    Observation.all.collect(&:as_json)
   end
 
   def self.to_json
@@ -221,7 +244,7 @@ class Observation < ActiveRecord::Base
     FileUtils.mkdir(path) unless File.exists?(path)
     [formats].flatten.each do |format|
       File.open(File.join(path, "#{name}.#{format.to_s}"),"w") do |f|
-        f.puts self.send("to_#{format.to_s}")
+        f << self.send("to_#{format.to_s}")
       end
     end
   end
@@ -232,7 +255,7 @@ class Observation < ActiveRecord::Base
     [formats].flatten.each do |format|
       file = File.join(path,"observation.#{format.to_s}")
       File.open(file,"w") do |f|
-        f.puts Observation.send("to_#{format.to_s}")
+        f << Observation.send("to_#{format.to_s}")
       end
       files << file
     end

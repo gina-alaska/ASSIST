@@ -41,10 +41,7 @@ module ImportHandler
         end
         ap "#{model}.send('#{attr}=',#{value})"
         model.send("#{attr}=", value)
-        ap 0000000000000000000000000
-        ap model.inspect
-
-        ap 1111111111111111111111111
+ 
       end
       model
     end

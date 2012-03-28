@@ -38,9 +38,9 @@ class Meteorology < ActiveRecord::Base
 
   def as_json opts={}
     {
-      visibility_lookup: visibility_lookup.try(&:code),
-      weather_lookup: weather_lookup.try(&:code),
-      cloud_attributes: clouds.collect(&:as_json)
+      visibility_lookup_code: visibility_lookup.try(&:code),
+      weather_lookup_code: weather_lookup.try(&:code),
+      clouds_attributes: clouds.collect(&:as_json)
     }
   end
 

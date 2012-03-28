@@ -89,20 +89,20 @@ class ObservationsController < ApplicationController
   end
 
   def import
-    data = params[:data]
-    year = params[:year]
+    uploaded_file = params[:data]
 
+#    mapFile = Rails.root.join("config/import_map_#{year}.yml") 
+#    mapFile = File.exists?(mapFile) ? mapFile : Rails.root.join("config/import_map.yml")
 
-    mapFile = Rails.root.join("config/import_map_#{year}.yml") 
-    mapFile = File.exists?(mapFile) ? mapFile : Rails.root.join("config/import_map.yml")
+ #   results = Observation.from_csv( Rails.root.join( data.tempfile.path ).to_s, mapFile.to_s )
+    results = {}
 
-    logger.info(mapFile)
+    filetype = uploaded_file.content_type.split("/").last
 
-    results = Observation.from_csv( Rails.root.join( data.tempfile.path ).to_s, mapFile.to_s )
-
+    results = self.send("import_#{filetype}", uploaded_file)
 
     if request.xhr? 
-      render :json => {:success => true, :imported => results[:count], :errors => results[:errors] }
+      render :json => {:success => true, :results => results }
     else
       redirect_to observation_url
     end
@@ -121,4 +121,36 @@ protected
     p.slice(:observation_date, :observation_time)
   end
 
+  def import_zip file
+    results = []
+    logger.info("FOOOO")
+    Dir.chdir("/tmp") do |d|
+      Zip::ZipFile.open(file.tempfile) do |zipfile|
+        zipfile.each do |f|
+          if(File.extname(f.to_s) == ".json") 
+            begin
+              f.extract
+              logger.info("Found #{f.name}")
+              results << Observation.from_json(f.name) 
+            rescue => ex
+              logger.info ex.inspect
+            ensure
+              FileUtils.remove(f.name)
+            end
+          end
+        end
+      end
+    end
+    results
+  end
+
+  def import_csv file
+    mapFile = "config/import_map.yml"
+
+    results = Observation.from_csv(Rails.root.join(file.tempfile.path).to_s, mapFile)
+    results
+  end
+
+  def import_json
+  end
 end

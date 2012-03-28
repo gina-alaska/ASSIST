@@ -15,7 +15,7 @@ class Cloud < ActiveRecord::Base
     {
       cover: cover,
       height: height,
-      cloud_lookup: cloud_lookup.try(&:code),
+      cloud_lookup_code: cloud_lookup.try(&:code),
       cloud_type: cloud_type
     }
   end
