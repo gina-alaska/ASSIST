@@ -117,11 +117,17 @@ class Observation < ActiveRecord::Base
     errors = Array.new
 
     data = JSON.parse(File.read(jsonFile))
-
     [data].flatten.each do |obs|
-
-      observation = Observation.import(ActiveSupport::JSON.decode(obs))
-
+      obs = ActiveSupport::JSON.decode(obs).symbolize_keys!
+      primary= obs.delete(:primary_observer)
+      additional = obs.delete(:additional_observers)
+      observation = Observation.import(obs)
+      observation.primary_observer = User.where(primary).first_or_create
+     # additional.each do |a|
+     #   observation.additional_observers << User.where(firstname: a[:firstname], lastname: a[:lastname]).first_or_create
+     # end
+      logger.info observation.inspect
+      sleep 3
       if(observation.save)
         count += 1
       else 
@@ -183,7 +189,8 @@ class Observation < ActiveRecord::Base
   def as_json opts={}
     {
       obs_datetime: obs_datetime,
-      primary_observer_id: primary_observer.try(&:first_and_last_name),
+      primary_observer: primary_observer.as_json,
+      #additional_observers: additional_observers.collect({|o| o.try(&:first_and_last_name)}),
       latitude: latitude,
       longitude: longitude,
       hexcode: hexcode,

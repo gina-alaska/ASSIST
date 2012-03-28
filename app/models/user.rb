@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
     [firstname, lastname].join " "
   end
 
-  def as_json 
+  def as_json opts={}
     { 
       firstname: firstname,
       lastname: lastname

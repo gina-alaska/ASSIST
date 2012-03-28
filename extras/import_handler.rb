@@ -12,6 +12,10 @@ module ImportHandler
 
           assign_lookup(lookup_model, code)
       end
+    elsif name =~ /primary_observer$/
+      code = code.split(" ");
+      user = User.find_or_create_by_first_and_last_name(firstname: code.first, lastname: code.last)
+      self.primary_observer= user
     else
       super
     end
@@ -32,10 +36,11 @@ module ImportHandler
           if value.is_a? Array
             res = []
             value.each do |v|
-              res << lookup_model.to_s.classify.constantize.import(v)
+              res << self.reflections[lookup_model.to_sym].class_name.constantize.import(v)
+             # res << lookup_model.to_s.classify.constantize.import(v)
             end
           else
-            res = lookup_model.to_s.classify.constantize.import(value)
+            res = self.reflections[lookup_model.to_sym].class_name.constantize.import(value)
           end
           value = res
         end
