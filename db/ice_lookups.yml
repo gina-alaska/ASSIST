@@ -1,71 +1,29 @@
 ---
   - :name: Frazil
     :code: 10
-    :image:
-    :short_desc:
-    :description: 
   - :name: Shuga
     :code: 11
-    :image:
-    :short_desc:
-    :description: 
   - :name: Grease
     :code: 12
-    :image:
-    :short_desc:
-    :description: 
   - :name: Nilas
     :code: 20
-    :image:
-    :short_desc:
-    :description: 
   - :name: Pancakes
     :code: 30
-    :image:
-    :short_desc:
-    :description: 
   - :name: "Young Grey Ice 0.1-1.15m"
     :code: 40
-    :image:
-    :short_desc:
-    :description: 
   - :name: "Young Grey-White Ice 0.15-0.3m"
     :code: 50
-    :image:
-    :short_desc:
-    :description: 
   - :name: "First year < 0.7m"
     :code: 60
-    :image:
-    :short_desc:
-    :description: 
   - :name: "First year 0.7-1.2m"
     :code: 70
-    :image:
-    :short_desc:
-    :description: 
   - :name: "First year >1.2m"
     :code: 80
-    :image:
-    :short_desc:
-    :description: 
   - :name: "Second year"
     :code: 75
-    :image:
-    :short_desc:
-    :description: 
   - :name: "Multiyear"
     :code: 85
-    :image:
-    :short_desc:
-    :description: 
   - :name: Brash
     :code: 90
-    :image:
-    :short_desc:
-    :description: 
   - :name: "Fast ice"
     :code: 95
-    :image:
-    :short_desc:
-    :description: 
