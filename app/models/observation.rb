@@ -275,10 +275,10 @@ class Observation < ActiveRecord::Base
     obs_datetime.strftime("%Y.%m.%d-%H.%M")
   end
   def path 
-    "public/observations/#{name}"
+    "#{EXPORT_DIR}/#{name}"
   end
   def self.path
-    "public/observations"
+    EXPORT_DIR
   end
 
 

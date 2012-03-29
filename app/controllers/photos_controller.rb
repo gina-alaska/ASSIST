@@ -16,6 +16,8 @@ class PhotosController < ApplicationController
 
     if(@photo.save)
       FileUtils.mkdir_p( @photo.directory )
+      logger.info( @photo.directory )
+      logger.info( File.exists? @photo.directory )
       File.open( File.join( @photo.directory, @photo.name ), 'wb') do |file|
         uploaded_file.rewind
         file.write(uploaded_file.read)

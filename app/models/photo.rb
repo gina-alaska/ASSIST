@@ -14,7 +14,7 @@ class Photo < ActiveRecord::Base
 
 
   def directory
-    Rails.root.join(observation.path)
+    observation.path
   end
 
   def url
