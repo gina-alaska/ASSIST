@@ -49,7 +49,7 @@ class ObservationsController < ApplicationController
   def update
     obs = params[:observation]
     @observation = Observation.where(:id => params[:id]).first
-    @observation.obs_datetime = parse_date( dateFields params )
+    @observation.obs_datetime = parse_date(dateFields(params))
  
     if @observation.update_attributes(obs)
       if request.xhr?
@@ -123,23 +123,34 @@ protected
 
   def import_zip file
     results = []
-    logger.info("FOOOO")
-    Dir.chdir("/tmp") do |d|
+    directory = "/tmp/#{File.basename(file.tempfile.path)}_zip_#{Time.now.to_i}"
+    begin
+      Dir.mkdir(directory) unless File.exists? directory
+  
       Zip::ZipFile.open(file.tempfile) do |zipfile|
         zipfile.each do |f|
-          if(File.extname(f.to_s) == ".json") 
-            begin
-              f.extract
-              logger.info("Found #{f.name}")
-              results << Observation.from_json(f.name) 
-            rescue => ex
-              logger.info ex.inspect
-            ensure
-              FileUtils.remove(f.name)
-            end
-          end
+          path = File.join(directory, f.name)
+          FileUtils.mkdir_p( File.dirname(path) )
+          logger.info(path)
+          f.extract(path)
         end
       end
+
+      Dir.chdir(directory) do |d|
+        files = Dir.glob(File.join("**", "*.json"))
+        files = Dir.glob(File.join("**", "*.csv")) if files.empty?
+        raise "Nothing to import" if files.empty?
+
+        files.each do |f|
+          ftype = File.extname(f).slice(1..-1)
+          results << Observation.send("from_#{ftype}", f)
+        end
+      end
+    rescue => ex
+      logger.info ex
+      results = [{error: "Unable to import"}]
+    ensure
+     # FileUtils.remove(directory, :recursive => true)
     end
     results
   end

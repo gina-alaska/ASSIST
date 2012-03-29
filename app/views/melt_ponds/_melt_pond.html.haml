@@ -1,10 +1,10 @@
 = f.fields_for :melt_pond do |m|
   = field_set_tag "Melt Pond" do
     .half_size
-      = m.label :surface_coverage, "Partial Concentration"
+      .label
+        = m.label :surface_coverage, "Partial Concentration"
+        .infotext= "(area of ice)"
       = m.text_field :surface_coverage
-      .tip_content
-        Partial Concentration
     .half_size
       = m.label :max_depth_lookup_id, "Maximum Depth"
       = m.collection_select :max_depth_lookup_id, MaxDepthLookup.all, :id, :code_with_name, |
@@ -15,10 +15,10 @@
       = m.label :surface_lookup_id, "Surface Type"
       = m.collection_select :surface_lookup_id, SurfaceLookup.all, :id, :code_with_name, |
         { :include_blank => true }, { :class => :combobox }
-      .tip_content
-        Topography
     .half_size
-      = m.label :freeboard
+      .label
+        = m.label :freeboard, "Freeboard of Melt Pond Wall"
+        .infotext= "(cm)"
       = m.text_field :freeboard
     .half_size
       = m.label :pattern_lookup_id,  "Pattern"

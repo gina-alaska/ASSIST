@@ -12,10 +12,29 @@ class IcesController < ApplicationController
       end
     else
       if request.xhr?
-        render :json => @ice.errors, :layout => false, :status => :unprocessable_entity
+        render :json => {:errors => @ice.errors, :flash => @ice.errors.full_messages}, :layout => false, :status => :unprocessable_entity
       else
         render :action => :edit, :status => :unprocessable_entity
       end
     end
+  end
+
+  def create
+    @ice = Ice.new(params[:ice])
+
+    if @ice.save
+      if request.xhr?
+        render :json => @ice, :layout => false, :status => :accepted
+      else
+        redirect_to @ice
+      end
+    else
+      if request.xhr?
+        render :json => {:errors => @ice.errors, :flash => @ice.errors.full_messages}, :layout => false, :status => :unprocessable_entity
+      else
+        render :action => :edit, :status => :unprocessable_entity
+      end
+    end
+
   end
 end

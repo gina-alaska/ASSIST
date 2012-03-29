@@ -1,20 +1,26 @@
+-meteorology ||= Meteorology.new
+-cloudindex = 0
 = form_for [@observation, meteorology], :html => {:class => "autosave notify" } do |m|
+  = m.hidden_field :observation_id
+  = m.hidden_field :id
   .container
     .column_25
-      .half_size
-        = m.label :visibility_lookup_id, "Visibility"
+      .half_size.visibility_lookup_id
+        .label
+          = m.label :visibility_lookup_id, "Visibility"
+          .infotext="(distance)"
         = m.collection_select :visibility_lookup_id, VisibilityLookup.all, :id, :code_with_name, |
           { :include_blank => true }, { :class => :combobox }
     .column_25
       .half_size
-        = m.label :weather_lookup_id
+        = m.label :weather_lookup_id, "Weather"
         = m.collection_select :weather_lookup_id, WeatherLookup.all, :id, :code_with_name, |
           { :include_blank => true }, { :class => :combobox }
 
   .iceobs
     .iceobs_column
-      =render :partial => meteorology.clouds.high, :locals => {:f => m}
+      =render :partial => meteorology.clouds.high, :locals => {:f => m, :index => cloudindex+=1}
     .iceobs_column
-      =render :partial => meteorology.clouds.medium, :locals => {:f => m}
+      =render :partial => meteorology.clouds.medium, :locals => {:f => m, :index => cloudindex+=1}
     .iceobs_column
-      =render :partial => meteorology.clouds.low, :locals => {:f => m}
+      =render :partial => meteorology.clouds.low, :locals => {:f => m, :index => cloudindex+=1}

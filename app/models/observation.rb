@@ -43,17 +43,17 @@ class Observation < ActiveRecord::Base
   #Allow DD or DM(S)
   validates_format_of :latitude, :with => /^(\+|-)?[0-9]{1,2}(\s[0-9]{1,2}(\.[0-9]{1,2})?|\.[0-9]*)(\s?[NS])?$/
   validates_format_of :longitude, :with => /^(\+|-)?[0-9]{1,3}(\s[0-9]{1,2}(\.[0-9]{1,2})?|\.[0-9]*)(\s?[EW])?$/
+  validate :location
 
   after_initialize do
-    create_ice if ice.nil?
-    create_meteorology if meteorology.nil?
+    #create_ice if ice.nil?
+    #create_meteorology if meteorology.nil?
   end
 
   before_validation do
-    logger.info("Before Save")
-    self.hexcode = Digest::MD5.hexdigest("#{obs_datetime}#{latitude}#{longitude}#{primary_observer_id}")
     self.latitude = self.to_dd(latitude) if latitude =~ /^(\+|-)?[0-9]{1,2}\s[0-9]{1,2}(\.[0-9]{1,2})?(\s?[NS])?$/
     self.longitude = self.to_dd(longitude) if longitude =~ /^(\+|-)?[0-9]{1,3}\s[0-9]{1,2}(\.[0-9]{1,2})?(\s?[EW])?$/
+    self.hexcode = Digest::MD5.hexdigest("#{obs_datetime}#{latitude}#{longitude}#{primary_observer.try(&:first_and_last_name)}")
   end
 
   def finalized?
@@ -68,6 +68,10 @@ class Observation < ActiveRecord::Base
     deg.to_i > 0 ? "#{deg.to_i+dec}" : "#{deg.to_i - dec}"
   end
 
+  def location 
+    errors.add(:base, "Latitude must be between -90 and 90") unless (latitude.to_f < 90 && latitude.to_f > -90)
+    errors.add(:base, "Longitude must be between -180 and 180") unless (longitude.to_f < 180 && longitude.to_f > -180)
+  end
 
   def self.from_csv csv, map = "import_map.yml"
     count = 0
@@ -126,8 +130,6 @@ class Observation < ActiveRecord::Base
      # additional.each do |a|
      #   observation.additional_observers << User.where(firstname: a[:firstname], lastname: a[:lastname]).first_or_create
      # end
-      logger.info observation.inspect
-      sleep 3
       if(observation.save)
         count += 1
       else 

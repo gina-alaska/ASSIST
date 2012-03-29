@@ -6,6 +6,8 @@ class Ice < ActiveRecord::Base
   belongs_to :thick_ice_lookup, :class_name => IceLookup
   belongs_to :open_water_lookup
 
+  validates_presence_of :total_concentration
+
   def as_csv
     [
       total_concentration,

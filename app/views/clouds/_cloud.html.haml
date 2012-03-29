@@ -1,3 +1,4 @@
+- index ||= 0 
 = f.fields_for :clouds, cloud do |c|
   = field_set_tag cloud.cloud_type.capitalize do
     = c.hidden_field :id
@@ -6,15 +7,17 @@
       = c.label :cloud_lookup_id, 'Cloud Type'
       = c.collection_select :cloud_lookup_id, CloudLookup.all, :id, :code_with_name, |
         { :include_blank => true }, |
-        { :class => :combobox, :id => "#{cloud.id}_meteorology_cloud_cloud_lookup_id" }
+        { :class => :combobox, :id => "#{index}_meteorology_cloud_cloud_lookup_id" }
     .half_size
-      = c.label :cover, 'Cloud Cover'
+      .label
+        = c.label :cover, 'Cloud Cover'
+        .infotext= "(in 1/8s)"
       = c.select :cover, (0..8).collect{|ii| "#{ii}/8"}, |
         {:include_blank => true}, |
-        {:class => :combobox, :id => "#{cloud.id}_meteorology_cloud_cloud_cover"}
+        {:class => :combobox, :id => "#{index}_meteorology_cloud_cloud_cover"}
     .half_size
       .label
         = c.label :height, 'Cloud Height'
         %span.infotext
           (meters)
-      = c.number_field :height,{ :min => 0, :step => 100, :id => "#{cloud.id}_meteorology_cloud_cloud_height"}
+      = c.number_field :height,{ :min => 0, :step => 100, :id => "#{index}_meteorology_cloud_cloud_height"}

@@ -15,44 +15,68 @@
     :open_water_lookup_code: OW
   :ice_observations_attributes:
     -
-      :obs_type: primary
-      :partial_concentration: C
-      :ice_lookup_code: T
-      :thickness: Z
-      :floe_size_lookup_code: F
+      :obs_type: PrimaryObsType
+      :partial_concentration: PrimaryC
+      :ice_lookup_code: PrimaryT
+      :thickness: PrimaryZ
+      :floe_size_lookup_code: PrimaryF
       :topography_attributes:
-        :topography_lookup_code: TO
-      :sediment_lookup_code: SD
-      :biota_lookup_code: AL
-      :snow_lookup_code: SY
-      :snow_thickness: SH
+        :topography_lookup_code: PrimaryTopography
+        :old: PrimaryOld
+        :consolidated: PrimaryConsolidated
+        :concentration: PrimaryConcentration
+        :ridge_heignt: PrimaryRidgeHeight
+      :sediment_lookup_code: PrimarySD
+      :biota_lookup_code: PrimaryAL
+      :snow_lookup_code: PrimarySY
+      :snow_thickness: PrimarySH
       :melt_pond_attributes:
-        :surface_coverage: MP
+        :surface_coverage: PrimarySurfaceCoverage
+        :max_depth_lookup_code: PrimaryMaxDepth
+        :pattern_lookup_code: PrimaryPattern
+        :surface_lookup_code: PrimarySurface
+        :freeboard: PrimaryFreeboard
     -
-      :obs_type: secondary
-      :partial_concentration: C2
-      :ice_lookup_code: T2
-      :thickness: Z2
-      :floe_size_lookup_code: F2
+      :obs_type: SecondaryObsType
+      :partial_concentration: SecondaryC
+      :ice_lookup_code: SecondaryT
+      :thickness: SecondaryZ
+      :floe_size_lookup_code: SecondaryF
       :topography_attributes:
-        :topography_lookup_code: TO2
-      :sediment_lookup_code: SD2
-      :biota_lookup_code: AL2
-      :snow_lookup_code: SY2
-      :snow_thickness: SH2
+        :topography_lookup_code: SecondaryTopography
+        :old: SecondaryOld
+        :consolidated: SecondaryConsolidated
+        :concentration: SecondaryConcentration
+        :ridge_heignt: SecondaryRidgeHeight
+      :sediment_lookup_code: SecondarySD
+      :biota_lookup_code: SecondaryAL
+      :snow_lookup_code: SecondarySY
+      :snow_thickness: SecondarySH
       :melt_pond_attributes:
-        :surface_coverage: MP2
+        :surface_coverage: SecondarySurfaceCoverage
+        :max_depth_lookup_code: SecondaryMaxDepth
+        :pattern_lookup_code: SecondaryPattern
+        :surface_lookup_code: SecondarySurface
+        :freeboard: SecondaryFreeboard
     -
-      :obs_type: tertiary
-      :partial_concentration: C3
-      :ice_lookup_code: T3
-      :thickness: Z3
-      :floe_size_lookup_code: F3
+      :obs_type: TertiaryObsType
+      :partial_concentration: TertiaryC
+      :ice_lookup_code: TertiaryT
+      :thickness: TertiaryZ
+      :floe_size_lookup_code: TertiaryF
       :topography_attributes:
-        :topography_lookup_code: TO3
-      :sediment_lookup_code: SD3
-      :biota_lookup_code: AL3
-      :snow_lookup_code: SY3
-      :snow_thickness: SH3
+        :topography_lookup_code: TertiaryTopography
+        :old: TertiaryOld
+        :consolidated: TertiaryConsolidated
+        :concentration: TertiaryConcentration
+        :ridge_heignt: TertiaryRidgeHeight
+      :sediment_lookup_code: TertiarySD
+      :biota_lookup_code: TertiaryAL
+      :snow_lookup_code: TertiarySY
+      :snow_thickness: TertiarySH
       :melt_pond_attributes:
-        :surface_coverage: MP3
+        :surface_coverage: TertiarySurfaceCoverage
+        :max_depth_lookup_code: TertiaryMaxDepth
+        :pattern_lookup_code: TertiaryPattern
+        :surface_lookup_code: TertiarySurface
+        :freeboard: TertiaryFreeboard

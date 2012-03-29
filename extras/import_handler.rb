@@ -1,5 +1,5 @@
 module ImportHandler
-  def method_missing(name, code)
+  def method_missing(name, code=nil)
     name = name.to_s.chomp("=").to_sym
     if name =~ /_lookup_code$/
       case name
@@ -9,7 +9,6 @@ module ImportHandler
           assign_lookup(:ice_lookup, code, :thick_ice_lookup)
         else
           lookup_model = name.to_s.gsub(/_code$/, '')
-
           assign_lookup(lookup_model, code)
       end
     elsif name =~ /primary_observer$/

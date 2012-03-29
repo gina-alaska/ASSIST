@@ -11,7 +11,7 @@ class IceObservationsController < ApplicationController
       end
     else
       if request.xhr?
-        render :json => @ice_observation.errors, :layout => false, :status => :unprocessable_entity
+        render :json => {:errors => @ice_observation.errors, :flash => @ice_observation.errors.full_messages}, :layout => false, :status => :unprocessable_entity
       else
         render :action => :edit, :status => :unprocessable_entity
       end

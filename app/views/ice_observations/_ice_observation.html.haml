@@ -6,7 +6,9 @@
       .half_size
         .label
           = i.label :partial_concentration, "Partial Concentration"
-        = i.text_field :partial_concentration
+          .infotext= "% of ice cover"
+        = i.select :partial_concentration, (0..100).step(10).to_a,{:include_blank => true, |
+          :selected => ice_observation.partial_concentration.to_i},{:class => [:combobox, :partial_concentration]} 
         #tc.infotext
           ="Total Concentration: #{@observation.ice.total_concentration}%"
         .tip_content
@@ -18,15 +20,10 @@
           = link_to "See Examples", lookup_url("ice"), :target => "_blank", :class => :infotext
         = i.collection_select :ice_lookup_id, IceLookup.all, :id, :code_with_name, |
           { :include_blank => true }, { :class => :combobox }
-        .tip_content
-          Ice Type
-          =link_to "See Examples", lookup_url("ice"), :target => "_blank"
 
-      .half_size.tip
-        = i.label :thickness
+      .half_size
+        = i.label :thickness, "Thickness"
         = i.text_field :thickness
-        .tip_content
-          In Meters
 
       .half_size.tip
         = i.label :floe_size_lookup_id, "Floe Size"
@@ -44,7 +41,9 @@
           { :include_blank => true }, { :class => :combobox }
 
       .half_size.tip
-        = i.label :snow_thickness, "Snow Thickness"
+        .label
+          = i.label :snow_thickness, "Snow Thickness"
+          .infotext= "(cm)"
         = i.text_field :snow_thickness
         .tip_content
           In Centimeters
