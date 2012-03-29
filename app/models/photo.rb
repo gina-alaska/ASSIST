@@ -5,7 +5,7 @@ class Photo < ActiveRecord::Base
   belongs_to :on_boat_location_lookup
 
   before_destroy do
-    File.remove( File.join(directory, name))    
+    File.remove(uri) if File.exists?(uri)
   end
 
   def uri
