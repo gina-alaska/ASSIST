@@ -11,7 +11,7 @@ class ObservationsController < ApplicationController
       format.csv 
       format.zip do 
         Observation.zip!
-        File.open("FinalizedObservations.zip", "rb") do |f|
+        File.open(File.join(Observation.path,"FinalizedObservations.zip"), "rb") do |f|
           send_data f.read
         end
       end
