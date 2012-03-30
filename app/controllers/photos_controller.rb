@@ -61,7 +61,7 @@ class PhotosController < ApplicationController
         format.json
         format.any do
           File.open(@photo.uri, "rb") do |f|
-            send_file(f.read, :filename => @photo.name, :disposition => 'inline')
+            send_data(f.read, :filename => @photo.name, :disposition => 'inline')
           end
         end
       end
