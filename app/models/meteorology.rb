@@ -33,7 +33,7 @@ class Meteorology < ActiveRecord::Base
     [ 
       visibility_lookup.try(&:code),
       weather_lookup.try(&:code),
-      clouds.collect(&:as_csv)
+      clouds.collect{|c| c.try(&:as_csv) }
     ]
   end
 

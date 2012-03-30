@@ -162,7 +162,7 @@ class Observation < ActiveRecord::Base
       hexcode,
       ice.as_csv,
       ice_observations.collect(&:as_csv),
-      meteorology.as_csv
+      meteorology.try(&:as_csv)
     ]
   end
 
@@ -194,7 +194,9 @@ class Observation < ActiveRecord::Base
       hexcode: hexcode,
       ice_attributes: ice.as_json,
       ice_observations_attributes: ice_observations.collect(&:as_json),
-      meteorology_attributes: meteorology.as_json
+      meteorology_attributes: meteorology.as_json,
+      photos_attributes: photos.collect(&:as_json),
+      comments_attributes: comments.collect(&:as_json)
     }
   end
 
