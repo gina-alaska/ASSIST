@@ -57,6 +57,7 @@ module ImportHandler
         end
         model.send("#{attr}=", value)
       end
+
       model
     end
   end

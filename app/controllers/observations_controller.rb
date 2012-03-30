@@ -78,7 +78,9 @@ class ObservationsController < ApplicationController
         format.csv
         format.zip do
           @observation.zip!
-          send_file Rails.root.join(@observation.path, "#{@observation.name}.zip")
+          File.open(Rails.root.join(@observation.path, "#{@observation.name}.zip"), "rb" ) do |f|
+            send_data f.read, :type => "application/zip"
+          end
         end
       end
     end
