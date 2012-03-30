@@ -6,7 +6,7 @@
       .half_size
         .label
           = i.label :partial_concentration, "Partial Concentration"
-          .infotext= "% of ice cover"
+          .infotext= "%"
         = i.select :partial_concentration, (0..100).step(10).to_a,{:include_blank => true, |
           :selected => ice_observation.partial_concentration.to_i},{:class => [:combobox, :partial_concentration]} 
         #tc.infotext

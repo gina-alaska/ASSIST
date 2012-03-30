@@ -24,7 +24,7 @@ class PhotosController < ApplicationController
       end
 
       if request.xhr?
-        render :json => @photo, :status => :ok
+        render :json => {:photo => @photo, :url => photo_path(@photo)}, :status => :ok
       else
         redirect_to edit_observation_url(@photo.observation)
       end
@@ -50,13 +50,19 @@ class PhotosController < ApplicationController
   end
 
   def show
-    @photo = Photo.find(params[:id])
+    @photo = Photo.find(params[:observation_id])
     @observation = @photo.observation
 
     if request.xhr?
       respond_with [@photo, @observation], :layout => false
     else
-      respond_with @photo, @observation
+      respond_with @photo, @observation do |format|
+        format.html
+        format.json
+        format.any do
+          send_file(@photo.uri.to_s, :filename => @photo.name)
+        end
+      end
     end
   end
 

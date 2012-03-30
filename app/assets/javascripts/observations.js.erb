@@ -6,12 +6,11 @@
 
 $(document).ready(function() {
   var $obsForm = $('#observation_form');
-  var $photoForm = $('#photo_form');
   $obsForm.tabs({
     show: function(event, ui) {
       $(ui.panel).find('.topography').chosen({
         width: '98%'
-      }).change( handleTopographies ).removeClass("topography");
+      }).change( handleTopographies );//.removeClass("topography");
 
 
       $(ui.panel).find('.combobox:visible').chosen({
@@ -24,9 +23,7 @@ $(document).ready(function() {
     },
     select: function(event,ui) {
       var form = $(".ui-tabs-panel form.autosave.dirty:visible");
-      console.log("TABS", form.length);
       if(form.length !== 0 ) {
-        console.log( "Fooo!");
         event.preventDefault();
         saveFormAndChangeTab(form.first(), ui);
       }
@@ -45,7 +42,6 @@ $(document).ready(function() {
 
 
   $("#nav_buttons").buttonset();
-  $(".photo_locations").buttonset();
   $(".radioset").buttonset();
   $("#adduser").button({
     icons: {
@@ -66,11 +62,16 @@ $(document).ready(function() {
 
 
   $("#save_button").click( function(event) {
+    // var tab = $("#observation_form").tabs("option", "selected");
+    // $("#observation_form").trigger("select");
+    // event.preventDefault();
+    
     var form = $(".ui-tabs-panel form.autosave.dirty:visible");
     $.each(form, function( index, f ) {
       $.rails.handleRemote( $(f) );
     });
     event.preventDefault();
+    
   });
 
 
@@ -95,34 +96,12 @@ $(document).ready(function() {
     $("#save_button").button("disable");
   });
 
-  $photoForm.fileupload({
-    dataType: 'json',
-    url: $photoForm.attr('action'),
-    add: function(e, data) {
-      $(this).block({
-        message: "Please Wait..."
-      });
-      data.submit();
-    },
-    done: appendPhoto,
-    error: uploadPhotoError
-  });
 
- $(document).delegate('.delete_photo form input[type="submit"]', "click", function() {
-
-   $(this).parents(".attached_photo").block({
-     message: "Deleting"
-   });
-
-   return true;
- });
-  $(document).delegate(".delete_photo form", "ajax:success", removePhoto);
-  $(document).delegate(".photo_locations input", "click", updatePhotoLocation);
 
   $(".coord").change(  parseCoord )
 
   $(".file_upload").button();
-  $(".file_upload").fileupload({
+  $(".import").fileupload({
     dataType: 'json',
     url: $(this).attr('action'),
     add: function( e, data ) {
@@ -144,40 +123,6 @@ $(document).ready(function() {
 });
 
 
-function appendPhoto(e, data) {
-  var r = data.result;
-  var url = "/observations/" + r.observation_id + "/photos/" + r.id;
-  var photo = $.get( url, function(data) {
-      $("#attached_photos").append(data);
-      $(".photo_locations").buttonset();
-  });
-  $("#photo_form").unblock();
-}
-
-
-
-function uploadPhotoError(jqXHR, textStatus, error) {
-
-  var msg = $.parseJSON(jqXHR.responseText);
-  $.each(msg, function(index, value) {
-    $.growlUI(value);
-  });
-  $("#photo_form").unblock();
-}
-
-function removePhoto() {
-  $(this).parents(".attached_photo").remove();
-  $.growlUI('', "Photo deleted");
-}
-
-function updatePhotoLocation() {
-  var form = $(this).parents('form');
-  var url =$(form).attr('action');
-  $.post( url, $(form).serialize(), function() {
-    $.growlUI(('', 'Saved'))
-  });
-
-}
 
 function saveFormAndChangeTab( form, ui ) {
 

@@ -45,11 +45,6 @@ class Observation < ActiveRecord::Base
   validates_format_of :longitude, :with => /^(\+|-)?[0-9]{1,3}(\s[0-9]{1,2}(\.[0-9]{1,2})?|\.[0-9]*)(\s?[EW])?$/
   validate :location
 
-  after_initialize do
-    #create_ice if ice.nil?
-    #create_meteorology if meteorology.nil?
-  end
-
   before_validation do
     self.latitude = self.to_dd(latitude) if latitude =~ /^(\+|-)?[0-9]{1,2}\s[0-9]{1,2}(\.[0-9]{1,2})?(\s?[NS])?$/
     self.longitude = self.to_dd(longitude) if longitude =~ /^(\+|-)?[0-9]{1,3}\s[0-9]{1,2}(\.[0-9]{1,2})?(\s?[EW])?$/
@@ -65,7 +60,8 @@ class Observation < ActiveRecord::Base
     deg,ms = dms.split " "
     min,sec = ms.split "."
     dec = (min.to_i * 60 + sec.to_i) / 3600.0
-    deg.to_i > 0 ? "#{deg.to_i+dec}" : "#{deg.to_i - dec}"
+    dd = deg.to_i > 0 ? "#{(deg.to_i+dec)}" : "#{deg.to_i - dec}"
+    dd.to_f.round(4)
   end
 
   def location 
