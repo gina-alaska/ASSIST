@@ -33,7 +33,7 @@ $(document).ready( function() {
 function appendPhoto(e, data) {
   console.log(data);
   var r = data.result;
-  var url = data.url;
+  var url = r.url;
   var photo = $.get( url, function(data) {
       $("#attached_photos").append(data);
       $(".photo_locations").buttonset();

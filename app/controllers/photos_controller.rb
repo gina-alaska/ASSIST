@@ -23,8 +23,8 @@ class PhotosController < ApplicationController
         file.write(uploaded_file.read)
       end
 
-      if request.xhr?
-        render :json => {:photo => @photo, :url => photo_path(@photo)}, :status => :ok
+      if request.xhr?                              
+        render :json => {:photo => @photo, :url => observation_photo_path(@observation, @photo)}, :status => :ok
       else
         redirect_to edit_observation_url(@photo.observation)
       end
@@ -50,7 +50,7 @@ class PhotosController < ApplicationController
   end
 
   def show
-    @photo = Photo.find(params[:observation_id])
+    @photo = Photo.find(params[:id])
     @observation = @photo.observation
 
     if request.xhr?
