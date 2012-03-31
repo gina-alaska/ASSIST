@@ -9,6 +9,7 @@ class Topography < ActiveRecord::Base
       topography_lookup.try(:code),
       old,
       consolidated,
+      snow_covered,
       concentration,
       ridge_height
     ]
@@ -19,6 +20,7 @@ class Topography < ActiveRecord::Base
       topography_lookup_code: topography_lookup.try(&:code),
       old: old,
       consolidated: consolidated,
+      snow_covered: snow_covered,
       concentration: concentration,
       ridge_height: ridge_height
     }
