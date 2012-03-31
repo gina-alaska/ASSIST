@@ -5,7 +5,7 @@
     = c.hidden_field :cloud_type
     .half_size
       = c.label :cloud_lookup_id, 'Cloud Type'
-      = c.collection_select :cloud_lookup_id, CloudLookup.all, :id, :code_with_name, |
+      = c.collection_select :cloud_lookup_id, CloudLookup.where(:group => cloud.cloud_type.capitalize), :id, :code_with_name, |
         { :include_blank => true }, |
         { :class => :combobox, :id => "#{index}_meteorology_cloud_cloud_lookup_id" }
     .half_size

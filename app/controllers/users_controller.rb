@@ -15,7 +15,7 @@ class UsersController < ApplicationController
       respond_with do |format|
         format.html do
           if request.xhr?
-            render :json => {:user => @user, :primary => primary}, :layout => false, :status => :created
+            render :json => {:user => @user, :primary => primary, :id => @user.id}, :layout => false, :status => :created
           else
             redirect_to :root
           end

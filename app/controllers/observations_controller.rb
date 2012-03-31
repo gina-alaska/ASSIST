@@ -3,6 +3,8 @@ class ObservationsController < ApplicationController
 
   def index
    # @observations = Observation.find(params[:ids])
+    @observations = Observation.where(observation_ids).all
+
     @observations ||= Observation.all
 
 
@@ -89,7 +91,9 @@ class ObservationsController < ApplicationController
   end
 
   def manage
+    @observations = Observation.all
 
+    respond_with @observations
   end
 
   def import
@@ -167,5 +171,9 @@ protected
   end
 
   def import_json
+  end
+
+  def observation_ids 
+    params.slice(:id)
   end
 end

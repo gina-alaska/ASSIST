@@ -1,4 +1,42 @@
-=form_tag import_observations_url, :multipart => true do
-  .file_upload.manage.import
-    Import
-    =file_field_tag :data
+#manage_observations
+  #import
+    =form_tag import_observations_url, :multipart => true do
+      .file_upload.manage.import
+        Import
+        =file_field_tag :data
+
+  #export
+    %table#obslist
+      %thead
+        %tr
+          %th= check_box_tag "select_all", 1, false, :id => :select_all
+          %th Observation Date
+          %th Last Modified
+          %th Total Ice Concentration
+          %th Primary Observer
+          %th Additional Observers
+          %th # Photos
+          %th Finalized?
+          %th Actions
+      %tbody
+        =form_tag "/observations", :remote => true, :method => :get do |f| 
+          - @observations.each do |o|
+            %tr.observation
+              %td= check_box_tag o.id, o.id, false
+              %td= o.obs_datetime
+              %td= o.updated_at
+              %td= o.ice.try(:total_concentration)
+              %td= o.primary_observer.try(:first_and_last_name)
+              %td= o.additional_observers.collect(&:first_and_last_name).join ","
+              %td= o.photos.count
+              %td= o.finalized? ? 'Yes' : 'No'
+              %td
+                = link_to "[export]", observation_path(o, :zip)
+                = link_to "[csv]", observation_path(o,:csv)
+    :javascript
+      $('table#obslist').dataTable({
+        "bPaginate": false,
+        "bJQueryUI": true
+      });
+
+    =button_to "Export","/observations.zip", :id => "export_btn"

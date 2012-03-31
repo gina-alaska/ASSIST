@@ -36,17 +36,14 @@ $(document).ready( function() {
   $userForm.bind("ajax:success", function(evt, data, status, xhr) {
     var $form = $(this);
     var d = $.parseJSON(data);
-    console.log( evt );
-    console.log( data );
-    console.log( status );
-    console.log( xhr );
+    console.log(d);
 
     $('select.users').each( function(index, item) {
-      $(item).append(new Option(d.user.firstname + " " + d.user.lastname, d.user.id));
+      $(item).append(new Option(d.user.firstname + " " + d.user.lastname, d.id));
     });
     if(d.primary == true) {
       $("#observation_primary_observer_id option:selected").removeAttr("selected");
-      $("#observation_primary_observer_id option[value='"+d.user.id+"']").attr("selected", true);
+      $("#observation_primary_observer_id option[value='"+d.id+"']").attr("selected", true);
     }
     $('select.users').chosen().trigger("liszt:updated");
 

@@ -49,4 +49,45 @@ $(document).ready( function() {
     $(this).parent(".fields").removeClass("focus");
   });
 
+
+  $("#manage_observations #select_all").change( function() {
+    if($(this).attr("checked") === "checked") {
+      $("#manage_observations input:visible").attr("checked", "checked");
+    } else {
+      $("#manage_observations input").removeAttr("checked");
+    }
+  });
+
+  $("#manage_observations #export_btn").click( function(e) {
+
+    e.preventDefault();
+    var obsList = $("#manage_observations ").find("input:checked:not(#select_all)");
+
+    var ids = [];
+    var action = $("#export form").attr("action") + "?";
+    
+    obsList.each( function(index, item) {
+      ids.push($(item).val());
+      if(index !== 0) {
+        action += "&"
+      }
+      action += "id[]=" + $(item).val();
+    });
+
+    if(ids.length === 0) {
+      console.log("Screw you")
+    }
+    else {
+      //$.rails.handleRemote($("#export form"));
+      
+      //action += "[" + ids.join(",") + "]";
+      console.log(action);
+      // $.get(action)
+      // $("#export form").submit();
+      document.location = action;
+    }
+
+
+
+  });
 });
