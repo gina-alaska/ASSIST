@@ -6,6 +6,20 @@
   %p
     = f.label :lastname, "Last Name"
     = f.text_field :lastname
+#user_form.modal.hide
+.modal-header
+  %button.close{'data-dismiss' => 'modal'}
+    &times
+  %h3="Add User"
+.modal-body
+  =form_for user, :remote => true do |f|
+  .errors
   %p
-    = f.submit "Add User"
-    = f.submit "Add and select as Primary Observer"
+    = f.label :firstname, "First Name"
+    = f.text_field :firstname
+  %p
+    = f.label :lastname, "Last Name"
+    = f.text_field :lastname
+.modal-footer
+  =link_to "Add User", "#", class: 'btn'
+  =link_to "Add User as Primary Observer", "#", class: 'btn btn-primary'

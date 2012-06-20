@@ -1,19 +1,20 @@
 $(document).ready(function() {
-  $("#add_comment").button();
-  $("#comments_form").bind("ajax:beforeSend", function(e) {
-    $(this).block();
-    e.preventDefault();
+
+  $("#new_comment").on("ajax:success", appendComment );
+  $("#new_comment").on("ajax:complete", function() {
+    $(this).parent(".modal").modal('hide');
   });
-  $("#comments_form").bind("ajax:success", appendComment );
+  $("#attached_comments").on('ajax:success',".close", function() {
+    $(this).parents(".comment:first").fadeOut('fast', function() {
+      $(this).remove();
+    });
+  });
 });
 
 
 
 function appendComment(e, data) {
-  var url = "/observations/" + data.observation_id + "/comments/" + data.id;
-  var comment = $.get( url, function(data) {
-    $("#obs_comments").append(data);
-  });
+  console.log(e,data);
+  $("#attached_comments").append(data);
   $("#comments_form textarea").val("");
-  $("#comments_form").unblock();
 }

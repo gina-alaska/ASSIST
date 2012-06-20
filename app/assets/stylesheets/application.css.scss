@@ -9,64 +9,95 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require seaice/css/custom-theme/jquery-ui-1.8.18.custom
- *= require_tree .
- *= require chosen-fork/chosen/chosen
- *=# require select2/select2
+ *=# require seaice/css/custom-theme/jquery-ui-1.8.18.custom
+ *=# require_tree .
+ *= require select2/select2
  *=# require datatables-1.9.0/css/jquery.dataTables
  *= require datatables-1.9.0/css/jquery.dataTables_themeroller
- *= require qtip/jquery.qtip.css
+ *=# require qtip/jquery.qtip.css
+ *= require bootstrap-datepicker
 */
-@import 'compass/css3';
-$focus_color: #2e70f5;
+
+@import 'bootstrap';
 
 body {
   font-size: 12px;
 }
-
-#header {
-  #title {
-    font-size: 2.2em;
-    font-weight: bold;
-  }
-  #navigation {
-    position: absolute;
-    top: -5px;
-    right: 10px;
-    font-size: 1.2em;
-    
-    a {
-      text-align: center;
-      border-radius: 10px;
-      padding: 3px 10px;
-      margin: 0px 3px;
-      color: #555;
-      text-decoration: none;
-      display: inline-block;
-      cursor: pointer;      
-    }
-    
-    a:hover {
-      background: #555;
-      color: #fff;
-    }
-    
-    li {
-      list-style: none;
-      display: inline-block;
-    }
-    li.last:after {
-      content: '';
-    }
-    li:after {
-      content: ' | ';
-    }
-  }
-}
-
-a {
-  text-decoration: none;
-  padding-bottom: 0px;
+.help-block {
   color: #AAA;
-  display: inline-block;
 }
+.control-group {
+  #display: inline-block;
+}
+
+.select2-drop.select2-drop-active {
+  z-index: 1051;
+}
+
+.field_with_errors {
+  @extend .control-group.error;
+  .select2-container {
+    @extend .control-group.error;
+  }
+}
+
+textarea {
+  min-width: 98%;
+}
+
+.centered {
+  margin-left: auto;
+  margin-right: auto;
+}
+.btn.disabled a {
+  pointer-events: none;
+  cursor: default;
+}
+
+div.dataTables_length label {
+    width: 460px;
+    float: left;
+    text-align: left;
+}
+
+div.dataTables_length select {
+    width: 75px;
+}
+
+div.dataTables_filter label {
+    float: right;
+    width: 460px;
+}
+
+div.dataTables_info {
+    padding-top: 8px;
+}
+
+div.dataTables_paginate {
+    float: right;
+    margin: 0;
+}
+
+table {
+    margin: 1em 0;
+    clear: both;
+}
+
+.subnav {
+  .brand {
+    color: black;
+  }
+  .navbar-inner {
+    background-color: #DDD;
+    background-image: none; 
+  }
+  &.navbar-fixed-top {
+    top: 40px;
+  }
+  .nav li a {
+    color: black;
+  }
+}
+
+
+  

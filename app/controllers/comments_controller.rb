@@ -2,14 +2,14 @@ class CommentsController < ApplicationController
   respond_to :html
 
   def create
-    comment = search(params[:comment])
+    comment = comment_params(params[:comment])
     observation = Observation.find(params[:observation_id])
 
     @comment = observation.comments.build comment
 
     if(@comment.save)
       if request.xhr?
-        render :json => @comment, :status => :ok
+        render @comment, layout: false, status: :ok
       else
         redirect_to edit_observation_url(@comment.observation)
       end
@@ -22,6 +22,14 @@ class CommentsController < ApplicationController
     end
   end
 
+  def destroy
+    @comment = Comment.find(params[:id])
+    if @comment.destroy
+      if request.xhr?
+        render :json => {:success => true}, :status => :ok
+      end
+    end
+  end
 
   def show
     @comment = Comment.find(params[:id])
@@ -35,7 +43,7 @@ class CommentsController < ApplicationController
   end
 
 protected
-  def search p
+  def comment_params p
     p.slice(:user_id, :data)
   end
 end

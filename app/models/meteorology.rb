@@ -8,7 +8,7 @@ class Meteorology < ActiveRecord::Base
     def cloud_type c
       c = c.to_sym
       cld = where(:cloud_type => c).first
-      cld ||= build :cloud_type => c
+      cld ||= create :cloud_type => c
       cld
     end
     def high
@@ -25,9 +25,21 @@ class Meteorology < ActiveRecord::Base
     end
   end
 
+  after_create do 
+    self.clouds.high
+    self.clouds.medium
+    self.clouds.low
+  end
+
   accepts_nested_attributes_for :clouds
 
-  validates_presence_of :visibility_lookup_id
+  validates_presence_of :visibility_lookup_id, :if => :finalized_or_meteorology?
+  
+  def finalized_or_meteorology?
+    return false if observation.nil?
+    o = Observation.find(self.observation_id)
+    o.finalized? || o.status == 'meteorology'
+  end
 
   def as_csv 
     [ 

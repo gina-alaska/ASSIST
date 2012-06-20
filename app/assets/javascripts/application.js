@@ -12,9 +12,9 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jquery-ui
-//= require chosen-fork/chosen/chosen.jquery
-//=# require select2/select2
+//= require bootstrap
+//= require bootstrap-datepicker
+//= require select2/select2
 //= require datatables-1.9.0/js/jquery.dataTables
 //= require jquery-file-upload/js/vendor/jquery.ui.widget.js
 //= require jquery-file-upload/js/jquery.iframe-transport.js
@@ -23,25 +23,22 @@
 //= require qtip/jquery.qtip
 //= require_tree .
 
+$.extend( $.fn.dataTableExt.oStdClasses, {
+    "sSortAsc": "header headerSortDown",
+    "sSortDesc": "header headerSortUp",
+    "sSortable": "header"
+});
 
 $(document).ready( function() {
-//  $(".tip").qtip({
-//    content: {
-//      text: function(api) {
-//        return $(this).find(".tip_content").clone();
-//      }
-//    },
-//    position: {
-//      my: 'center',
-//      at: 'bottom right'
-//    },
-//    hide: {
-//      event: 'click mouseleave',
-//      fixed: true,
-//      inactive: 1000
-//    }
-//  });
+  $(".combobox").select2();
+  $("#observation_date").datepicker();
 
+  $('#obsList').dataTable( {
+      "sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>",
+      "bPaginate": true,
+      "sPaginationType": "bootstrap"
+  } );
+  
   $("input").focus( function() {
     $(this).parent(".fields").addClass("focus");
   });
@@ -75,7 +72,7 @@ $(document).ready( function() {
     });
 
     if(ids.length === 0) {
-      console.log("Screw you")
+      
     }
     else {
       //$.rails.handleRemote($("#export form"));

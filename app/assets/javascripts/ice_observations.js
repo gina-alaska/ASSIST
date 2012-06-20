@@ -1,12 +1,12 @@
 $(document).ready(function() {
 
-  $("#ice_total_concentration").change( function(){
+  $("#observation_ice_attributes_total_concentration").on('change',function(){
 
-    $("#tc.infotext").html("Total Concentration: " + $(this).val() + "%");
+    $(".partial_concentration .help-block").html("Total Concentration: " + $(this).val() + "/10");
     
     var tc = parseInt($(this).val());
-    console.log("Total Coverage: ", tc);
-    $(".partial_concentration option").each( function(index, item) {
+    $(".partial_concentration select option").each( function(index, item) {
+      console.log($(this));
       if(parseInt($(item).val()) > tc) {
         $(item).attr("disabled", true);
         $(item).removeAttr("selected");
@@ -14,7 +14,7 @@ $(document).ready(function() {
         $(item).removeAttr("disabled");
       }
     });
-    $(".partial_concentration").chosen().trigger("liszt:updated");
+    $(".partial_concentration .combobox").trigger("change");
   });
 
 

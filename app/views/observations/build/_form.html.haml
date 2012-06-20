@@ -1,0 +1,28 @@
+=# render 'observations/build/header' unless @observation.new_record?
+
+= form_for @observation, url: wizard_path, html: { class: "autosave notify", id: "observation_form" }  do |f|
+  = render partial: 'observations/build/header', locals: {f:f} unless @observation.new_record?
+  .row
+    = render 'shared/errors', model: @observation if @observation.errors.any?
+  = hidden_field_tag :step, @observation.status, id: :observation_status
+  = yield f
+
+#add_comment.modal.hide
+  - comment = @observation.comments.build data: "(#{step})"
+  = form_for [@observation,comment], remote: true do |f|
+    .modal-header
+      %h4
+        Add Comment
+        = link_to "×", "#", 'data-dismiss' => 'modal', class: 'close'
+    .modal-body
+      .control-group
+        = f.label :user_id, "Add as:", class: 'control-label'
+        .controls
+          = f.collection_select :user_id, User.all, :id, :first_and_last_name, |
+            { :include_blank => false }, {class: 'users combobox'}
+        %p.help-block
+      .control-group
+        .controls
+          = f.text_area :data, rows: 10
+    .modal-footer
+      = f.submit "Add Comment", class: 'btn btn-primary btn-large'

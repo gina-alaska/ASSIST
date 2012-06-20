@@ -1,8 +1,5 @@
 $(document).ready( function() {
-  
-  var $photoForm = $('#photo_form');
-  $(".photo_locations").buttonset();
-
+  var $photoForm = $('#new_photo');
 
   $photoForm.fileupload({
     dataType: 'json',
@@ -14,53 +11,31 @@ $(document).ready( function() {
       data.submit();
     },
     done: appendPhoto,
-    error: uploadPhotoError
+    error: function(xhr,status,error) {
+      console.log(arguments);
+      $(".errors").html(xhr.responseText);
+    },
+    complete: function() {
+      $("#new_photo").unblock();
+    },
+    start: function() {
+      $(".errors").html("");
+    }
   });
 
- $(document).delegate('.delete_photo form input[type="submit"]', "click", function() {
-
-   $(this).parents(".attached_photo").block({
-     message: "Deleting"
-   });
-
-   return true;
- });
-  $(document).delegate(".delete_photo form", "ajax:success", removePhoto);
-  $(document).delegate(".photo_locations input", "click", updatePhotoLocation);
+  $("#attached_photos").on('ajax:success',".delete_photo", function() {
+    $(this).parents(".row:first").fadeOut('fast', function() {
+      $(this).remove();
+    });
+  });
 });
 
 
 function appendPhoto(e, data) {
-  console.log(data);
   var r = data.result;
   var url = r.url;
   var photo = $.get( url, function(data) {
-      $("#attached_photos").append(data);
-      $(".photo_locations").buttonset();
+    $("#attached_photos").append(data);
   });
-  $("#photo_form").unblock();
-}
-
-
-function uploadPhotoError(jqXHR, textStatus, error) {
-
-  var msg = $.parseJSON(jqXHR.responseText);
-  $.each(msg, function(index, value) {
-    $.growlUI(value);
-  });
-  $("#photo_form").unblock();
-}
-
-function removePhoto() {
-  $(this).parents(".attached_photo").remove();
-  $.growlUI('', "Photo deleted");
-}
-
-function updatePhotoLocation() {
-  var form = $(this).parents('form');
-  var url =$(form).attr('action');
-  $.post( url, $(form).serialize(), function() {
-    $.growlUI(('', 'Saved'))
-  });
-
+  //$("#new_photo").unblock();
 }

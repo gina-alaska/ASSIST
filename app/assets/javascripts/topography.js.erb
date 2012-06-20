@@ -6,62 +6,56 @@ function handleTopographies( ) {
 
   $(".topography option:selected").each( function(index, item) {
     var value = parseInt($(item).val());
-    var fieldset = $(this).parents("fieldset");
-
+    var group = $(this).parents(".topography_group");
     if(raftCodes.indexOf(value) >= 0) {
       rafts = true;
       //Disable non-rafts
-      var inputs = $(fieldset).find(".ridges:not(.rafts) input");
+      var inputs = $(group).find(".ridges:not(.rafts) input");
+      $(group).find(".ridges:not(.rafts) select").select2("disable");
+      $(group).find(".rafts select").select2("enable");
       $(inputs).val('');
       $(inputs).removeAttr("selected");
       $(inputs).removeAttr("checked")
       $(inputs).attr("disabled", true);
-      $(inputs).parents(".radioset").removeAttr("checked");
-      $(inputs).parents(".radioset").buttonset("option", "disabled", true);
-
-      $(inputs).parents(".radioset").buttonset("refresh");
-      $(fieldset).find(".ridges:not(.rafts) label").addClass("ui-state-disabled");
+      $(group).find('.btn').removeClass('active').attr('disabled',true);
       //Enable rafts
-      $(fieldset).find(".rafts").removeAttr("disabled");
-      $(fieldset).find(".rafts label").removeClass("ui-state-disabled");
-
-      $(fieldset).find(".ridges .combobox").removeAttr("disabled").trigger("liszt:updated");
-
+      $(group).find(".rafts").removeAttr("disabled");
     } else if(ridgeCodes.indexOf(value) >= 0) {
       ridges = true;
-      $(fieldset).find(".ridges input").removeAttr("disabled");
-      $(fieldset).find(".ui-state-disabled").removeClass("ui-state-disabled");
-      $(fieldset).find(".radioset").buttonset("option","disabled", false);
-
-      $(fieldset).find(".ridges .combobox").removeAttr("disabled").trigger("liszt:updated");
+      $(group).find(".ridges input").removeAttr("disabled");
+      $(group).find(".rafts:not(.ridges) select").select2('disable')
+      $(group).find('.btn').removeAttr('disabled');
+      $(group).find(".ridges select").select2("enable");
     } else {
-      var inputs = $(fieldset).find(".ridges input");
-      console.log("Nothing here");
-
+      var inputs = $(group).find(".ridges input");
+      $(group).find(".ridges select").select2("disable");
       $(inputs).val('');
       $(inputs).removeAttr("selected");
       $(inputs).removeAttr("checked");
       $(inputs).attr("disabled", true);
-      $(fieldset).find(".ridges label").addClass("ui-state-disabled");
-      $(inputs).parents(".radioset").buttonset("option", "disabled", true);
-      $(inputs).parents(".radioset").buttonset("refresh");
-      $(".ridges option").removeAttr("selected");
-      $(fieldset).find(".ridges").val('');
-      $(fieldset).find(".ridges .combobox").attr("disabled", true).trigger("liszt:updated");
-    }
-  });
+      $(group).find('.btn').removeClass('active').attr('disabled',true);
 
-  if(ridges) {
-    $(".ridges").show();
+      $(".ridges option").removeAttr("selected");
+      $(group).find(".ridges").val('');
+      $(group).find('.concentration').trigger('change');
+    }
+  
+  });
+  
+    if(ridges) {
+    $(".ridges").removeClass("hide");
+    $(".rafts:not(.ridges)").addClass('hide');  
   } else if(rafts) { 
-    $(".rafts").show();
-    $(".ridges:not(.rafts)").hide();
+    $(".rafts").removeClass("hide")
+    $(".ridges:not(.rafts)").addClass("hide");
   } else {
-    $(".ridges").hide();
+    $(".ridges").addClass("hide");
+    $(".rafts").addClass("hide")
   }
 
 }
 
 $(document).ready( function() {
   handleTopographies();
+  $(".topography").on("change", handleTopographies);
 });

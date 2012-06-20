@@ -1,7 +1,4 @@
-%h1 Observations
-
-
-%table#obslist
+%table#obslist.bordered-table.table-striped.table.table-condensed
   %thead
     %tr
       %th Observation Date
@@ -23,11 +20,7 @@
         %td= o.photos.count
         %td= o.finalized? ? 'Yes' : 'No'
         %td
-          = link_to "[edit]", edit_observation_path(o)
+          = link_to "[edit]", observation_build_path(o,:general)
           = link_to "[export]", observation_path(o, :zip)
           = link_to "[csv]", observation_path(o,:csv)
-:javascript
-  $('table#obslist').dataTable({
-    "bPaginate": true,
-    "bJQueryUI": true
-  });
+

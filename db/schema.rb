@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120331004537) do
+ActiveRecord::Schema.define(:version => 20120619213419) do
 
   create_table "algae_distribution_lookups", :force => true do |t|
     t.string   "name"
@@ -114,7 +114,7 @@ ActiveRecord::Schema.define(:version => 20120331004537) do
     t.integer  "observation_id"
     t.integer  "thin_ice_lookup_id"
     t.integer  "thick_ice_lookup_id"
-    t.float    "total_concentration"
+    t.integer  "total_concentration"
     t.integer  "open_water_lookup_id"
     t.datetime "created_at",           :null => false
     t.datetime "updated_at",           :null => false
@@ -160,11 +160,12 @@ ActiveRecord::Schema.define(:version => 20120331004537) do
     t.string   "latitude"
     t.string   "longitude"
     t.string   "hexcode"
-    t.datetime "created_at",          :null => false
-    t.datetime "updated_at",          :null => false
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
     t.text     "comments"
     t.text     "additional_comments"
     t.integer  "primary_observer_id"
+    t.string   "status",              :default => "general"
   end
 
   create_table "on_boat_location_lookups", :force => true do |t|

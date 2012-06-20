@@ -1,0 +1,4 @@
+- model.errors.full_messages.each do |e|
+  .alert.alert-error
+    = link_to "×", "#", 'data-dismiss' => 'alert', class: 'close'
+    = e

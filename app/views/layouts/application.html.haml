@@ -5,7 +5,18 @@
     = stylesheet_link_tag    "application", :media => "all"
     = javascript_include_tag "application"
     = csrf_meta_tags
-  %body
-    #page
-      #header= render 'layouts/header'
-      #content= yield
+  %body{'data-spy' => "scroll", 'data-target' => '#spy'}
+    .navbar
+      .navbar-inner
+        .container
+          =link_to "IceObs", root_url, class: :brand
+          
+          %ul.nav.pull-right
+            %li= link_to 'List', root_url
+            %li= link_to 'New', new_observation_path
+            %li.last= link_to 'Manage [not implemented]', manage_observations_path
+    .container
+      .row
+        = yield :header_nav
+      .row
+        = yield 

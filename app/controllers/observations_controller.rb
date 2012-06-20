@@ -22,7 +22,6 @@ class ObservationsController < ApplicationController
 
   def new
     @observation = Observation.new
-    respond_with(@observation)
   end
 
   def create
@@ -31,11 +30,12 @@ class ObservationsController < ApplicationController
     @observation.obs_datetime = parse_date( dateFields params )
   
     if @observation.save
-      respond_with @observation do |format|
-        format.html { redirect_to edit_observation_url(@observation) + "#ice" }
+      respond_to do |format|
+        #format.html { redirect_to edit_observation_url(@observation) + "#ice" }
+        format.html { redirect_to observation_build_path(@observation, :ice) }
       end
     else
-      render :action => :new
+      render :new
     end
   end
 
@@ -119,14 +119,14 @@ class ObservationsController < ApplicationController
 protected
   def parse_date arr
     begin
-      DateTime.parse("#{arr[:observation_date]} #{arr[:observation_time]}")
+      DateTime.parse("#{arr[:observation_date]} #{arr[:observation_hour]}:#{arr[:observation_minute]} UTC")
     rescue
       nil
     end
   end
 
   def dateFields p
-    p.slice(:observation_date, :observation_time)
+    p.slice(:observation_date, :observation_hour, :observation_minute)
   end
 
   def import_zip file

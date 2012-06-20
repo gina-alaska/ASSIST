@@ -1,13 +1,14 @@
 -unless photo.new_record?
-  .attached_photo
-    .thumbnail
+  .row
+    .thumbnail.span2
       = image_tag "#{observation_photo_url(@observation, photo)}#{File.extname(photo.name)}"
-    .edit_photo_form
+    .edit_photo.span10
       = form_for [@observation, photo], :remote => true do |f|
-        .photo_locations.radioset{:id=> "photo_#{photo.id}"}
-          - OnBoatLocationLookup.all.each do |loc|
-            = f.label "location_lookup_id_#{loc.id}_#{photo.id}", loc.name
-            = f.radio_button :on_boat_location_lookup_id,  loc.id, :checked => photo.on_boat_location_lookup_id == loc.id ? true : false, :id => "photo_location_lookup_id_#{loc.id}_#{photo.id}"
-      %span.delete_photo
-        = button_to "Delete", [@observation,photo], :method => :delete, :remote => true
-
+        .btn-toolbar
+          .btn-group{'data-toggle' => 'buttons-radio', 'data-toggle-name' => "photo_location_id_#{photo.id}" }
+            - OnBoatLocationLookup.all.each do |loc|
+              %button.btn.boat_location{'data-toggle' => 'button', 'data-radio-value' => loc.id, class: photo.on_boat_location_lookup_id == loc.id ? "active" : ""}
+                = loc.name
+          .btn-group
+            = link_to "Delete", [@observation,photo], method: :delete, class: 'btn btn-danger delete_photo', confirm: 'Are you sure?', remote: true
+        =f.hidden_field :on_boat_location_lookup_id, id: "photo_location_id_#{photo.id}"

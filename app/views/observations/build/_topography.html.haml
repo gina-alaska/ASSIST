@@ -1,0 +1,56 @@
+.span4.topography_group
+  %h3=title
+  = f.fields_for :ice_observations, topography.ice_observation do |builder|
+    = builder.fields_for :topography, topography do |t|
+      .control-group
+        = t.label :topography_lookup_id, "Topography", class: 'control-label'
+        .controls
+          = t.collection_select :topography_lookup_id, TopographyLookup.all, :id, :code_with_name, |
+          { :include_blank => true }, { :class => "combobox topography" }
+          %p.help-block
+      .control-group.ridges.rafts.hide
+        =t.label :concentration, "Concentration", class: 'control-label'
+        .controls
+          = t.select :concentration, (0..10), {include_blank: true, selected: topography.concentration.to_i}, {class: 'combobox concentration'}
+          %p.help-block
+            in 1/10ths
+      .control-group.ridges.hide
+        = t.label :ridge_height, class: 'control-label'
+        .controls
+          .input-append
+            = t.number_field :ridge_height, :step => 0.5
+            .add-on
+              m
+          %p.help-block
+            meters to nearest half-meter
+      .control-group.ridges.hide
+        = t.label :old, class: 'control-label'
+        .controls
+          .btn-group{'data-toggle' => 'buttons-radio', 'data-toggle-name' => "old_#{topography.id}"}
+            %button.btn{'data-toggle' => 'button', 'data-radio-value' => 1, class: topography.old ? 'active' : ''}
+              Yes
+            %button.btn{'data-toggle' => 'button', 'data-radio-value' => 0, class: topography.old ? '' : 'active'}
+              No
+          =t.hidden_field :old, id: "old_#{topography.id}"
+          %p.help-block
+      .control-group.ridges.hide
+        = t.label :consolidated, class: 'control-label'
+        .controls
+          .btn-group{'data-toggle' => 'buttons-radio', 'data-toggle-name' => "consolidated_#{topography.id}"}
+            %button.btn{'data-toggle' => 'button', 'data-radio-value' => 1, class: topography.consolidated ? 'active' : ''}
+              Yes
+            %button.btn{'data-toggle' => 'button', 'data-radio-value' => 0, class: topography.consolidated ? '' : 'active'}
+              No
+          =t.hidden_field :consolidated, id: "consolidated_#{topography.id}"
+          %p.help-block          
+      .control-group.ridges.hide
+        = t.label :snow_covered, class: 'control-label'
+        .controls
+          .btn-group{'data-toggle' => 'buttons-radio', 'data-toggle-name' => "snow_covered_#{topography.id}"}
+            %button.btn{'data-toggle' => 'button', 'data-radio-value' => 1, class: topography.snow_covered ? 'active' : ''}
+              Yes
+            %button.btn{'data-toggle' => 'button', 'data-radio-value' => 0, class: topography.snow_covered ? '' : 'active'}
+              No
+          =t.hidden_field :snow_covered, id: "snow_covered_#{topography.id}"
+          %p.help-block        
+        

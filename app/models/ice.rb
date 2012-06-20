@@ -6,7 +6,16 @@ class Ice < ActiveRecord::Base
   belongs_to :thick_ice_lookup, :class_name => IceLookup
   belongs_to :open_water_lookup
 
-  validates_presence_of :total_concentration
+  validates_presence_of :total_concentration, 
+                        :allow_nil => false, 
+                        :message => "Total Concentration is required",
+                        :if => :finalized_or_ice?
+  
+  def finalized_or_ice?
+    return false if observation.nil?
+    o = Observation.find(self.observation_id)
+    o.finalized? || o.status == 'ice'
+  end
 
   def as_csv
     [

@@ -1,0 +1,18 @@
+.span4
+  %h3=title
+  =f.fields_for :ice_observations, snow do |s|
+    .control-group
+      = s.label :snow_lookup_id, "Snow Type", class: 'control-label'
+      .controls
+        = s.collection_select :snow_lookup_id, SnowLookup.all, :id, :code_with_name, |
+          { include_blank: true }, { class: :combobox }
+      %p.help-block
+    .control-group
+      = s.label :snow_thickness, "Snow Thickness", class: 'control-label'
+      .controls
+        .input-append
+          = s.text_field :snow_thickness
+          .add-on
+            cm
+        %p.help-block
+          

@@ -11,6 +11,7 @@ Iceobs::Application.routes.draw do
     resources :ice_observations
     resources :ices
     resources :meteorologies
+    resources :build, controller: 'observations/build'
   end
   resources :users
   resources :ices

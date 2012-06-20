@@ -9,13 +9,14 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new params[:user]
-    primary = params[:commit] == "Add and select as Primary Observer" ? true : false
-
+    primary = params[:commit] == "Add as Primary Observer" ? true : false
+    secondary = params[:commit] == "Add as Secondary Observer" ? true : false
+    
     if @user.save
       respond_with do |format|
         format.html do
           if request.xhr?
-            render :json => {:user => @user, :primary => primary, :id => @user.id}, :layout => false, :status => :created
+            render :json => {user: @user, primary: primary, secondary: secondary, id: @user.id}, layout: false, status: :created
           else
             redirect_to :root
           end
@@ -25,7 +26,7 @@ class UsersController < ApplicationController
       respond_with do |format|
         format.html do
           if request.xhr?
-            render :json => @user.errors, :status => :unprocessable_entity
+            render partial: 'shared/errors', status: :unprocessable_entity, layout: false, locals: {model: @user}
           else
             render :action => :new, :status => :unprocessable_entity
           end

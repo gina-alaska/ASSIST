@@ -1,0 +1,13 @@
+=content_for :header_nav do
+  .btn-toolbar.span9.offset2
+    .btn-group
+      =# f.submit "Prev", data: {url: previous_wizard_path}, class: 'btn btn-large obs-submit'
+    .btn-group
+      -%w(general ice meteorology photos comments).each do |s|
+        = f.submit s.capitalize, data: {url: s}, class: "btn btn-large obs-submit #{s == step.to_s ? 'btn-primary' : ''}"
+    .btn-group
+      = f.submit "Saved", data: {url: step}, class: 'btn btn-large obs-submit disabled','data-enable-text' => 'Save', disabled: true, id: 'save_observation'
+      =# f.submit "Next", data: {url: next_wizard_path}, class: 'btn btn-large obs-submit'
+    .btn-group
+      %button.btn.btn-info.btn-large{data: {target: '#add_comment', toggle: 'modal'}}
+        Add Comment

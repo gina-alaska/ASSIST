@@ -15,12 +15,18 @@ group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
   gem 'compass-rails'
-
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer'
+  gem 'therubyracer'
 
   gem 'uglifier', '>= 1.0.3'
 end
+
+group :development do
+  gem 'quiet_assets'
+end
+
+gem 'bootstrap-sass'
+gem 'bootstrap-datepicker-rails'
 
 gem 'jquery-rails'
 gem 'awesome_print', :git => "https://github.com/ceromancy/awesome_print.git"
@@ -38,3 +44,4 @@ gem 'awesome_print', :git => "https://github.com/ceromancy/awesome_print.git"
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
+gem 'wicked'

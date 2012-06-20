@@ -1,9 +1,8 @@
 require 'csv'
 
-
 class Observation < ActiveRecord::Base
   include ImportHandler
-
+  
   has_one  :ice, :dependent => :destroy
   has_many :photos, :dependent => :destroy
   has_many :comments, :dependent => :destroy
@@ -31,17 +30,27 @@ class Observation < ActiveRecord::Base
   belongs_to :primary_observer, :class_name => "User"
   has_many :additional_observers, :through => :observation_users, :class_name => "User", :source => :user
 
+
+  after_create do |obs|
+    obs.ice = Ice.create
+    obs.meteorology = Meteorology.create
+    obs.ice_observations.primary
+    obs.ice_observations.secondary
+    obs.ice_observations.tertiary
+  end    
+
   accepts_nested_attributes_for :ice
   accepts_nested_attributes_for :ice_observations
   accepts_nested_attributes_for :meteorology
   accepts_nested_attributes_for :photos
 
-  validates_presence_of :primary_observer_id
-  validates_presence_of :obs_datetime, :message => "Invalid or no date given"
-  validates_presence_of :hexcode
-  validates_uniqueness_of :hexcode
+  validates_presence_of :primary_observer_id, :if => :active_or_finalized?
+  validates_presence_of :obs_datetime, :message => "Invalid or no date given", :if => :active_or_finalized?
+  validates_presence_of :hexcode, :if => :active_or_finalized?
+  validates_uniqueness_of :hexcode, :if => :active_or_finalized?
+
   #Allow DD or DM(S)
-  validates_format_of :latitude, :with => /^(\+|-)?[0-9]{1,2}(\s[0-9]{1,2}(\.[0-9]{1,2})?|\.[0-9]*)(\s?[NS])?$/
+  validates_format_of :latitude, :with => /^(\+|-)?[0-9]{1,2}(\s[0-9]{1,2}(\.[0-9]{1,2})?|\.[0-9]*)(\s?[NS])?$/ 
   validates_format_of :longitude, :with => /^(\+|-)?[0-9]{1,3}(\s[0-9]{1,2}(\.[0-9]{1,2})?|\.[0-9]*)(\s?[EW])?$/
   validate :location
 
@@ -51,9 +60,16 @@ class Observation < ActiveRecord::Base
     self.hexcode = Digest::MD5.hexdigest("#{obs_datetime}#{latitude}#{longitude}#{primary_observer.try(&:first_and_last_name)}")
   end
 
+  def active?
+    self.status == 'general'
+  end
+
   def finalized?
-    #self.finalized_at
-    false
+    self.status == 'finalized'
+  end
+
+  def active_or_finalized?
+    active? || finalized?
   end
 
   def to_dd dms

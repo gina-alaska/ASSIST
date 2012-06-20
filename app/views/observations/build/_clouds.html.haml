@@ -1,0 +1,28 @@
+- index ||= 0 
+.span4
+  = f.fields_for :clouds, cloud do |c|
+    %h3=title
+    .control-group
+      = c.label :cloud_lookup_id, 'Cloud Type',class: 'control-label'
+      .controls
+        = c.collection_select :cloud_lookup_id, CloudLookup.where(:group => cloud.cloud_type.capitalize), :id, :code_with_name, |
+          { :include_blank => true }, |
+          { :class => :combobox, :id => "#{index}_meteorology_cloud_cloud_lookup_id" } 
+      %p.help-block
+    .control-group
+      = c.label :cover, 'Cloud Cover', class: 'control-label'
+      .controls
+        = c.select :cover, options_for_select( (0..8).to_a, selected: cloud.cover.to_i), |
+          {:include_blank => true}, |
+          {:class => :combobox, :id => "#{index}_meteorology_cloud_cloud_cover"}        
+        %p.help-block
+          in 1/8ths
+    .control-group
+      = c.label :height, 'Cloud Height', class: 'control-label'
+      .controls
+        .input-append
+          = c.number_field :height,{ :min => 0, :step => 100, :id => "#{index}_meteorology_cloud_cloud_height"}
+          .add-on
+            m  
+        %p.help-block
+          (meters)

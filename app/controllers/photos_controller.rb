@@ -30,7 +30,7 @@ class PhotosController < ApplicationController
       end
     else
       if request.xhr?
-        render :json => @photo.errors, :layout => false, :status => :unprocessable_entity
+        render partial: 'shared/errors', locals: {model: @photo}, :layout => false, :status => :unprocessable_entity
       else
         render edit_observation_url(@photo.observation_id), :status => :unprocessable_entity
       end

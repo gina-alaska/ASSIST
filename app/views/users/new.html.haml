@@ -1,1 +1,21 @@
-= render @user
+= render @user#user_form.modal.hide
+  =form_for User.new, remote: true, class: 'form-horizontal' do |f|
+    .modal-header
+      %button.close{'data-dismiss' => 'modal'}
+        &times
+      %h3="Add User"
+    .modal-body
+      .errors
+      .control-group
+        = f.label :firstname, "First Name", class: 'control-label'
+        .controls
+          = f.text_field :firstname
+          %p.help-text
+      .control-group
+        = f.label :lastname, "Last Name", class: 'control-label'
+        .controls  
+          = f.text_field :lastname
+          %p.help-text
+    .modal-footer
+      =f.submit "Add as Primary Observer", {class: 'btn btn-primary', id: 'add-primary-observer'}
+      =f.submit "Add as Secondary Observer", {class: 'btn', id: 'add-secondary-observer'}

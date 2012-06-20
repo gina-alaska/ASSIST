@@ -1,0 +1,10 @@
+= form_for [@observation,@observation.comments.build], :remote => true do |f|
+  .control-group
+    = f.label :user_id, "Observer", class: 'control-label'
+    .controls
+      = f.collection_select :user_id, User.all, :id, :first_and_last_name, |
+        { :include_blank => true, :selected => @observation.primary_observer_id }, { :class => [:users] }
+  .control-group
+    .controls
+      = f.text_area :data, :size => "40x10"
+  = f.submit "Add Comment", :id => "add_comment"

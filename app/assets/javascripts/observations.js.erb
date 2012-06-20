@@ -5,6 +5,19 @@
 
 
 $(document).ready(function() {
+  $(".coord").change( parseCoord )
+
+  $(".obs-submit").click( function() {
+    $("#observation_form #observation_status").val($(this).attr("data-url"));
+    
+    $("#observation_form").submit();
+  });
+  
+  $("#observation_form").on('change', function() {
+    $("#save_observation").addClass('btn-danger').button('enable');
+  });
+
+  return false;
   var $obsForm = $('#observation_form');
   $obsForm.tabs({
     show: function(event, ui) {
@@ -97,9 +110,6 @@ $(document).ready(function() {
   });
 
 
-
-  $(".coord").change(  parseCoord )
-
   $(".file_upload").button();
   $(".import").fileupload({
     dataType: 'json',
@@ -169,6 +179,7 @@ function parseCoord( evt ) {
     var sec = (ms % 1 ) * 60.0;
     return "DMS: " + deg + " " + (min + Math.round(sec) / 100.0 );
   };
+  
   var altText = "";
   if( value.match(/^(\+|-)?[0-9]{1,3}\s[0-9]{1,2}(\.[0-9]{1,2})?(\s?[NSEW])?$/)) {
     altText = this.toDD(value)
@@ -176,6 +187,6 @@ function parseCoord( evt ) {
     altText = this.toDMS(value)
   }
 
-  $(evt.target).siblings(".infotext:last").html(altText);
+  $(evt.target).siblings(".help-block:last").html(altText);
 
 }

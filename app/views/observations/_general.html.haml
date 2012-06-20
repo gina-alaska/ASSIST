@@ -1,44 +1,42 @@
-
-= form_for @observation, :html => {:class => "autosave notify" } do |f|
-  .container
-    .column_25
-      .half_size.primary_observer_id
-        = f.label :primary_observer, "Primary Observer"
+= form_for @observation, :html => {:class => "autosave notify form-horizontal" } do |f|
+  .row
+    .control-group
+      = f.label :primary_observer, "Primary Observer", class: 'control-label'
+      .controls
         = f.collection_select :primary_observer_id, User.all, :id, :first_and_last_name, |
-          { :include_blank => true }, { :class => :users }
-    .column_25
-      .half_size
-        = f.label :additional_observer_ids, "Additional Observers"
+          { :include_blank => true }, {class: :users}
+        %p.help-block
+          = link_to "Add User", "#user_form", {class: 'btn', 'data-toggle' => 'modal'}#:id => "adduser"
+    .control-group
+      = f.label :additional_observer_ids, "Additional Observers", class: 'control-label'
+      .controls
         = f.collection_select :additional_observer_ids, User.all, :id, :first_and_last_name, |
           { :include_blank => true}, { :class => :users, :multiple => true }
-    .column_25
-      = link_to "Add User", new_user_url, :id => "adduser"
-    %br
-    .column_20
-      = label_tag "Date "
-      = text_field_tag "observation_date", date(@observation)
-    .column_25
-      = label_tag "Time"
-      = select_tag "observation_time", |
-        options_for_select( (0..23).collect{ |hour| ["#{hour}:00".rjust(5, "0"), hour]}, |
-        time(@observation)), {:class => :combobox}
-    %br
-    .column_25
-      .half_size.latitude.coord
-        .label
-          = f.label :latitude
-          .infotext= "DD MM.SS or DD.DDDD"
+   
+  .row
+    .control-group
+      = label_tag "Date ",nil, class: 'control-label'
+      .controls
+        = text_field_tag "observation_date", date(@observation)
+          
+    .control-group
+      = label_tag "Time", nil, class: 'control-label'
+      .controls
+        = select_tag "observation_time", |
+          options_for_select( (0..23).collect{ |hour| ["#{hour}:00".rjust(5, "0"), hour]}, |
+          time(@observation)), {:class => :combobox}
+  .row
+    .control-group
+      = f.label :latitude, class: 'control-label'
+      .controls
         = f.text_field :latitude
-        #lat.infotext
+        %p.help-block
           ="DMS: #{to_dms(@observation.latitude)}"
-    .column_25
-      .half_size.longitude.coord
-        .label
-          = f.label :longitude
-          .infotext= "DDD MM.SS or DDD.DDDD"
+    .control-group
+      = f.label :longitude, class: 'control-label'
+      .controls
         = f.text_field :longitude
-        #lon.infotext
+        %p.help-block
           ="DMS: #{to_dms(@observation.longitude)}"
-
-  %br
+    
   =f.submit "Start Observation" if @observation.new_record?
