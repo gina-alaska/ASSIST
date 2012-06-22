@@ -1,6 +1,9 @@
 $(document).ready(function() {
 
   $("#new_comment").on("ajax:success", appendComment );
+  $("#new_comment").on("ajax:error", function(){
+    console.log(arguments);
+  });
   $("#new_comment").on("ajax:complete", function() {
     $(this).parent(".modal").modal('hide');
   });
@@ -14,7 +17,8 @@ $(document).ready(function() {
 
 
 function appendComment(e, data) {
-  console.log(e,data);
-  $("#attached_comments").append(data);
-  $("#comments_form textarea").val("");
+  var url = data.url;
+  var comment = $.get( url, function(data) {
+    $("#attached_comments").append(data);
+  });
 }

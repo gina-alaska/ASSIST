@@ -3,13 +3,13 @@ class CommentsController < ApplicationController
 
   def create
     comment = comment_params(params[:comment])
-    observation = Observation.find(params[:observation_id])
+    @observation = Observation.find(params[:observation_id])
 
-    @comment = observation.comments.build comment
+    @comment = @observation.comments.build comment
 
     if(@comment.save)
       if request.xhr?
-        render @comment, layout: false, status: :ok
+        render json: {comment: @comment, url: observation_comment_path(@observation,@comment)}, layout: false, status: :ok
       else
         redirect_to edit_observation_url(@comment.observation)
       end
@@ -36,7 +36,7 @@ class CommentsController < ApplicationController
     @observation = @comment.observation
 
     if request.xhr?
-      respond_with [@comment, @observation], :layout => false
+      render @comment, :layout => false
     else
       respond_with @comment, @observation
     end
