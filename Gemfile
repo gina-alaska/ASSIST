@@ -5,7 +5,14 @@ gem 'rails', '3.2.1'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
+if RUBY_PLATFORM == 'java'
+  gem 'activerecord-jdbc-adapter', :require => false
+  gem 'jdbc-sqlite3'
+  gem 'jruby-openssl'
+else
+  gem 'sqlite3'
+end
+
 gem 'haml'
 
 gem 'rubyzip', :require => "zip/zip"
@@ -16,7 +23,7 @@ group :assets do
   gem 'coffee-rails', '~> 3.2.1'
   gem 'compass-rails'
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  gem 'therubyracer'
+  gem 'therubyracer' unless RUBY_PLATFORM == 'java'
 
   gem 'uglifier', '>= 1.0.3'
 end
