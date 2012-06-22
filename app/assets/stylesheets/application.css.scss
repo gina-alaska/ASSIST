@@ -83,6 +83,21 @@ table {
     clear: both;
 }
 
+.logo {
+  display: inline-block;
+  padding: 2px;
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  -webkit-mask-image: url('/assets/iceobs.png');
+  -webkit-mask-size: 36px 36px;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-origin: content;
+  background: url('/assets/iceobs.png') no-repeat 2px 2px;
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%,
+   from(rgba(0, 128, 204, 0.9)), to(rgba(0, 86, 204, 0.9)));
+}
+
 .subnav {
   .brand {
     color: black;

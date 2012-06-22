@@ -2,7 +2,7 @@
   %h3= title
   =f.fields_for :ice_observations, other do |o|
     .control-group
-      = o.label :biota_lookup_id, "Biota", class: 'control-label'
+      = o.label :biota_lookup_id, "Algae", class: 'control-label'
       .controls
         = o.collection_select :biota_lookup_id, BiotaLookup.all, :id, :code_with_name, |
           { :include_blank => true }, { :class => :combobox }
