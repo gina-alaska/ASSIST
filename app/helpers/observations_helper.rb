@@ -37,10 +37,16 @@ module ObservationsHelper
     options = (0..10).to_a
     disabled = options.select{|a| a > concentration} unless concentration.nil?
     disabled ||= []
-    options_for_select(options, selected: observation.partial_concentration, disabled: disabled, include_blank: true)
+    options_for_select(options, selected: observation.partial_concentration, disabled: disabled)
   end
   
   def total_concentration_options observation
-    options_for_select((0..10).to_a, selected: observation.total_concentration, include_blank: true)
+    options_for_select((0..10).to_a, selected: observation.total_concentration)
   end
+  
+  def options_for_percent selected, disabled=nil, range=nil
+    range ||= (0..10).to_a
+    options_for_select(range, {selected: selected, disabled: disabled})
+  end
+  
 end

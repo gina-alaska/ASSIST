@@ -2,9 +2,10 @@
   %h3= ice_observation.obs_type.capitalize
   =f.fields_for :ice_observations, ice_observation do |io|
     .control-group
-      =io.label :partial_concentration, "Partial Concentration", class: 'control-label'
+      =io.label :partial_concentration, "Partial Concentration (tenths)", class: 'control-label'
       .controls.partial_concentration
-        =io.select :partial_concentration, partial_concentration_options(ice_observation, @observation.ice.total_concentration), |
+        -range = @observation.ice.total_concentration.nil? ? nil : (@observation.ice.total_concentration+1..10).to_a
+        =io.select :partial_concentration, options_for_percent(ice_observation.partial_concentration, range), |
           {include_blank: true}, {:class => [:combobox, :partial_concentration]} 
         %p.help-block
           ="Total Concentration: #{@observation.ice.try(&:total_concentration)}/10"

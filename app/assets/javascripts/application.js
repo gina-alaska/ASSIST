@@ -78,7 +78,6 @@ $(document).ready( function() {
       //$.rails.handleRemote($("#export form"));
       
       //action += "[" + ids.join(",") + "]";
-      console.log(action);
       // $.get(action)
       // $("#export form").submit();
       document.location = action;

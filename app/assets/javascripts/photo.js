@@ -12,7 +12,7 @@ $(document).ready( function() {
   $("#attached_photos").on("ajax:success", ".edit_photo", function(el) {
     $(this).find('.label-warning').addClass('hide');
     $(this).find('.label-success').removeClass('hide').fadeOut('slow', function() {
-      $(this).addClass('hide').removeAttr('style');;
+      $(this).addClass('hide').removeAttr('style');
     });  
   });
 
@@ -27,7 +27,6 @@ $(document).ready( function() {
     },
     done: appendPhoto,
     error: function(xhr,status,error) {
-      console.log(arguments);
       $(".errors").html(xhr.responseText);
     },
     complete: function() {

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120622010341) do
+ActiveRecord::Schema.define(:version => 20120622170554) do
 
   create_table "algae_distribution_lookups", :force => true do |t|
     t.string   "name"
@@ -255,7 +255,7 @@ ActiveRecord::Schema.define(:version => 20120622010341) do
     t.boolean  "old"
     t.boolean  "consolidated"
     t.boolean  "snow_covered"
-    t.float    "concentration"
+    t.integer  "concentration"
     t.float    "ridge_height"
     t.datetime "created_at",           :null => false
     t.datetime "updated_at",           :null => false

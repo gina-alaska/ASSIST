@@ -6,7 +6,6 @@ $(document).ready(function() {
     
     var tc = parseInt($(this).val());
     $(".partial_concentration select option").each( function(index, item) {
-      console.log($(this));
       if(parseInt($(item).val()) > tc) {
         $(item).attr("disabled", true);
         $(item).removeAttr("selected");

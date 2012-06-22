@@ -3,7 +3,7 @@
   = f.fields_for :ice_observations, topography.ice_observation do |builder|
     = builder.fields_for :topography, topography do |t|
       .control-group
-        = t.label :topography_lookup_id, "Topography", class: 'control-label'
+        = t.label :topography_lookup_id, "Topography Type", class: 'control-label'
         .controls
           = t.collection_select :topography_lookup_id, TopographyLookup.all, :id, :code_with_name, |
           { :include_blank => true }, { :class => "combobox topography" }
@@ -11,9 +11,12 @@
       .control-group.ridges.rafts.hide
         =t.label :concentration, "Concentration", class: 'control-label'
         .controls
-          = t.select :concentration, (0..10), {include_blank: true, selected: topography.concentration.to_i}, {class: 'combobox concentration'}
+          = t.select :concentration, options_for_percent(topography.concentration.to_i), {include_blank: true}, {class: [:combobox, :concentration]}
           %p.help-block
             in 1/10ths
+            = topography.concentration.inspect
+            = (0..10).to_a.select!{|a| a == topography.concentration}
+            
       .control-group.ridges.hide
         = t.label :ridge_height, class: 'control-label'
         .controls

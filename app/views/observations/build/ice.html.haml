@@ -3,9 +3,9 @@
     =f.fields_for :ice do |i|
       .span4
         .control-group  
-          = i.label :total_concentration, 'Total Concentration', class: 'control-label'
+          = i.label :total_concentration, 'Total Concentration (tenths)', class: 'control-label'
           .controls
-            = i.select :total_concentration, total_concentration_options(@observation.ice),{include_blank: true},{:class => :combobox}
+            = i.select :total_concentration, options_for_percent(@observation.ice.total_concentration),{include_blank: true},{:class => :combobox}
           %p.help-text
       .span4
         .control-group
@@ -61,15 +61,23 @@
         = f.fields_for :ice do |i|
           .span4.offset2
             .control-group
-              = i.label :thin_ice_lookup_id, "Thin Ice Type", class: 'control-label'
-              .controls
-                = i.collection_select :thin_ice_lookup_id, IceLookup.all, :id, :code_with_name, |
-                  { :include_blank => true }, { :class => :combobox}
-              %p.help-block
-          .span4
-            .control-group
               = i.label :thick_ice_lookup_id, "Thick Ice Type", class: 'control-label'
               .controls
                 = i.collection_select :thick_ice_lookup_id, IceLookup.all, :id, :code_with_name, |
                   { :include_blank => true }, { :class => :combobox}
                 %p.help-block
+          .span4
+            .control-group
+              = i.label :thin_ice_lookup_id, "Thin Ice Type", class: 'control-label'
+              .controls
+                = i.collection_select :thin_ice_lookup_id, IceLookup.all, :id, :code_with_name, |
+                  { :include_blank => true }, { :class => :combobox}
+              %p.help-block
+      
+                
+                
+                
+            
+            
+            
+                

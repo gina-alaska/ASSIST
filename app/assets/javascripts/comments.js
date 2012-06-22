@@ -2,7 +2,6 @@ $(document).ready(function() {
 
   $("#new_comment").on("ajax:success", appendComment );
   $("#new_comment").on("ajax:error", function(){
-    console.log(arguments);
   });
   $("#new_comment").on("ajax:complete", function() {
     $(this).parent(".modal").modal('hide');
