@@ -15,7 +15,7 @@
   :name: Drizzle not freezing or snow grains
   :comment: Fog/Precipitation during past hour but not at time of obs
 - :code: 21
-  :name: Drizzle not freezing or snow grains
+  :name: Rain not freezing or snow grains
   :comment: Fog/Precipitation during past hour but not at time of obs
 - :code: 22
   :name: Snow not freezing or snow grains
