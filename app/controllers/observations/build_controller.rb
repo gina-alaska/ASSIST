@@ -72,7 +72,7 @@ class Observations::BuildController < ApplicationController
     end
     
     def observation_params
-      p = params[:observation]
+      p = params[:observation] || {}
 
       unless p.nil?
         p[:ice_attributes][:total_concentration] = nil if p[:ice_attributes] && p[:ice_attributes][:total_concentration].empty?
