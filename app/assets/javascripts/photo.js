@@ -1,6 +1,21 @@
 $(document).ready( function() {
   var $photoForm = $('#new_photo');
 
+  $("#attached_photos").on('change', ".edit_photo", function(el){
+    $(el.target).submit();
+  });
+  
+  $("#attached_photos").on("ajax:beforeSend", ".edit_photo", function(el) {
+    $(this).find('.label-success').addClass('hide');
+    $(this).find('.label-warning').removeClass('hide');      
+  })
+  $("#attached_photos").on("ajax:success", ".edit_photo", function(el) {
+    $(this).find('.label-warning').addClass('hide');
+    $(this).find('.label-success').removeClass('hide').fadeOut('slow', function() {
+      $(this).addClass('hide').removeAttr('style');;
+    });  
+  });
+
   $photoForm.fileupload({
     dataType: 'json',
     url: $photoForm.attr('action'),
@@ -28,6 +43,9 @@ $(document).ready( function() {
       $(this).remove();
     });
   });
+  
+  
+  
 });
 
 

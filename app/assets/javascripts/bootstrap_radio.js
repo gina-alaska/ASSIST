@@ -14,9 +14,6 @@ jQuery(function($) {
       // if(button.val() == hidden.val()) {
       //   button.addClass('active');
       // }
-      if(form.attr('data-remote') == 'true') {
-        form.submit();
-      }
     });
   });
 });
