@@ -10,9 +10,9 @@ class Observation < ActiveRecord::Base
     def obs_type o
       o = o.to_sym
       ice = where(:obs_type => o).first
-      ice ||= create :obs_type => o
-      ice.create_topography if ice.topography.nil?
-      ice.create_melt_pond if ice.melt_pond.nil?
+      #ice ||= create :obs_type => o
+      #ice.create_topography if ice.topography.nil?
+      #ice.create_melt_pond if ice.melt_pond.nil?
       ice
     end
     def primary
@@ -40,6 +40,7 @@ class Observation < ActiveRecord::Base
     # obs.ice_observations.primary
     # obs.ice_observations.secondary
     # obs.ice_observations.tertiary
+    
   end    
 
   accepts_nested_attributes_for :ice
