@@ -13,6 +13,10 @@ class IceObservation < ActiveRecord::Base
   accepts_nested_attributes_for :melt_pond
   accepts_nested_attributes_for :topography
 
+  after_create do
+    topography = Topography.create
+    melt_pond = MeltPond.create
+  end
 
   def as_csv
     [ 

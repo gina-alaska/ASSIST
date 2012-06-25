@@ -34,9 +34,12 @@ class Observation < ActiveRecord::Base
   after_create do |obs|
     obs.ice = Ice.create
     obs.meteorology = Meteorology.create
-    obs.ice_observations.primary
-    obs.ice_observations.secondary
-    obs.ice_observations.tertiary
+    %w(primary secondary tertiary).each do |obs_type|
+        obs.ice_observations << IceObservation.create(:obs_type => obs_type)
+    end
+    # obs.ice_observations.primary
+    # obs.ice_observations.secondary
+    # obs.ice_observations.tertiary
   end    
 
   accepts_nested_attributes_for :ice
