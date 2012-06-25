@@ -14,7 +14,7 @@ function handleTopographies( ) {
     var group = $(this).parents(".topography_group");
     
     if(levelCodes.indexOf(value) >= 0) {
-      var inputs = $(group.find("input"));
+      var inputs = $(group.find("input:not(:hidden)"));
       $(group).find('.concentration').select2("disable");
       $(inputs).val('');
       $(group).find(".concentration option:selected").removeAttr("selected");
@@ -23,7 +23,7 @@ function handleTopographies( ) {
       $(group).find('.concentration').trigger('change');
     } else if(pancakeCodes.indexOf(value) >= 0) {
       concentration = true;
-      var inputs = $(group.find("input"));
+      var inputs = $(group.find("input:not(:hidden)"));
       $(group).find('.concentration').select2("enable");
       $(inputs).val('');
       $(inputs).removeAttr("selected");
@@ -32,7 +32,7 @@ function handleTopographies( ) {
     } else if(raftCodes.indexOf(value) >= 0) {
       rafts = true;
       //Disable non-rafts
-      var inputs = $(group).find(".ridges:not(.rafts) input");
+      var inputs = $(group).find(".ridges:not(.rafts) input:not(:hidden)");
       $(group).find(".ridges:not(.rafts) select").select2("disable");
       $(group).find(".rafts select").select2("enable");
       $(group).find(".concentration").select2("enable");
@@ -53,7 +53,7 @@ function handleTopographies( ) {
       $(group).find('.btn').removeAttr('disabled');
       $(group).find(".ridges select").select2("enable");
     } else {
-      var inputs = $(group).find(".ridges input");
+      var inputs = $(group).find(".ridges input:not(:hidden)");
       $(inputs).val('');
       $(inputs).attr("disabled", true);
       $(group).find(".concentration").select2("disable");

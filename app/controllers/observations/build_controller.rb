@@ -15,10 +15,8 @@ class Observations::BuildController < ApplicationController
     logger.info(params[:id].to_sym)
     case params[:id].to_sym
     when :ice
-      logger.info("INCLUDING ICE STUFF")
       @observation = @observation.includes([:ice, :ice_observations])
     when :meteorology
-      logger.info("INCLUDING MET STUFF")
       @observation = @observation.includes(:meteorology)
     when :photos
       @observation = @observation.includes(:photos)
