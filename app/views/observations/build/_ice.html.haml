@@ -16,7 +16,7 @@
           { include_blank: true}, {class: :combobox}
       %p.help-block
         =# link_to "See Examples", lookup_url("ice"), target: '_blank'
-        =lookup_url_helper :ice
+        =#lookup_url_helper :ice
     .control-group
       =io.label :thickness, "Thickness"
       .controls
@@ -32,4 +32,4 @@
         = io.collection_select :floe_size_lookup_id, FloeSizeLookup.all, :id, :code_with_name, |
           { :include_blank => true }, { :class => :combobox }      
         %p.help-block
-          =lookup_url_helper :floe_size
+          =#lookup_url_helper :floe_size
