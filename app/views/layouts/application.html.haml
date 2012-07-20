@@ -11,8 +11,11 @@
         .logo.pull-left
         .container
 
-          =link_to "IceObs", root_url, class: :brand
-          
+          =link_to root_url, class: :brand do
+            - %w(Arctic Ship-based Sea Ice Standardization Tool).each do |word|
+              = succeed(word[1..-1] + " ") do
+                %strong= word.first
+
           %ul.nav.pull-right
             %li= link_to 'List', root_url
             %li= link_to 'New', new_observation_path
