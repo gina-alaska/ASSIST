@@ -1,7 +1,7 @@
 -unless photo.new_record?
   .row
     .thumbnail.span2
-      = image_tag "#{observation_photo_url(@observation, photo)}#{File.extname(photo.name)}"
+      = image_tag "#{observation_photo_url(@observation, photo.checksum_id)}#{File.extname(photo.name)}"
     .edit_photo_div.span10
       = form_for [@observation, photo], :remote => true do |f|
         .control-group

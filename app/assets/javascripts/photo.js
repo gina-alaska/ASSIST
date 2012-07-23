@@ -1,7 +1,7 @@
 $(document).ready( function() {
   var $photoForm = $('#new_photo');
 
-  $("#attached_photos").on('change', ".edit_photo", function(el){
+  $("#attached_photos").on('change', ".edit_photo input", function(el){
     $(el.target).submit();
   });
   
@@ -20,9 +20,7 @@ $(document).ready( function() {
     dataType: 'json',
     url: $photoForm.attr('action'),
     add: function(e, data) {
-      $(this).block({
-        message: "Please Wait..."
-      });
+      console.log(data);
       data.submit();
     },
     done: appendPhoto,

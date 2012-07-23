@@ -15,9 +15,8 @@ class PhotosController < ApplicationController
     @photo.checksum_id = Digest::MD5.hexdigest( "#{@observation.id}_#{uploaded_file.read}")
 
     if(@photo.save)
+
       FileUtils.mkdir_p( @photo.directory )
-      logger.info( @photo.directory )
-      logger.info( File.exists? @photo.directory )
       File.open( File.join( @photo.directory, @photo.name ), 'wb') do |file|
         uploaded_file.rewind
         file.write(uploaded_file.read)
@@ -50,16 +49,16 @@ class PhotosController < ApplicationController
   end
 
   def show
-    @photo = Photo.find(params[:id])
+    @photo = Photo.where(:checksum_id => params[:id]).first
     @observation = @photo.observation
-
     if request.xhr?
       respond_with [@photo, @observation], :layout => false
     else
-      respond_with @photo, @observation do |format|
+      respond_to do |format|
         format.html
         format.json
         format.any do
+          logger.info("FOOOOOOOOOOOOOOOOOO")
           File.open(@photo.uri, "rb") do |f|
             send_data(f.read, :filename => @photo.name, :disposition => 'inline')
           end

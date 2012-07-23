@@ -10,10 +10,12 @@ jQuery(function($) {
         e.preventDefault();
         form.trigger('change');
         hidden.val($(this).attr('data-radio-value'));
+      
+        if($(this).parents('form').attr('data-remote')) {
+          $(this).parents('form').submit();
+        }
       });
-      // if(button.val() == hidden.val()) {
-      //   button.addClass('active');
-      // }
+      
     });
   });
 });
