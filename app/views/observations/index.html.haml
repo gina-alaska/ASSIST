@@ -8,6 +8,14 @@
   =link_to observations_path, class: 'btn btn-large btn-primary', method: 'post' do
     %i.icon-eye-open
     Start Observation
+  
+-if Rails.env == "development"
+  .alert.alert-error
+    %h3.alert-heading
+      WARNING!
+    %h4.alert-block
+      This site is for testing the latest changes to ASSIST.  
+      Observations may be wiped at any time.
 
 -if @observations.any?
   =form_tag export_observations_url(:zip), id: 'manage_observations' do
