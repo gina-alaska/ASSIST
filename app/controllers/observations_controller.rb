@@ -12,8 +12,8 @@ class ObservationsController < ApplicationController
       format.html
       format.csv 
       format.zip do 
-        Observation.zip!
-        File.open(File.join(Observation.path,"FinalizedObservations.zip"), "rb") do |f|
+        Observation.zip! @observations, name: "Observation", formats: [:csv,:json]
+        File.open(File.join(Observation.path,"Observation.zip"), "rb") do |f|
           send_data f.read
         end
       end
@@ -27,12 +27,12 @@ class ObservationsController < ApplicationController
   def create
     obs = params[:observation]
     @observation = Observation.new obs
-    @observation.obs_datetime = parse_date( dateFields params )
+    #@observation.obs_datetime = parse_date( dateFields params )
   
-    if @observation.save
+    #Don't validate on create,  it will never be valid.
+    if @observation.save validate: false
       respond_to do |format|
-        #format.html { redirect_to edit_observation_url(@observation) + "#ice" }
-        format.html { redirect_to observation_build_path(@observation, :ice) }
+        format.html { redirect_to observation_build_path(@observation, :general) }
       end
     else
       render :new
@@ -115,7 +115,25 @@ class ObservationsController < ApplicationController
       redirect_to observation_url
     end
   end
-
+  
+  def export
+    @observations = Observation.where(observation_ids).all
+    
+    @observations ||= Observation.all
+    
+    
+    respond_with @observations do |format|
+      format.html
+      format.csv 
+      format.zip do 
+        Observation.zip! @observations, name: "Observation", formats: [:csv,:json], include_photos: params[:include_photos]
+        File.open(File.join(Observation.path,"Observation.zip"), "rb") do |f|
+          send_data f.read, filename: "ASSIST_#{Time.now.strftime("%Y%m%d%H%M%S")}_export.zip"
+        end
+      end
+    end    
+  end
+  
 protected
   def parse_date arr
     begin

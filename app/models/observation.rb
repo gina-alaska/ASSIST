@@ -10,9 +10,6 @@ class Observation < ActiveRecord::Base
     def obs_type o
       o = o.to_sym
       ice = where(:obs_type => o).first
-      #ice ||= create :obs_type => o
-      #ice.create_topography if ice.topography.nil?
-      #ice.create_melt_pond if ice.melt_pond.nil?
       ice
     end
     def primary
@@ -37,10 +34,6 @@ class Observation < ActiveRecord::Base
     %w(primary secondary tertiary).each do |obs_type|
         obs.ice_observations << IceObservation.create(:obs_type => obs_type)
     end
-    # obs.ice_observations.primary
-    # obs.ice_observations.secondary
-    # obs.ice_observations.tertiary
-    
   end    
 
   accepts_nested_attributes_for :ice
@@ -176,7 +169,8 @@ class Observation < ActiveRecord::Base
   def as_csv 
     [
       obs_datetime,
-      primary_observer.try(&:first_and_last_name), 
+      primary_observer.try(&:first_and_last_name),
+      additional_observers.collect(&:first_and_last_name).join(";"), 
       latitude,
       longitude,
       hexcode,
@@ -208,7 +202,7 @@ class Observation < ActiveRecord::Base
     {
       obs_datetime: obs_datetime,
       primary_observer: primary_observer.as_json,
-      #additional_observers: additional_observers.collect({|o| o.try(&:first_and_last_name)}),
+      additional_observers: additional_observers.collect{|o| o.try(&:first_and_last_name)},
       latitude: latitude,
       longitude: longitude,
       hexcode: hexcode,
@@ -221,16 +215,16 @@ class Observation < ActiveRecord::Base
   end
 
   def self.as_json
-    Observation.all.collect(&:as_json)
+    Observation.all.collect(&:as_json).to_json
   end
 
   def self.to_json
-    Observation.all.collect(&:to_json)
+    Observation.all.collect(&:to_json).to_json
   end
 
   def self.headers opts={}
 
-    headers = %w( Date PrimaryObserver LATdm LONdm Hexcode)
+    headers = %w( Date PrimaryObserver AdditionalObservers LATdm LONdm Hexcode)
     headers.map!{|h| "#{opts[:prefix]}#{h}"} if opts[:prefix]
     headers.map!{|h| "#{h}#{opts[:postfix]}"}  if opts[:postfix]
 
@@ -252,35 +246,61 @@ class Observation < ActiveRecord::Base
     end
   end
 
-  def self.zip! name="FinalizedObservations"
-
+  def self.zip! observations, params={}
+    name = params[:name] || "observations"
+    
     FileUtils.remove(File.join(path,"#{name}.zip")) if File.exists?(File.join(path,"#{name}.zip"))
 
+    metadata = {
+      exported_on: Time.now.utc,
+      assist_version: "1.0",
+      cruise_id: "BLANK_FOR_NOW",
+      observation_count: observations.count,
+      observations: "#{name}.json",
+      photos_included: !!params[:include_photos]
+    }
+
     files = dump!([:csv, :json])
+    observations.each do |o|
+      files << o.dump!([:csv, :json])
+    end
+    
     Zip::ZipFile.open(File.join(path, "#{name}.zip"), Zip::ZipFile::CREATE) do |zipfile|
-      files.each do |f|
+      #Add the metadata
+      zipfile.file.open("METADATA", "w"){|f| f.puts metadata.to_yaml}
+      logger.info(files);
+      files.flatten.each do |f|
         zipfile.add(File.basename(f), f)
       end
-      Photo.all.each do |p|
-        zipfile.add(File.join(p.observation.name,p.name), File.join( p.observation.path, p.name))
+      if params[:include_photos]
+        observations.each do |o|
+          o.photos.each do |p|
+            zipfile.add(File.join(p.observation.name,p.name), File.join( p.observation.path, p.name))
+          end
+        end
       end
     end
   end
 
   def dump!(formats)
     FileUtils.mkdir(path) unless File.exists?(path)
+    files = []
     [formats].flatten.each do |format|
-      File.open(File.join(path, "#{name}.#{format.to_s}"),"w") do |f|
+      file = File.join(path,"#{name}.#{format.to_s}")
+      File.open(file,"w") do |f|
         f << self.send("to_#{format.to_s}")
       end
+      files << file
     end
+    files
   end
 
   def self.dump!(formats)
+    cruise_id ||= "CRUISE"
     FileUtils.mkdir(path) unless File.exists?(path)
     files = []
     [formats].flatten.each do |format|
-      file = File.join(path,"observation.#{format.to_s}")
+      file = File.join(path,"#{cruise_id}.observations.#{format.to_s}")
       File.open(file,"w") do |f|
         f << Observation.send("to_#{format.to_s}")
       end
@@ -290,7 +310,7 @@ class Observation < ActiveRecord::Base
   end
 
   def name 
-    obs_datetime.strftime("%Y.%m.%d-%H.%M")
+    obs_datetime.try(:strftime, "%Y.%m.%d-%H.%M") || "INVALID_OBSERVATION_#{self.id}"
   end
   def path 
     "#{EXPORT_DIR}/#{name}"
