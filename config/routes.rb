@@ -4,6 +4,7 @@ Iceobs::Application.routes.draw do
 
   resources :observations do
     get :preview
+    get :export, :on => :collection
     get :manage, :on => :collection
     post :import, :on => :collection
     resources :photos
