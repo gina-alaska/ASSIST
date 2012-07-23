@@ -47,7 +47,7 @@ $(document).ready( function() {
   });
 
 
-  $("#manage_observations #select_all").change( function() {
+  $("#manage_observations #export_all").change( function() {
     if($(this).attr("checked") === "checked") {
       $("#manage_observations input:visible").attr("checked", "checked");
     } else {
@@ -55,14 +55,14 @@ $(document).ready( function() {
     }
   });
 
-  $("#manage_observations #export_btn").click( function(e) {
-
+  $("#manage_observations .export").click( function(e) {
+   
     e.preventDefault();
-    var obsList = $("#manage_observations ").find("input:checked:not(#select_all)");
+    var obsList = $("#manage_observations").find("input:checked:not(#export_all)").filter(":visible");
 
     var ids = [];
-    var action = $("#export form").attr("action") + "?";
-    
+    var action = $(this).parent('form').attr("action") + "?";
+    console.log(action);
     obsList.each( function(index, item) {
       ids.push($(item).val());
       if(index !== 0) {
@@ -72,7 +72,7 @@ $(document).ready( function() {
     });
 
     if(ids.length === 0) {
-      
+      alert("Please select some observations to export")
     }
     else {
       //$.rails.handleRemote($("#export form"));

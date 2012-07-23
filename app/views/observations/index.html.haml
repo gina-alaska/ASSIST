@@ -1,26 +1,47 @@
-%table#obslist.bordered-table.table-striped.table.table-condensed
-  %thead
-    %tr
-      %th Observation Date
-      %th Last Modified
-      %th Total Ice Concentration
-      %th Primary Observer
-      %th Additional Observers
-      %th # Photos
-      %th Finalized?
-      %th Actions
-  %tbody
-    - @observations.each do |o|
-      %tr.observation
-        %td= o.obs_datetime
-        %td= o.updated_at
-        %td= o.ice.try(:total_concentration)
-        %td= o.primary_observer.try(:first_and_last_name)
-        %td= o.additional_observers.collect(&:first_and_last_name).join ","
-        %td= o.photos.count
-        %td= o.finalized? ? 'Yes' : 'No'
-        %td
-          = link_to "[edit]", observation_build_path(o,:general)
-          = link_to "[export]", observation_path(o, :zip)
-          = link_to "[csv]", observation_path(o,:csv)
+.hero-unit
+  %h3
+    Welcome to the 
+  %h2
+    - %w(Arctic Ship-based Sea Ice Standardization Tool).each do |word|
+      = succeed(word[1..-1] + " ") do
+        %strong= word.first
+  =link_to observations_path, class: 'btn btn-large btn-primary', method: 'post' do
+    %i.icon-eye-open
+    Start Observation
 
+-if @observations.any?
+  =form_tag export_observations_url(:zip), id: 'manage_observations' do
+    =link_to "#", class: 'btn btn-success export' do
+      %i.icon-share.icon-white
+      Export Observations
+    
+    =check_box_tag "include_photos"
+    Export Photos?
+    
+    %table#obslist.bordered-table.table-striped.table.table-condensed
+      %thead
+        %tr
+          %th
+            =check_box_tag 'export_all', 'all'
+            All
+          %th Observation Date
+          %th Last Modified
+          %th Total Ice Concentration
+          %th Primary Observer
+          %th Additional Observers
+          %th 
+      %tbody
+        - @observations.each do |o|
+          %tr.observation
+            %td= check_box_tag "observations[]", o.id, false, id: "observation_#{o.id}"
+            %td= o.obs_datetime
+            %td= o.updated_at
+            %td= o.ice.try(:total_concentration)
+            %td= o.primary_observer.try(:first_and_last_name)
+            %td= o.additional_observers.collect(&:first_and_last_name).join ","
+            %td
+              = link_to "[edit]", observation_build_path(o,:general)
+              = link_to "[csv]", observation_path(o,:csv)
+-else
+  %p
+    There have been no observations made yet.
