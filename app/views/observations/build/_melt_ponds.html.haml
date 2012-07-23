@@ -5,7 +5,6 @@
       .control-group
         = m.label :surface_coverage, "Concentration", class: 'control-label'
         .controls
-          =#m.text_field :surface_coverage
           =m.select :surface_coverage, options_for_select((0..10).to_a, selected: melt_pond.surface_coverage), {}, class: 'combobox'
           %p.help-block
             area of ice covered in 1/10ths
@@ -22,14 +21,13 @@
             { :include_blank => true }, { :class => :combobox }
           %p.help-block
       .control-group
-        = m.label :freeboard, "Freeboard", class: 'control-label'
+        = m.label :freeboard, "Freeboard of Pond", class: 'control-label'
         .controls     
           .input-append   
             = m.text_field :freeboard
             .add-on
               cm
           %p.help-block
-            of Melt Pond Wall
       .control-group  
         = m.label :max_depth_lookup_id, "Depth", class: 'control-label'
         .controls
