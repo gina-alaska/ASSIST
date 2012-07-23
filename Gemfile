@@ -15,7 +15,7 @@ end
 
 gem 'haml'
 
-gem 'rubyzip', :require => "zip/zip"
+gem 'rubyzip', :require => "zip/zipfilesystem"
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
