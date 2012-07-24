@@ -8,7 +8,7 @@
         =io.select :partial_concentration, options_for_percent(ice_observation.partial_concentration, range), |
           {include_blank: true}, {:class => [:combobox, :partial_concentration]} 
         %p.help-block
-          ="Total Concentration: #{@observation.ice.try(&:total_concentration)}/10"
+          =#"Total Concentration: #{@observation.ice.try(&:total_concentration)}/10"
     .control-group
       =io.label :ice_lookup_id, "Ice Type", class: 'control-label'
       .controls
