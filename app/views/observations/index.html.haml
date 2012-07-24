@@ -21,7 +21,7 @@
   .row
     .span3
       =form_tag export_observations_url(:zip), id: 'manage_observations' do
-        =link_to "#", class: 'btn btn-success export' do
+        =link_to "#", class: 'btn btn-success export', id: 'exportBtn' do
           %i.icon-share.icon-white
           Export Observations
     .span3        
