@@ -20,4 +20,5 @@ function appendComment(e, data) {
   var comment = $.get( url, function(data) {
     $("#attached_comments").append(data);
   });
+  $("#comment_data").val($("#comment_data").html());
 }
