@@ -23,21 +23,18 @@
 //= require qtip/jquery.qtip
 //= require_tree .
 
-$.extend( $.fn.dataTableExt.oStdClasses, {
-    "sSortAsc": "header headerSortDown",
-    "sSortDesc": "header headerSortUp",
-    "sSortable": "header"
-});
-
 $(document).ready( function() {
   $(".combobox").select2();
   $("#observation_date").datepicker();
 
-  $('#obsList').dataTable( {
-      "sDom": "<'row'<'span8'l><'span8'f>r>t<'row'<'span8'i><'span8'p>>",
+  $('#obslist').dataTable( {
+      "sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>",
       "bPaginate": true,
-      "sPaginationType": "bootstrap"
-  } );
+      "sPaginationType": "bootstrap",
+      "sScrollX": "100%",
+      "sScrollXInner": "110%",
+      "bScrollCollapse": true
+  });
   
   $("input").focus( function() {
     $(this).parent(".fields").addClass("focus");
