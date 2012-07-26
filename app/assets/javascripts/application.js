@@ -29,8 +29,12 @@ $(document).ready( function() {
 
   $('#obslist').dataTable( {
       "sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>",
-      "bPaginate": true,
-      "sPaginationType": "bootstrap"
+      // "bPaginate": true,
+      // "sPaginationType": "bootstrap"
+      bScrollInfinite: true,
+      bScrollCollapse: true,
+      sScrollY: "300px",
+      bPaginate: false
   });
   
   $("input").focus( function() {
@@ -47,6 +51,10 @@ $(document).ready( function() {
     } else {
       $(".observation input").removeAttr("checked");
     }
+  });
+
+  $("#exportAllBtn").click( function(e) {
+    document.location = $(this).parent('form').attr('action');
   });
 
   $("#exportBtn").click( function(e) {
@@ -72,8 +80,22 @@ $(document).ready( function() {
     else {
       document.location = action;
     }
-
-
-
   });
+  
+  
+  $("#import_observations").fileupload({
+    dataType: 'json',
+    url: $("#import_observations").attr('action'),
+    acceptFileTypes: /(\.|\/)csv$/i,
+    add: function(e, data) {
+      data.submit();
+    },
+    error: function(xhr,status,error) {
+      $(".errors").html(xhr.responseText);
+    },
+    start: function() {
+      $(".errors").html("");
+    }
+  });
+  
 });
