@@ -54,7 +54,7 @@ $(document).ready( function() {
   });
 
   $("#exportAllBtn").click( function(e) {
-    document.location = $(this).parent('form').attr('action');
+    document.location = $(this).parents('form').attr('action');
   });
 
   $("#exportBtn").click( function(e) {
@@ -64,7 +64,7 @@ $(document).ready( function() {
 
     var ids = [];
 
-    var action = $(this).parent('form').attr("action") + "?";
+    var action = $(this).parents('form').attr("action") + "?";
     console.log(action);
     obsList.each( function(index, item) {
       ids.push($(item).val());
