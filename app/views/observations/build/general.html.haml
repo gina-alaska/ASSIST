@@ -39,8 +39,8 @@
     .span3
       .control-group
         =label_tag "Minute", nil, class: 'control-label'
-      .controls
-        = select_tag "observation_minute", options_for_select((0..59).to_a, minute(@observation)), {:class => :combobox}
+        .controls
+          = select_tag "observation_minute", options_for_select((0..59).to_a, minute(@observation)), {:class => :combobox}
   .row
     .span3.offset3
       .control-group
