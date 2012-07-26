@@ -5,13 +5,15 @@
     = stylesheet_link_tag    "application", :media => "all"
     = javascript_include_tag "application"
     = csrf_meta_tags
-  %body{'data-spy' => "scroll", 'data-target' => '#spy'}
+  %body
     .navbar
       .navbar-inner
         .logo.pull-left
         .container
 
           =link_to root_url, class: :brand do
+            %strong
+              ASSIST:
             - %w(Arctic Ship-based Sea Ice Standardization Tool).each do |word|
               = succeed(word[1..-1] + " ") do
                 %strong= word.first
