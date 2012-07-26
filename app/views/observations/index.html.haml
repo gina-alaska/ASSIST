@@ -31,12 +31,13 @@
       =form_tag export_observations_url(:zip), id: 'manage_observations' do
         .btn-toolbar
           .btn-group
+            .btn
+              %i.icon-share
+              Export:
             =link_to "#", class: 'btn btn-info export', id: 'exportBtn' do
-              %i.icon-share.icon-white
-              Export Observations
+              Selected Observations
             =link_to "#", class: 'btn btn-primary export', id: 'exportAllBtn' do
-              %i.icon-share.icon-white
-              Export All Observations
+              All Observations
 
   .row
     .span12        
