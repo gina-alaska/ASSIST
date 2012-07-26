@@ -8,7 +8,7 @@
           = t.collection_select :topography_lookup_id, TopographyLookup.all, :id, :code_with_name, |
           { :include_blank => true }, { :class => "combobox topography" }
           %p.help-block
-      .control-group.ridges.rafts.hide
+      .control-group.ridges.rafts
         =t.label :concentration, "Concentration", class: 'control-label'
         .controls
           = t.select :concentration, options_for_percent(topography.concentration.to_i), {include_blank: true}, {class: [:combobox, :concentration]}
@@ -17,7 +17,7 @@
             = topography.concentration.inspect
             = (0..10).to_a.select!{|a| a == topography.concentration}
             
-      .control-group.ridges.hide
+      .control-group.ridges
         = t.label :ridge_height, class: 'control-label'
         .controls
           .input-append
@@ -26,7 +26,7 @@
               m
           %p.help-block
             meters to nearest half-meter
-      .control-group.ridges.hide
+      .control-group.ridges
         = t.label :old, class: 'control-label'
         .controls
           .btn-group{'data-toggle' => 'buttons-radio', 'data-toggle-name' => "old_#{topography.id}"}
@@ -36,7 +36,7 @@
               No
           =t.hidden_field :old, id: "old_#{topography.id}"
           %p.help-block
-      .control-group.ridges.hide
+      .control-group.ridges
         = t.label :consolidated, class: 'control-label'
         .controls
           .btn-group{'data-toggle' => 'buttons-radio', 'data-toggle-name' => "consolidated_#{topography.id}"}
@@ -46,7 +46,7 @@
               No
           =t.hidden_field :consolidated, id: "consolidated_#{topography.id}"
           %p.help-block          
-      .control-group.ridges.hide
+      .control-group.ridges
         = t.label :snow_covered, class: 'control-label'
         .controls
           .btn-group{'data-toggle' => 'buttons-radio', 'data-toggle-name' => "snow_covered_#{topography.id}"}

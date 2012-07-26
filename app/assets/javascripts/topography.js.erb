@@ -14,7 +14,7 @@ function handleTopographies( ) {
     var group = $(this).parents(".topography_group");
     
     if(levelCodes.indexOf(value) >= 0) {
-      var inputs = $(group.find("input:not(:hidden)"));
+      var inputs = $(group.find("input"));
       $(group).find('.concentration').select2("disable");
       $(inputs).val('');
       $(group).find(".concentration option:selected").removeAttr("selected");
@@ -32,7 +32,7 @@ function handleTopographies( ) {
     } else if(raftCodes.indexOf(value) >= 0) {
       rafts = true;
       //Disable non-rafts
-      var inputs = $(group).find(".ridges:not(.rafts) input:not(:hidden)");
+      var inputs = $(group).find(".ridges:not(.rafts)");
       $(group).find(".ridges:not(.rafts) select").select2("disable");
       $(group).find(".rafts select").select2("enable");
       $(group).find(".concentration").select2("enable");
@@ -45,6 +45,7 @@ function handleTopographies( ) {
       //Enable rafts
       $(group).find(".rafts").removeAttr("disabled");
     } else if(ridgeCodes.indexOf(value) >= 0) {
+
       ridges = true;
       $(group).find(".concentration").select2("enable");
 
@@ -53,7 +54,7 @@ function handleTopographies( ) {
       $(group).find('.btn').removeAttr('disabled');
       $(group).find(".ridges select").select2("enable");
     } else {
-      var inputs = $(group).find(".ridges input:not(:hidden)");
+      var inputs = $(group).find(".ridges");
       $(inputs).val('');
       $(inputs).attr("disabled", true);
       $(group).find(".concentration").select2("disable");
@@ -65,20 +66,20 @@ function handleTopographies( ) {
     }
   
   });
-  
+/*  
   if(ridges) {
-    $(".ridges").removeClass("hide");
-    $(".rafts:not(.ridges)").addClass('hide');  
+    //$(".ridges").removeClass("hide");
+    //$(".rafts:not(.ridges)").addClass('hide');  
   } else if(rafts) { 
-    $(".rafts").removeClass("hide")
-    $(".ridges:not(.rafts)").addClass("hide");
+    //$(".rafts").removeClass("hide")
+    //$(".ridges:not(.rafts)").addClass("hide");
   } else if(concentration) {
-    $(".concentration").parents(".control-group").removeClass("hide");
+    //$(".concentration").parents(".control-group").removeClass("hide");
   }else {
     $(".ridges").addClass("hide");
     $(".rafts").addClass("hide")
   }
-
+*/
 }
 
 $(document).ready( function() {
