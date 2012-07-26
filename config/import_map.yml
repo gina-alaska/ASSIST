@@ -1,7 +1,7 @@
 ---
 :date:
   :date: Date
-  :parse: '<%= "#{date[:date]" %>'
+  :parse: '<%= "#{date[:date]}" %>'
 :user:
   :first_name: Unknown
   :last_name: Observer
@@ -25,7 +25,7 @@
         :old: PrimaryOld
         :consolidated: PrimaryConsolidated
         :concentration: PrimaryConcentration
-        :ridge_heignt: PrimaryRidgeHeight
+        :ridge_height: PrimaryRidgeHeight
       :sediment_lookup_code: PrimarySD
       :biota_lookup_code: PrimaryAL
       :snow_lookup_code: PrimarySY
@@ -47,7 +47,7 @@
         :old: SecondaryOld
         :consolidated: SecondaryConsolidated
         :concentration: SecondaryConcentration
-        :ridge_heignt: SecondaryRidgeHeight
+        :ridge_height: SecondaryRidgeHeight
       :sediment_lookup_code: SecondarySD
       :biota_lookup_code: SecondaryAL
       :snow_lookup_code: SecondarySY
@@ -69,7 +69,7 @@
         :old: TertiaryOld
         :consolidated: TertiaryConsolidated
         :concentration: TertiaryConcentration
-        :ridge_heignt: TertiaryRidgeHeight
+        :ridge_height: TertiaryRidgeHeight
       :sediment_lookup_code: TertiarySD
       :biota_lookup_code: TertiaryAL
       :snow_lookup_code: TertiarySY
@@ -80,3 +80,22 @@
         :pattern_lookup_code: TertiaryPattern
         :surface_lookup_code: TertiarySurface
         :freeboard: TertiaryFreeboard
+  :meteorology_attributes:
+    :visibility_lookup_code: Visibility
+    :weather_lookup_code: Weather
+    :clouds_attributes:
+      -
+        :cloud_type: HighCloudType
+        :cover: HighCover
+        :height: HighHeight
+        :cloud_lookup_code: HighCloud
+      -
+        :cloud_type: MediumCloudType
+        :cover: MediumCover
+        :height: MediumHeight
+        :cloud_lookup_code: MediumCloud
+      -
+        :cloud_type: LowCloudType
+        :cover: LowCover
+        :height: LowHeight
+        :cloud_lookup_code: LowCloud

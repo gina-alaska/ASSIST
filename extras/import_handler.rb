@@ -47,7 +47,6 @@ module ImportHandler
               res = []
               value.each do |v|
                 res << self.reflections[lookup_model.to_sym].class_name.constantize.import(v)
-               # res << lookup_model.to_s.classify.constantize.import(v)
               end
             else
               res = self.reflections[lookup_model.to_sym].class_name.constantize.import(value)

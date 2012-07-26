@@ -14,8 +14,8 @@ class IceObservation < ActiveRecord::Base
   accepts_nested_attributes_for :topography
 
   after_create do |obs|
-    obs.topography = Topography.create
-    obs.melt_pond = MeltPond.create
+    obs.topography = Topography.create if obs.topography.nil?
+    obs.melt_pond = MeltPond.create if obs.melt_pond.nil?
   end
 
   def as_csv
@@ -26,6 +26,7 @@ class IceObservation < ActiveRecord::Base
       thickness,
       floe_size_lookup.try(&:code),
       snow_lookup.try(&:code),
+      snow_thickness,
       biota_lookup.try(&:code),
       sediment_lookup.try(&:code),
       melt_pond.as_csv,
@@ -41,6 +42,7 @@ class IceObservation < ActiveRecord::Base
       thickness: thickness,
       floe_size_lookup_code: floe_size_lookup.try(&:code), 
       snow_lookup_code: snow_lookup.try(&:code),
+      snow_thicness: snow_thickness,
       biota_lookup_code: biota_lookup.try(&:code),
       sediment_lookup_code: sediment_lookup.try(&:code),
       melt_pond_attributes: melt_pond.as_json,
@@ -51,10 +53,10 @@ class IceObservation < ActiveRecord::Base
 
   def self.headers opts={}
     puts opts
-    headers = %w( ObsType C T Z F SY AL SD )
+    headers = %w( ObsType C T Z F SY SH AL SD )
     headers.map!{|h| "#{opts[:prefix]}#{h}"} unless opts[:prefix].nil?
     headers.map!{|h| "#{h}#{opts[:postfix]}"}  unless opts[:postfix].nil? 
-    headers.push(MeltPond.headers)
-    headers.push(Topography.headers)
+    headers.push(MeltPond.headers prefix: opts[:prefix])
+    headers.push(Topography.headers prefix: opts[:prefix])
   end
 end

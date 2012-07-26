@@ -25,10 +25,12 @@ class Meteorology < ActiveRecord::Base
     end
   end
 
-  after_create do 
-    self.clouds.high
-    self.clouds.medium
-    self.clouds.low
+  after_create do |met|
+    %w(high medium low).each do |cloud_type|
+      if(met.clouds.cloud_type(cloud_type).nil?)
+        met.clouds << Cloud.create(cloud_type: cloud_type)
+      end
+    end
   end
 
   accepts_nested_attributes_for :clouds

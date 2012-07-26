@@ -29,10 +29,12 @@ class Observation < ActiveRecord::Base
 
 
   after_create do |obs|
-    obs.ice = Ice.create
-    obs.meteorology = Meteorology.create
+    obs.ice = Ice.create if obs.ice.nil? 
+    obs.meteorology = Meteorology.create if obs.meteorology.nil?
     %w(primary secondary tertiary).each do |obs_type|
-        obs.ice_observations << IceObservation.create(:obs_type => obs_type)
+        if(obs.ice_observations.obs_type(obs_type).nil?)
+          obs.ice_observations << IceObservation.create(:obs_type => obs_type)
+        end
     end
   end    
 
@@ -95,14 +97,16 @@ class Observation < ActiveRecord::Base
     end
 
     unknownObserver = User.find_or_create_by_firstname_and_lastname(map[:user][:first_name], map[:user][:last_name])
-   
+      
     csv.each do |row|
+      next if row.empty?
+ 
       data = parse_csv(row,map)
       begin
         date = data[:date]
         obs_datetime = DateTime.parse( ERB.new(date[:parse]).result(binding) )
       rescue => e
-        logger.info("Invalid date #{data.inspect}")
+        logger.info("Invalid date #{date.inspect}")
       end
       if data[:observation][:primary_observer_id].nil?
         data[:observation][:primary_observer_id] = unknownObserver.id
@@ -114,6 +118,11 @@ class Observation < ActiveRecord::Base
 
       observation = Observation.import(data[:observation])
       observation.obs_datetime = obs_datetime
+      
+      logger.info("*************")
+      logger.info(observation.meteorology.clouds.count)
+      #logger.info(observation.ice_observations.primary.topography.inspect)
+      logger.info("*************")
       
       if(observation.save)
         count += 1
@@ -163,17 +172,20 @@ class Observation < ActiveRecord::Base
         nil
       end
     end
+    
     data
   end
 
   def as_csv 
     [
-      obs_datetime,
-      primary_observer.try(&:first_and_last_name),
+      "#{obs_datetime}",
+      "#{primary_observer.try(&:first_and_last_name)}",
       additional_observers.collect(&:first_and_last_name).join(";"), 
       latitude,
       longitude,
       hexcode,
+      Cruise.id,
+      Cruise.ship,
       ice.as_csv,
       ice_observations.collect(&:as_csv),
       meteorology.try(&:as_csv)
@@ -190,7 +202,8 @@ class Observation < ActiveRecord::Base
 
   def self.to_csv
     c = CSV.generate({:headers => true}) do |csv|
-      csv << Observation.headers.flatten
+      headers = Observation.headers.flatten
+      csv << headers
       Observation.all.each do |o|
         csv << o.as_csv.flatten
       end
@@ -206,6 +219,8 @@ class Observation < ActiveRecord::Base
       latitude: latitude,
       longitude: longitude,
       hexcode: hexcode,
+      cruise_id: Cruise.id,
+      ship_name: Cruise.ship,
       ice_attributes: ice.as_json,
       ice_observations_attributes: ice_observations.collect(&:as_json),
       meteorology_attributes: meteorology.as_json,
@@ -224,13 +239,15 @@ class Observation < ActiveRecord::Base
 
   def self.headers opts={}
 
-    headers = %w( Date PrimaryObserver AdditionalObservers LATdm LONdm Hexcode)
+    headers = %w( Date PrimaryObserver AdditionalObservers LATdm LONdm Hexcode CruiseID ShipName)
     headers.map!{|h| "#{opts[:prefix]}#{h}"} if opts[:prefix]
     headers.map!{|h| "#{h}#{opts[:postfix]}"}  if opts[:postfix]
 
     headers.push(Ice.headers)
     %w(Primary Secondary Tertiary).each {|index| headers.push( IceObservation.headers(:prefix => index) )}
     headers.push( Meteorology.headers )
+    
+    headers.flatten!
   end
 
   def zip!
@@ -254,7 +271,8 @@ class Observation < ActiveRecord::Base
     metadata = {
       exported_on: Time.now.utc,
       assist_version: "1.0",
-      cruise_id: "BLANK_FOR_NOW",
+      cruise_id: Cruise.id,
+      ship_name: Cruise.ship,
       observation_count: observations.count,
       observations: "#{name}.json",
       photos_included: !!params[:include_photos]
@@ -296,11 +314,10 @@ class Observation < ActiveRecord::Base
   end
 
   def self.dump!(formats)
-    cruise_id ||= "CRUISE"
     FileUtils.mkdir(path) unless File.exists?(path)
     files = []
     [formats].flatten.each do |format|
-      file = File.join(path,"#{cruise_id}.observations.#{format.to_s}")
+      file = File.join(path,"#{Cruise.id}.observations.#{format.to_s}")
       File.open(file,"w") do |f|
         f << Observation.send("to_#{format.to_s}")
       end
