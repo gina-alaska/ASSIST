@@ -5,10 +5,18 @@
     - %w(Arctic Ship-based Sea Ice Standardization Tool).each do |word|
       = succeed(word[1..-1] + " ") do
         %strong= word.first
-  =link_to observations_path, class: 'btn btn-large btn-primary', method: 'post' do
-    %i.icon-eye-open
-    Start Observation
-  
+  .row
+    .span3
+      =link_to observations_path, class: 'btn btn-large btn-primary', method: 'post' do
+        %i.icon-eye-open
+        Start Observation
+    .span3
+      =form_tag import_observations_url, id: 'import_observations', multipart: true do
+        #import.file_upload
+          =link_to "#", class: 'btn btn-large import', id: 'importCSVBtn' do
+            %i.icon-list
+            Import From CSV
+          =file_field_tag :data  
 -if Rails.env == "development"
   .alert.alert-error
     %h3.alert-heading
@@ -19,14 +27,22 @@
 
 -if @observations.any?
   .row
-    .span3
+    .span6
       =form_tag export_observations_url(:zip), id: 'manage_observations' do
-        =link_to "#", class: 'btn btn-success export', id: 'exportBtn' do
-          %i.icon-share.icon-white
-          Export Observations
-    .span3        
-      =check_box_tag "include_photos"
-      Export Photos?
+        .btn-toolbar
+          .btn-group
+            =link_to "#", class: 'btn btn-info export', id: 'exportBtn' do
+              %i.icon-share.icon-white
+              Export Observations
+            =link_to "#", class: 'btn btn-primary export', id: 'exportAllBtn' do
+              %i.icon-share.icon-white
+              Export All Observations
+
+  .row
+    .span12        
+      =#check_box_tag "include_photos"
+      %h4
+        Exporting of photos is disabled in this build of ASSIST. Please send them when your cruise is finished.
   .row
     .span12
       %table#obslist.bordered-table.table-striped.table.table-condensed
