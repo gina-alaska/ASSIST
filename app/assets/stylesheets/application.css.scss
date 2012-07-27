@@ -19,7 +19,7 @@
 */
 
 @import 'bootstrap';
-
+@import 'compass';
 body {
   font-size: 12px;
 }
@@ -96,8 +96,8 @@ table {
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-origin: content;
   background: url('/assets/iceobs.png') no-repeat 2px 2px;
-  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%,
-   from(rgba(0, 128, 204, 0.9)), to(rgba(0, 86, 204, 0.9)));
+  @include background-image(linear-gradient(left top, rgba(0, 128, 204, 0.9), rgba(0, 86, 204, 0.9)));
+  @include background-clip(padding-box);
 }
 
 .subnav {
@@ -115,7 +115,12 @@ table {
     color: black;
   }
 }
-
+.brand {
+  strong {
+    color: #0080cc;
+    
+  }
+}
 .file_upload {
   position: relative;
   overflow: hidden;
