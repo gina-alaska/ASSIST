@@ -65,7 +65,6 @@ $(document).ready( function() {
     var ids = [];
 
     var action = $(this).parents('form').attr("action") + "?";
-    console.log(action);
     obsList.each( function(index, item) {
       ids.push($(item).val());
       if(index !== 0) {

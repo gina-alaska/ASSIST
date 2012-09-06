@@ -20,7 +20,6 @@ $(document).ready( function() {
     dataType: 'json',
     url: $photoForm.attr('action'),
     add: function(e, data) {
-      console.log(data);
       data.submit();
     },
     done: appendPhoto,
