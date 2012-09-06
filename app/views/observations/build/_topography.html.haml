@@ -13,10 +13,7 @@
         .controls
           = t.select :concentration, options_for_percent(topography.concentration.to_i), {include_blank: true}, {class: [:combobox, :concentration]}
           %p.help-block
-            in 1/10ths
-            = topography.concentration.inspect
-            = (0..10).to_a.select!{|a| a == topography.concentration}
-            
+            in 1/10ths            
       .control-group.ridges
         = t.label :ridge_height, class: 'control-label'
         .controls
