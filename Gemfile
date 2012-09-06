@@ -13,6 +13,8 @@ else
   gem 'sqlite3'
 end
 
+gem 'assist-shared', git: 'http://github.com/gina-alaska/iceobs-shared', require: 'assist_shared'
+
 gem 'haml'
 
 gem 'rubyzip', :require => "zip/zipfilesystem"
@@ -35,8 +37,8 @@ end
 gem 'bootstrap-sass'
 gem 'bootstrap-datepicker-rails'
 
-gem 'jquery-rails'
-gem 'awesome_print', :git => "https://github.com/ceromancy/awesome_print.git"
+gem 'jquery-rails', "~> 2.1"
+#gem 'awesome_print', :git => "https://github.com/ceromancy/awesome_print.git"
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

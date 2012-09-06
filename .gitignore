@@ -21,3 +21,6 @@
 /public/uploads/
 /public/observation
 /public/observations
+/public/assets
+#Ignore lookup files
+/db/lookups/*.yaml
