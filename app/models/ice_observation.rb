@@ -1,6 +1,8 @@
 class IceObservation < ActiveRecord::Base
   include ImportHandler
-
+  include AssistShared::CSV::IceObservation
+  include AssistShared::Validations::IceObservation
+  
   belongs_to :observation
   has_one :melt_pond, :dependent => :destroy
   has_one :topography, :dependent => :destroy
@@ -13,26 +15,13 @@ class IceObservation < ActiveRecord::Base
   accepts_nested_attributes_for :melt_pond
   accepts_nested_attributes_for :topography
 
+
   after_create do |obs|
     obs.topography = Topography.create if obs.topography.nil?
     obs.melt_pond = MeltPond.create if obs.melt_pond.nil?
   end
 
-  def as_csv
-    [ 
-      obs_type,
-      partial_concentration,
-      ice_lookup.try(&:code),
-      thickness,
-      floe_size_lookup.try(&:code),
-      snow_lookup.try(&:code),
-      snow_thickness,
-      biota_lookup.try(&:code),
-      sediment_lookup.try(&:code),
-      melt_pond.as_csv,
-      topography.as_csv
-    ]
-  end
+
 
   def as_json opts={}
     {

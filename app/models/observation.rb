@@ -3,6 +3,9 @@ require 'csv'
 class Observation < ActiveRecord::Base
   include ImportHandler
   
+  include AssistShared::CSV::Observation
+  include AssistShared::Validations::Observation
+  
   has_one  :ice, :dependent => :destroy
   has_many :photos, :dependent => :destroy
   has_many :comments, :dependent => :destroy
@@ -43,15 +46,15 @@ class Observation < ActiveRecord::Base
   accepts_nested_attributes_for :meteorology
   accepts_nested_attributes_for :photos
 
-  validates_presence_of :primary_observer_id, :if => :active_or_finalized?
-  validates_presence_of :obs_datetime, :message => "Invalid or no date given", :if => :active_or_finalized?
-  validates_presence_of :hexcode, :if => :active_or_finalized?
-  validates_uniqueness_of :hexcode, :if => :active_or_finalized?
+  # validates_presence_of :primary_observer_id, :if => :active_or_finalized?
+  # validates_presence_of :obs_datetime, :message => "Invalid or no date given", :if => :active_or_finalized?
+  # validates_presence_of :hexcode, :if => :active_or_finalized?
+  # validates_uniqueness_of :hexcode, :if => :active_or_finalized?
 
   #Allow DD or DM(S)
-  validates_format_of :latitude, :with => /^(\+|-)?[0-9]{1,2}(\s[0-9]{1,2}(\.[0-9]{1,2})?|\.[0-9]*)(\s?[NS])?$/ 
-  validates_format_of :longitude, :with => /^(\+|-)?[0-9]{1,3}(\s[0-9]{1,2}(\.[0-9]{1,2})?|\.[0-9]*)(\s?[EW])?$/
-  validate :location
+  # validates_format_of :latitude, :with => /^(\+|-)?[0-9]{1,2}(\s[0-9]{1,2}(\.[0-9]{1,2})?|\.[0-9]*)(\s?[NS])?$/ 
+  # validates_format_of :longitude, :with => /^(\+|-)?[0-9]{1,3}(\s[0-9]{1,2}(\.[0-9]{1,2})?|\.[0-9]*)(\s?[EW])?$/
+  # validate :location
 
   before_validation do
     self.latitude = self.to_dd(latitude) if latitude =~ /^(\+|-)?[0-9]{1,2}\s[0-9]{1,2}(\.[0-9]{1,2})?(\s?[NS])?$/
@@ -176,41 +179,41 @@ class Observation < ActiveRecord::Base
     data
   end
 
-  def as_csv 
-    [
-      "#{obs_datetime}",
-      "#{primary_observer.try(&:first_and_last_name)}",
-      additional_observers.collect(&:first_and_last_name).join(";"), 
-      latitude,
-      longitude,
-      hexcode,
-      Cruise.id,
-      Cruise.ship,
-      ice.as_csv,
-      ice_observations.collect(&:as_csv),
-      meteorology.try(&:as_csv)
-    ]
-  end
+  # def as_csv 
+  #   [
+  #     "#{obs_datetime}",
+  #     "#{primary_observer.try(&:first_and_last_name)}",
+  #     additional_observers.collect(&:first_and_last_name).join(";"), 
+  #     latitude,
+  #     longitude,
+  #     hexcode,
+  #     Cruise.id,
+  #     Cruise.ship,
+  #     ice.as_csv,
+  #     ice_observations.collect(&:as_csv),
+  #     meteorology.try(&:as_csv)
+  #   ]
+  # end
 
-  def to_csv
-    c = CSV.generate({:headers => true}) do |csv|
-      csv << Observation.headers.flatten
-      csv << as_csv.flatten
-    end
-    c
-  end
-
-  def self.to_csv
-    c = CSV.generate({:headers => true}) do |csv|
-      headers = Observation.headers.flatten
-      csv << headers
-      Observation.all.each do |o|
-        csv << o.as_csv.flatten
-      end
-    end
-    c
-  end
-
+  # def to_csv
+  #   c = CSV.generate({:headers => true}) do |csv|
+  #     csv << Observation.headers.flatten
+  #     csv << as_csv.flatten
+  #   end
+  #   c
+  # end
+  # 
+  # def self.to_csv
+  #   c = CSV.generate({:headers => true}) do |csv|
+  #     headers = Observation.headers.flatten
+  #     csv << headers
+  #     Observation.all.each do |o|
+  #       csv << o.as_csv.flatten
+  #     end
+  #   end
+  #   c
+  # end
+  # 
   def as_json opts={}
     {
       obs_datetime: obs_datetime,
@@ -219,8 +222,8 @@ class Observation < ActiveRecord::Base
       latitude: latitude,
       longitude: longitude,
       hexcode: hexcode,
-      cruise_id: Cruise.id,
-      ship_name: Cruise.ship,
+      cruise_id: Cruise[:id],
+      ship_name: Cruise[:ship],
       ice_attributes: ice.as_json,
       ice_observations_attributes: ice_observations.collect(&:as_json),
       meteorology_attributes: meteorology.as_json,
@@ -237,18 +240,18 @@ class Observation < ActiveRecord::Base
     Observation.all.collect(&:to_json).to_json
   end
 
-  def self.headers opts={}
-
-    headers = %w( Date PrimaryObserver AdditionalObservers LATdm LONdm Hexcode CruiseID ShipName)
-    headers.map!{|h| "#{opts[:prefix]}#{h}"} if opts[:prefix]
-    headers.map!{|h| "#{h}#{opts[:postfix]}"}  if opts[:postfix]
-
-    headers.push(Ice.headers)
-    %w(Primary Secondary Tertiary).each {|index| headers.push( IceObservation.headers(:prefix => index) )}
-    headers.push( Meteorology.headers )
-    
-    headers.flatten!
-  end
+  # def self.headers opts={}
+  # 
+  #   headers = %w( Date PrimaryObserver AdditionalObservers LATdm LONdm Hexcode CruiseID ShipName)
+  #   headers.map!{|h| "#{opts[:prefix]}#{h}"} if opts[:prefix]
+  #   headers.map!{|h| "#{h}#{opts[:postfix]}"}  if opts[:postfix]
+  # 
+  #   headers.push(Ice.headers)
+  #   %w(Primary Secondary Tertiary).each {|index| headers.push( IceObservation.headers(:prefix => index) )}
+  #   headers.push( Meteorology.headers )
+  #   
+  #   headers.flatten!
+  # end
 
   def zip!
     FileUtils.mkdir(path) unless File.exists?(path)

@@ -10,7 +10,7 @@ class ObservationsController < ApplicationController
 
     respond_with @observations do |format|
       format.html
-      format.csv 
+      format.csv {render text: generate_csv(@observations)}
       format.zip do 
         Observation.zip! @observations, name: "Observation", formats: [:csv,:json]
         File.open(File.join(Observation.path,"Observation.zip"), "rb") do |f|
@@ -79,7 +79,7 @@ class ObservationsController < ApplicationController
     else
       respond_with @observation do |format|
         format.html
-        format.csv
+        format.csv {render text: generate_csv(@observation) }
         format.zip do
           @observation.zip!
           File.open(Rails.root.join(@observation.path, "#{@observation.name}.zip"), "rb" ) do |f|
@@ -194,4 +194,15 @@ protected
   def observation_ids 
     params.slice(:id)
   end
+  
+  def generate_csv observations
+    observations = [observations].flatten
+    ::CSV.generate({:headers => true}) do |csv|
+      csv << Observation.headers
+      observations.each do |o|
+        csv << o.as_csv
+      end
+    end
+  end    
+  
 end

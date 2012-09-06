@@ -49,7 +49,7 @@ class PhotosController < ApplicationController
   end
 
   def show
-    @photo = Photo.where(:checksum_id => params[:id]).first
+    @photo = Photo.where(:id => params[:id]).first
     @observation = @photo.observation
     if request.xhr?
       respond_with [@photo, @observation], :layout => false
@@ -58,7 +58,6 @@ class PhotosController < ApplicationController
         format.html
         format.json
         format.any do
-          logger.info("FOOOOOOOOOOOOOOOOOO")
           File.open(@photo.uri, "rb") do |f|
             send_data(f.read, :filename => @photo.name, :disposition => 'inline')
           end
