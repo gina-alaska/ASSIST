@@ -1,5 +1,8 @@
 #!/bin/bash
 
+export JRUBY_OPTS="--1.9"
+unset BUNDLE_GEMFILE
+
 git submodule init
 git submodule update
 bundle install
