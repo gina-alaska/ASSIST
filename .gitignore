@@ -24,3 +24,5 @@
 /public/assets
 #Ignore lookup files
 /db/lookups/*.yaml
+
+config/initializers/cruises.rb
