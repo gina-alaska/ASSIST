@@ -6,6 +6,7 @@ gem 'rails', '3.2.1'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 if RUBY_PLATFORM == 'java'
+  
   gem 'activerecord-jdbc-adapter', :require => false
   gem 'jdbc-sqlite3'
   gem 'jruby-openssl'

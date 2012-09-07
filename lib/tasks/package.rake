@@ -1,12 +1,11 @@
 require 'open-uri'
 require 'json'
 
-namespace :package do
-  desc "Update lookup yaml files"
-  task :update_lookups do
-    params = Hash.new
+namespace :package do  
+  desc "Generate static cruise data"
+  task :metadata, :cruise_id, :ship_name, :lookups do |t, args|
     #Get the lookup data and populate the database
-    lookups_url = params[:lookups] || "http://icebox.dev/api/lookups.json"
+    lookups_url = args[:lookups] || "http://icebox.dev/api/lookups.json"
     
     lookups = JSON.parse(open(lookups_url).read)
     
@@ -15,10 +14,7 @@ namespace :package do
         f << lookup.last.to_yaml
       end
     end 
-  end
-  
-  desc "Generate static cruise data"
-  task :metadata, :cruise_id, :ship_name do |t, args|
+    
     cruise_id = args[:cruise_id] || "DEVELOPMENT"
     ship_name = args[:ship_name] || "DEVELOPMENT"
     File.open(Rails.root.join("config","initializers","cruises.rb"),"w") do |file|
@@ -32,6 +28,16 @@ namespace :package do
     name = args[:name] || "ASSIST"
     name = "#{name}.zip"
     
-    system("zip -j #{name} assist.war vendor/launcher* db/production.sqlite3 doc/README.txt")
+    system("zip -j #{name} vendor/launcher* db/production.sqlite3 doc/README.txt")
+  end
+  
+  desc "Run all package steps to produce a distributable zip"
+  task :all, :cruise_id, :ship_name, :zip_name do |t, args|
+    cruise_id = args[:cruise_id] || "DEVELOPMENT"
+    ship_name = args[:ship_name] || "DEVELOPMENT"
+    zip_name = args[:zip_name] || "ASSIST"
+    Rake::Task["package:update_lookups"].invoke
+    Rake::Task["package:metadata"].invoke(cruise_id, ship_name)
+    Rake::Task["package:generate_zip"].invoke(zip_name)
   end
 end
