@@ -157,7 +157,6 @@ protected
         zipfile.each do |f|
           path = File.join(directory, f.name)
           FileUtils.mkdir_p( File.dirname(path) )
-          logger.info(path)
           f.extract(path)
         end
       end
@@ -173,7 +172,6 @@ protected
         end
       end
     rescue => ex
-      logger.info ex
       results = [{error: "Unable to import"}]
     ensure
      # FileUtils.remove(directory, :recursive => true)

@@ -23,7 +23,6 @@ class IceObservationsController < ApplicationController
   protected
   def iceobs_params
     p = params.slice(:ice_observation)[:ice_observation]
-    logger.info(p)
     %w(old consolidated snow_covered).each do |k|
       unless p[:topography_attributes].include?(k)
         p[:topography_attributes][k] = nil

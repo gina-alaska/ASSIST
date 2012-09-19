@@ -11,8 +11,7 @@ class Observations::BuildController < ApplicationController
   
   def update
     @observation = Observation.where(:id => params[:observation_id])
-    logger.info("***********************")
-    logger.info(params[:id].to_sym)
+
     case params[:id].to_sym
     when :ice
       @observation = @observation.includes([:ice, :ice_observations])
@@ -29,16 +28,8 @@ class Observations::BuildController < ApplicationController
     @observation.obs_datetime = obs_datetime unless obs_datetime.nil?
     
     @observation.status = params[:id].to_s
-    logger.info(@observation.status)
-    logger.info(@observation.valid?)
-    #logger.info(observation_params)
-    r = @observation.update_attributes(observation_params)
-    
-    logger.info(r)
-    logger.info(@observation.status)
-    logger.info(@observation.valid?)
-    logger.info("***********************")
 
+    r = @observation.update_attributes(observation_params)
 
     jump_to params[:step]
     render_wizard @observation
