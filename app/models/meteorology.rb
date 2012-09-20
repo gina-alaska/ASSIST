@@ -10,7 +10,6 @@ class Meteorology < ActiveRecord::Base
     def cloud_type c
       c = c.to_sym
       cld = where(:cloud_type => c).first
-      cld ||= create :cloud_type => c
       cld
     end
     def high
@@ -27,10 +26,10 @@ class Meteorology < ActiveRecord::Base
     end
   end
 
-  after_create do |met|
+  before_create do |met|
     %w(high medium low).each do |cloud_type|
       if(met.clouds.cloud_type(cloud_type).nil?)
-        met.clouds << Cloud.create(cloud_type: cloud_type)
+        met.clouds << Cloud.new(cloud_type: cloud_type)
       end
     end
   end

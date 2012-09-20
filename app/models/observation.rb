@@ -31,13 +31,13 @@ class Observation < ActiveRecord::Base
   has_many :additional_observers, :through => :observation_users, :class_name => "User", :source => :user
 
 
-  after_create do |obs|
-    obs.ice = Ice.create if obs.ice.nil? 
-    obs.meteorology = Meteorology.create if obs.meteorology.nil?
+  before_create do |obs|
+    obs.ice = Ice.new if obs.ice.nil?
+    obs.meteorology = Meteorology.new if obs.meteorology.nil?
     %w(primary secondary tertiary).each do |obs_type|
-        if(obs.ice_observations.obs_type(obs_type).nil?)
-          obs.ice_observations << IceObservation.create(:obs_type => obs_type)
-        end
+      if(obs.ice_observations.obs_type(obs_type).nil?)
+        obs.ice_observations << IceObservation.new(:obs_type => obs_type)
+      end
     end
   end    
 

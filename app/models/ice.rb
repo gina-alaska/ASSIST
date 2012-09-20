@@ -13,12 +13,12 @@ class Ice < ActiveRecord::Base
   #                       :message => "Total Concentration is required",
   #                       :if => :finalized_or_ice?
   
-  def finalized_or_ice?
-    return false if observation.nil?
-    o = Observation.find(self.observation_id)
-    o.finalized? || o.status == 'ice'
-  end
-
+  # def finalized_or_ice?
+  #   return false if observation.nil?
+  #   o = Observation.find(self.observation_id)
+  #   o.finalized? || o.status == 'ice'
+  # end
+  
   # def as_csv
   #   [
   #     total_concentration,

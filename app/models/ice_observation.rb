@@ -16,9 +16,9 @@ class IceObservation < ActiveRecord::Base
   accepts_nested_attributes_for :topography
 
 
-  after_create do |obs|
-    obs.topography = Topography.create if obs.topography.nil?
-    obs.melt_pond = MeltPond.create if obs.melt_pond.nil?
+  before_create do |obs|
+    obs.topography = Topography.new if obs.topography.nil?
+    obs.melt_pond = MeltPond.new if obs.melt_pond.nil?
   end
 
 
