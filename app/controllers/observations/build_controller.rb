@@ -28,8 +28,8 @@ class Observations::BuildController < ApplicationController
     @observation.obs_datetime = obs_datetime unless obs_datetime.nil?
     
     @observation.status = params[:id].to_s
-
-    r = @observation.update_attributes(observation_params)
+    @observation.finalize = false
+    @observation.update_attributes(observation_params)
 
     jump_to params[:step]
     render_wizard @observation
@@ -69,4 +69,5 @@ class Observations::BuildController < ApplicationController
       p[:status] = step
       p
     end
+    
 end
