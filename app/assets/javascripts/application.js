@@ -20,13 +20,12 @@
 //= require jquery-file-upload/js/jquery.iframe-transport.js
 //= require jquery-file-upload/js/jquery.fileupload.js
 //= require jquery-blockUI/jquery.blockUI
-//= require qtip/jquery.qtip
 //= require_tree .
 
 $(document).ready( function() {
   $(".combobox").select2();
   $("#observation_date").datepicker();
-
+  
   $('#obslist').dataTable( {
       "sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>",
       // "bPaginate": true,
@@ -43,8 +42,8 @@ $(document).ready( function() {
   $("input").blur( function() {
     $(this).parent(".fields").removeClass("focus");
   });
-
-
+  
+  
   $("#export_all").change( function() {
     if($(this).attr("checked") === "checked") {
       $(".observation input:visible").attr("checked", "checked");
@@ -52,18 +51,18 @@ $(document).ready( function() {
       $(".observation input").removeAttr("checked");
     }
   });
-
+  
   $("#exportAllBtn").click( function(e) {
     document.location = $(this).parents('form').attr('action');
   });
-
+  
   $("#exportBtn").click( function(e) {
    
     e.preventDefault();
     var obsList = $(".observation input:checked:not(#export_all)").filter(":visible");
-
+  
     var ids = [];
-
+  
     var action = $(this).parents('form').attr("action") + "?";
     obsList.each( function(index, item) {
       ids.push($(item).val());
