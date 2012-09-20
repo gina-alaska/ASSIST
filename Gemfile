@@ -35,10 +35,10 @@ group :development do
   gem 'quiet_assets'
 end
 
-gem 'bootstrap-sass'
+gem 'bootstrap-sass', '~> 2.1.0.0'
 gem 'bootstrap-datepicker-rails'
 
-gem 'jquery-rails', "~> 2.1"
+gem 'jquery-rails'
 #gem 'awesome_print', :git => "https://github.com/ceromancy/awesome_print.git"
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
