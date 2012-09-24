@@ -1,0 +1,12 @@
+= render layout: 'observations/build/form' do |f|
+  .tab-content
+    #general.tab-pane.active
+      =render partial: "observations/build/general", locals: {f: f}
+    #ice.tab-pane
+      =render partial: "observations/build/ice", locals: {f: f}
+    #meteorology.tab-pane
+      =render partial: "observations/build/meteorology", locals: {f: f}
+    #photos.tab-pane
+      =render partial: "observations/build/photos"
+    #comments.tab-pane
+      =render partial: "observations/build/comments"

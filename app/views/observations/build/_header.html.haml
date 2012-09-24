@@ -1,14 +1,15 @@
 =content_for :header_nav do
-  .btn-toolbar.span9.offset2
+  .btn-toolbar.span10.offset1
     .btn-group
       =# f.submit "Prev", data: {url: previous_wizard_path}, class: 'btn btn-large obs-submit'
     .btn-group
       -%w(general ice meteorology photos comments).each do |s|
-        = f.submit s.capitalize, data: {url: s}, class: "btn btn-large obs-submit #{s == step.to_s ? 'btn-primary' : ''}"
-    .btn-group
-      = f.submit "Saved", data: {url: step}, class: 'btn btn-large obs-submit disabled','data-enable-text' => 'Save', disabled: true, id: 'save_observation'
-      =# f.submit "Next", data: {url: next_wizard_path}, class: 'btn btn-large obs-submit'
+        -# = f.submit s.capitalize, data: {url: wizard_path(s.to_s)}, class: "btn btn-large obs-submit #{s == step.to_s ? 'btn-primary' : ''}"
+        = link_to s.capitalize, "##{s}", data: {toggle: 'pill'}, class: "btn btn-large #{s == 'general' ? 'btn-primary' : ''}"
     .btn-group
       %button.btn.btn-info.btn-large{data: {target: '#add_comment', toggle: 'modal'}}
         %i.icon-comment.icon-white
         Add Comment
+    .btn-group
+      = f.submit "Saved", data: {url: step}, class: 'btn btn-large obs-submit disabled','data-enable-text' => 'Save', disabled: true, id: 'save_observation'
+      = f.submit "Validate", data: {url: "validate"}, class: 'btn btn-large btn-warning', id: 'obs-validate'

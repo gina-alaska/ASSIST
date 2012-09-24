@@ -1,14 +1,14 @@
-=# render 'observations/build/header' unless @observation.new_record?
+=content_for :errors do
+  - if @observation.errors.any?
+    = render 'shared/errors', model: @observation 
 
 = form_for @observation, url: wizard_path, html: { class: "autosave notify", id: "observation_form" }  do |f|
   = render partial: 'observations/build/header', locals: {f:f} unless @observation.new_record?
-  .row
-    = render 'shared/errors', model: @observation if @observation.errors.any?
-  = hidden_field_tag :step, @observation.status, id: :observation_status
+  = hidden_field_tag :step, step, id: :observation_status
   = yield f
 
 #add_comment.modal.hide
-  - comment = @observation.comments.build data: "(#{step})"
+  - comment = @observation.comments.build data: "(General)"
   = form_for [@observation,comment], remote: true do |f|
     .modal-header
       %h4

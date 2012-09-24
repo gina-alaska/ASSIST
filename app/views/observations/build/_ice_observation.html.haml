@@ -1,0 +1,35 @@
+.span4
+  %h3= ice_observation.obs_type.capitalize
+  =f.fields_for :ice_observations, ice_observation do |io|
+    .control-group
+      =io.label :partial_concentration, "Partial Concentration (tenths)", class: 'control-label'
+      .controls.partial_concentration
+        -range = @observation.ice.total_concentration.nil? ? nil : (@observation.ice.total_concentration+1..10).to_a
+        =io.select :partial_concentration, options_for_percent(ice_observation.partial_concentration, range), |
+          {include_blank: true}, {:class => [:combobox, :partial_concentration]} 
+        %p.help-block
+          =#"Total Concentration: #{@observation.ice.try(&:total_concentration)}/10"
+    .control-group
+      =io.label :ice_lookup_id, "Ice Type", class: 'control-label'
+      .controls
+        =io.collection_select :ice_lookup_id, IceLookup.all, :id, :code_with_name, |
+          { include_blank: true}, {class: :combobox}
+      %p.help-block
+        =# link_to "See Examples", lookup_url("ice"), target: '_blank'
+        =#lookup_url_helper :ice
+    .control-group
+      =io.label :thickness, "Thickness"
+      .controls
+        .input-append
+          =io.text_field :thickness
+          %span.add-on
+            cm
+        %p.help-block 
+
+    .control-group
+      =io.label :floe_size_lookup_id, "Floe Size"
+      .controls
+        = io.collection_select :floe_size_lookup_id, FloeSizeLookup.all, :id, :code_with_name, |
+          { :include_blank => true }, { :class => :combobox }      
+        %p.help-block
+          =#lookup_url_helper :floe_size

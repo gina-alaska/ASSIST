@@ -9,6 +9,15 @@ class Observations::BuildController < ApplicationController
     render_wizard
   end
   
+  def edit
+    @observation = Observation.where(:id => params[:observation_id])
+    @observation = @observation.includes([:ice, :ice_observations => [:topography, :melt_pond]],:meteorology => [:clouds])
+    
+    respond_to do |format|
+      format.html
+    end
+  end
+  
   def update
     @observation = Observation.where(:id => params[:observation_id])
 
