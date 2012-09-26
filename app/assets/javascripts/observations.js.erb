@@ -7,12 +7,30 @@
 $(document).ready(function() {
   $(".coord").change( parseCoord )
 
-  $(".obs-submit").click( function() {
-    $("#observation_form #observation_status").val($(this).attr("data-url"));
-    
+  $(".obs-submit").click(function() {
+    $("#observation_form").attr("action", $(this).attr("data-url"));
+  
     $("#observation_form").submit();
   });
+
+  $("a[data-toggle=pill]").on("click", function() {
+    $(this).siblings(".btn-primary").removeClass("btn-primary");
+    $(this).addClass("btn-primary");
+    //Set up the comments to have the correct prefix
+    $("#comment_data").val("(" + $(this).html() + ")");
+  });
   
+  $("#obs-validate").click( function() {
+    var url = $("#obs-validate").attr("data-url");
+    var params = $("#observation_form").serialize();
+    $.ajax( url, {
+      data: params,
+      type: 'POST',
+      error: handleValidateError,
+      success: handleValidateSuccess
+    });
+  })
+    
   $("#observation_form").on('change', function() {
     $("#save_observation").addClass('btn-danger').button('enable');
   });
@@ -189,4 +207,18 @@ function parseCoord( evt ) {
 
   $(evt.target).siblings(".help-block:last").html(altText);
 
+}
+
+function handleValidateError(jqXhr, status, e) {
+  console.log(jqXhr);
+  flashNotice(jqXhr.responseText);
+}
+
+function handleValidateSuccess(data, status, jqXhr) {
+  console.log(jqXhr);
+  //flashNotice(jqXhr.responseText);
+}
+
+function flashNotice(data) {
+  $("#errors").html(data)
 }

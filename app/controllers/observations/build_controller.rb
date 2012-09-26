@@ -1,11 +1,11 @@
 class Observations::BuildController < ApplicationController
   include Wicked::Wizard
   
-  steps :general, :ice, :meteorology, :photos, :comments
+  steps :general, :ice, :meteorology, :photos, :comments, :finalize
   
   def show
     @observation = Observation.find(params[:observation_id])
-    
+    @observation.valid?
     render_wizard
   end
   
@@ -20,28 +20,46 @@ class Observations::BuildController < ApplicationController
   
   def update
     @observation = Observation.where(:id => params[:observation_id])
-
-    case params[:id].to_sym
+    
+    case params[:step] 
     when :ice
-      @observation = @observation.includes([:ice, :ice_observations])
+      @observation = @observation.includes([:ice, :ice_observations => [:topography, :melt_pond]])
     when :meteorology
-      @observation = @observation.includes(:meteorology)
+      @observation = @observation.includes(:meteorology => [:clouds])
     when :photos
       @observation = @observation.includes(:photos)
     when :comments
       @observation = @observation.includes(:comments)
     end
     
+    # if params[:id] == "finalize"
+    #   @observation = @observation.includes(
+    # end
+    
     @observation = @observation.first
+    
     obs_datetime = parse_date
     @observation.obs_datetime = obs_datetime unless obs_datetime.nil?
     
-    @observation.status = params[:id].to_s
-    @observation.finalize = false
-    @observation.update_attributes(observation_params)
+    @observation.finalize = (params[:id] == "validate")  
 
-    jump_to params[:step]
-    render_wizard @observation
+    @observation.status = params[:step]
+    
+    
+    if @observation.update_attributes(observation_params)
+      if request.xhr?
+        render partial: 'shared/errors', model: @observation, layout: false
+      else
+        render params[:id]
+      end
+    else
+      if request.xhr?
+        render partial: 'shared/errors', model: @observation, layout: false
+        # render json: {errors: @observation.errors, flash: @observation.errors.full_messages}, :layout => false, :status => :unprocessable_entity
+      else
+        render determine_error_step
+      end
+    end   
   end
   
   def create
@@ -77,6 +95,18 @@ class Observations::BuildController < ApplicationController
       end
       p[:status] = step
       p
+    end
+    
+    def determine_error_step
+      step = @observation.errors.keys.first.to_s.split(".").first
+      case step
+      when "ice", "ice_observations", "topography", "melt_pond"
+        :ice
+      when "meteorology", "clouds"
+        :meteorology
+      else
+        :general
+      end
     end
     
 end
