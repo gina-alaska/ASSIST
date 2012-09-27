@@ -1,42 +1,56 @@
-= form_for @observation, :html => {:class => "autosave notify form-horizontal" } do |f|
-  .row
+#observers_fields.row
+  .span4
     .control-group
       = f.label :primary_observer, "Primary Observer", class: 'control-label'
       .controls
         = f.collection_select :primary_observer_id, User.all, :id, :first_and_last_name, |
-          { :include_blank => true }, {class: :users}
+          { :include_blank => true }, {class: 'users combobox'}
         %p.help-block
-          = link_to "Add User", "#user_form", {class: 'btn', 'data-toggle' => 'modal'}#:id => "adduser"
+  .span4
     .control-group
       = f.label :additional_observer_ids, "Additional Observers", class: 'control-label'
       .controls
         = f.collection_select :additional_observer_ids, User.all, :id, :first_and_last_name, |
-          { :include_blank => true}, { :class => :users, :multiple => true }
-   
-  .row
+          { :include_blank => true}, { :class => 'users combobox', :multiple => true }
+  .span4
+    .control-group
+      .control-label
+        %br
+      .controls
+        = link_to "Add User", "#user_form", {class: 'btn btn-info', 'data-toggle' => 'modal'}
+.row
+  .span4
     .control-group
       = label_tag "Date ",nil, class: 'control-label'
       .controls
-        = text_field_tag "observation_date", date(@observation)
-          
+        = text_field_tag "observation_date", date(@observation), class: 'datefield', 'data-date-format' => 'yyyy.mm.dd'
+  .span4            
     .control-group
-      = label_tag "Time", nil, class: 'control-label'
+      = label_tag "Hour", nil, class: 'control-label'
       .controls
-        = select_tag "observation_time", |
-          options_for_select( (0..23).collect{ |hour| ["#{hour}:00".rjust(5, "0"), hour]}, |
-          time(@observation)), {:class => :combobox}
-  .row
+        = select_tag "observation_hour", options_for_select((0..23).to_a, hour(@observation)), {:class => :combobox}
+  .span4
+    .control-group
+      =label_tag "Minute", nil, class: 'control-label'
+      .controls
+        = select_tag "observation_minute", options_for_select((0..59).to_a, minute(@observation)), {:class => :combobox}
+.row
+  .span4
     .control-group
       = f.label :latitude, class: 'control-label'
       .controls
-        = f.text_field :latitude
+        = f.text_field :latitude, class: 'coord', placeholder: 'DD.DDD or DD MM.SS' 
         %p.help-block
           ="DMS: #{to_dms(@observation.latitude)}"
+  .span4
     .control-group
       = f.label :longitude, class: 'control-label'
       .controls
-        = f.text_field :longitude
+        = f.text_field :longitude, class: 'coord', placeholder: 'DD.DDD or DD MM.SS' 
         %p.help-block
           ="DMS: #{to_dms(@observation.longitude)}"
-    
-  =f.submit "Start Observation" if @observation.new_record?
+
+=f.submit "Start Observation" if @observation.new_record?
+
+
+=render 'observations/build/user'
