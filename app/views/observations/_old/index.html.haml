@@ -1,0 +1,75 @@
+.hero-unit
+  %h3
+    Welcome to the 
+  %h2
+    - %w(Arctic Shipbourne Sea Ice Standardization Tool).each do |word|
+      = succeed(word[1..-1] + " ") do
+        %strong= word.first
+  .row
+    .span3
+      =link_to observations_path, class: 'btn btn-large btn-primary', method: 'post' do
+        %i.icon-eye-open
+        Start Observation
+    .span3
+      =form_tag import_observations_url, id: 'import_observations', multipart: true do
+        #import.file_upload
+          =link_to "#", class: 'btn btn-large import', id: 'importCSVBtn' do
+            %i.icon-list
+            Import From CSV
+          =file_field_tag :data  
+-if Rails.env == "development"
+  .alert.alert-error
+    %h3.alert-heading
+      WARNING!
+    %h4.alert-block
+      This site is for testing the latest changes to ASSIST.  
+      Observations may be wiped at any time.
+
+-if @observations.any?
+  .row
+    .span6
+      =form_tag export_observations_url(:zip), id: 'manage_observations' do
+        .btn-toolbar
+          .btn-group
+            .btn
+              %i.icon-share
+              Export:
+            =link_to "#", class: 'btn btn-info export', id: 'exportBtn' do
+              Selected Observations
+            =link_to "#", class: 'btn btn-primary export', id: 'exportAllBtn' do
+              All Observations
+
+  .row
+    .span12        
+      =#check_box_tag "include_photos"
+      %h4
+        Exporting of photos is disabled in this build of ASSIST. Please send them when your cruise is finished.
+  .row
+    .span12
+      %table#obslist.bordered-table.table-striped.table.table-condensed
+        %thead
+          %tr
+            %th
+              =check_box_tag 'export_all', 'all'
+              All
+            %th Observation Date
+            %th Last Modified
+            %th Total Ice Concentration
+            %th Primary Observer
+            %th Additional Observers
+            %th 
+        %tbody
+          - @observations.each do |o|
+            %tr.observation
+              %td= check_box_tag "observations[]", o.id, false, id: "observation_#{o.id}"
+              %td= o.obs_datetime
+              %td= o.updated_at
+              %td= o.ice.try(:total_concentration)
+              %td= o.primary_observer.try(:first_and_last_name)
+              %td= o.additional_observers.collect(&:first_and_last_name).join ","
+              %td
+                = link_to "[edit]", observation_build_path(o,:general)
+                = link_to "[csv]", observation_path(o,:csv)
+-else
+  %p
+    There have been no observations made yet.
