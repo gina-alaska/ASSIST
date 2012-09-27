@@ -17,7 +17,7 @@
 %h3
   %ul.nav.nav-tabs{id: 'ice-properties'}
     %li.active
-      =link_to "Ice", "#ice", {data: {toggle: 'tab'}}
+      =link_to "Ice", "#ice_obs", {data: {toggle: 'tab'}}
     %li
       =link_to "Snow", "#snow", {data: {toggle: 'tab'}}
     %li
@@ -29,7 +29,7 @@
 
 
 .tab-content
-  #ice.tab-pane.active
+  #ice_obs.tab-pane.active
     .row
       =render partial: 'ice_observation', locals: { f: f, ice_observation: @observation.ice_observations.primary}
       =render partial: 'ice_observation', locals: { f: f, ice_observation: @observation.ice_observations.secondary}

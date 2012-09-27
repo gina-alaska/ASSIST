@@ -49,8 +49,3 @@
         = f.text_field :longitude, class: 'coord', placeholder: 'DD.DDD or DD MM.SS' 
         %p.help-block
           ="DMS: #{to_dms(@observation.longitude)}"
-
-=f.submit "Start Observation" if @observation.new_record?
-
-
-=render 'observations/build/user'

@@ -1,7 +1,6 @@
 $(document).ready(function() {
 
-  $("#observation_ice_attributes_total_concentration").on('change',function(){
-
+  $("body").on('change', "#observation_ice_attributes_total_concentration", function(){
     $(".partial_concentration .help-block").html("Total Concentration: " + $(this).val() + "/10");
     
     var tc = parseInt($(this).val());

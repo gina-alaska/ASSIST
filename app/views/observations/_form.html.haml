@@ -1,11 +1,19 @@
-=content_for :errors do
-  - if @observation.errors.any?
-    = render 'shared/errors', model: @observation 
-
-= form_for @observation, url: wizard_path, html: { class: "autosave notify", id: "observation_form" }  do |f|
-  = render partial: 'observations/build/header', locals: {f:f} unless @observation.new_record?
-  = hidden_field_tag :step, step, id: :observation_status
-  = yield f
+#content
+  = form_for @observation, url: observation_path(@observation), html: { class: "autosave notify", id: "observation_form" }, remote: true  do |f|
+    .row
+      .span12
+        = render partial: 'observations/header', locals: {f: f} unless @observation.new_record?
+    .tab-content
+      #general.tab-pane.active
+        =render partial: "observations/general", locals: {f: f}
+      #ice.tab-pane
+        =render partial: "observations/ice", locals: {f: f}
+      #meteorology.tab-pane
+        =render partial: "observations/meteorology", locals: {f: f}
+      #photos.tab-pane
+        =render partial: "observations/photos", locals: {f: f}
+      #comments.tab-pane
+        =render partial: "observations/comments" 
 
 #add_comment.modal.hide
   - comment = @observation.comments.build data: "(General)"

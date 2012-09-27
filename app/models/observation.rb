@@ -32,6 +32,10 @@ class Observation < ActiveRecord::Base
 
 
   before_create do |obs|
+    begin
+      obs.uuid = SecureRandom.uuid
+    end while Observation.where(uuid: obs.uuid).any?
+    
     obs.ice = Ice.new if obs.ice.nil?
     obs.meteorology = Meteorology.new if obs.meteorology.nil?
     %w(primary secondary tertiary).each do |obs_type|
@@ -46,33 +50,12 @@ class Observation < ActiveRecord::Base
   accepts_nested_attributes_for :meteorology
   accepts_nested_attributes_for :photos
 
-  # validates_presence_of :primary_observer_id, :if => :active_or_finalized?
-  # validates_presence_of :obs_datetime, :message => "Invalid or no date given", :if => :active_or_finalized?
-  # validates_presence_of :hexcode, :if => :active_or_finalized?
-  # validates_uniqueness_of :hexcode, :if => :active_or_finalized?
-
-  #Allow DD or DM(S)
-  # validates_format_of :latitude, :with => /^(\+|-)?[0-9]{1,2}(\s[0-9]{1,2}(\.[0-9]{1,2})?|\.[0-9]*)(\s?[NS])?$/ 
-  # validates_format_of :longitude, :with => /^(\+|-)?[0-9]{1,3}(\s[0-9]{1,2}(\.[0-9]{1,2})?|\.[0-9]*)(\s?[EW])?$/
-  # validate :location
-
-  before_validation do
+  before_save do
     self.latitude = self.to_dd(latitude) if latitude =~ /^(\+|-)?[0-9]{1,2}\s[0-9]{1,2}(\.[0-9]{1,2})?(\s?[NS])?$/
     self.longitude = self.to_dd(longitude) if longitude =~ /^(\+|-)?[0-9]{1,3}\s[0-9]{1,2}(\.[0-9]{1,2})?(\s?[EW])?$/
     self.hexcode = Digest::MD5.hexdigest("#{obs_datetime}#{latitude}#{longitude}#{primary_observer.try(&:first_and_last_name)}")
   end
 
-  def active?
-    self.status == 'general'
-  end
-
-  def finalized?
-    self.status == 'finalized'
-  end
-
-  def active_or_finalized?
-    active? || finalized?
-  end
 
   def to_dd dms
     deg,ms = dms.split " "
@@ -82,10 +65,6 @@ class Observation < ActiveRecord::Base
     dd.to_f.round(4)
   end
 
-  def location 
-    errors.add(:base, "Latitude must be between -90 and 90") unless (latitude.to_f < 90 && latitude.to_f > -90)
-    errors.add(:base, "Longitude must be between -180 and 180") unless (longitude.to_f < 180 && longitude.to_f > -180)
-  end
 
   def self.from_csv csv, map = "import_map.yml"
     count = 0
@@ -121,12 +100,7 @@ class Observation < ActiveRecord::Base
 
       observation = Observation.import(data[:observation])
       observation.obs_datetime = obs_datetime
-      
-      logger.info("*************")
-      logger.info(observation.meteorology.clouds.count)
-      #logger.info(observation.ice_observations.primary.topography.inspect)
-      logger.info("*************")
-      
+   
       if(observation.save)
         count += 1
       else
@@ -179,43 +153,8 @@ class Observation < ActiveRecord::Base
     data
   end
 
-  # def as_csv 
-  #   [
-  #     "#{obs_datetime}",
-  #     "#{primary_observer.try(&:first_and_last_name)}",
-  #     additional_observers.collect(&:first_and_last_name).join(";"), 
-  #     latitude,
-  #     longitude,
-  #     hexcode,
-  #     Cruise.id,
-  #     Cruise.ship,
-  #     ice.as_csv,
-  #     ice_observations.collect(&:as_csv),
-  #     meteorology.try(&:as_csv)
-  #   ]
-  # end
-
-  # def to_csv
-  #   c = CSV.generate({:headers => true}) do |csv|
-  #     csv << Observation.headers.flatten
-  #     csv << as_csv.flatten
-  #   end
-  #   c
-  # end
-  # 
-  # def self.to_csv
-  #   c = CSV.generate({:headers => true}) do |csv|
-  #     headers = Observation.headers.flatten
-  #     csv << headers
-  #     Observation.all.each do |o|
-  #       csv << o.as_csv.flatten
-  #     end
-  #   end
-  #   c
-  # end
-  # 
   def as_json opts={}
-    {
+    data = {
       obs_datetime: obs_datetime,
       primary_observer: primary_observer.as_json,
       additional_observers: additional_observers.collect{|o| o.try(&:first_and_last_name)},
@@ -230,28 +169,30 @@ class Observation < ActiveRecord::Base
       photos_attributes: photos.collect(&:as_json),
       comments_attributes: comments.collect(&:as_json)
     }
+    data = lookup_id_to_code(data)
+    data
   end
 
-  def self.as_json
-    Observation.all.collect(&:as_json).to_json
+  def lookup_id_to_code(hash) 
+    hash.inject(Hash.new) do |h, (k,v)|
+      key = k.to_s.gsub(/lookup_id$/, "lookup_code")
+    
+      case v.class.to_s
+      when "Hash"
+        h[key] = lookup_id_to_code(v)
+      when "Array"
+        h[key] = v.collect{|item| item.is_a?(Hash) ? lookup_id_to_code(item) : item } 
+      else
+        #If it's a lookup and not nil, convert it into a code
+        if(key =~ /lookup_code$/ and !!v)
+          #Use where instead of find. If any bad values got injected it will turn them into nil
+          v = key.chomp("_code").camelcase.constantize.where(id: v).first.try(&:code)
+        end
+        h[key] = v
+      end
+      h
+    end
   end
-
-  def self.to_json
-    Observation.all.collect(&:to_json).to_json
-  end
-
-  # def self.headers opts={}
-  # 
-  #   headers = %w( Date PrimaryObserver AdditionalObservers LATdm LONdm Hexcode CruiseID ShipName)
-  #   headers.map!{|h| "#{opts[:prefix]}#{h}"} if opts[:prefix]
-  #   headers.map!{|h| "#{h}#{opts[:postfix]}"}  if opts[:postfix]
-  # 
-  #   headers.push(Ice.headers)
-  #   %w(Primary Secondary Tertiary).each {|index| headers.push( IceObservation.headers(:prefix => index) )}
-  #   headers.push( Meteorology.headers )
-  #   
-  #   headers.flatten!
-  # end
 
   def zip!
     FileUtils.mkdir(path) unless File.exists?(path)
@@ -273,9 +214,9 @@ class Observation < ActiveRecord::Base
 
     metadata = {
       exported_on: Time.now.utc,
-      assist_version: "1.0",
-      cruise_id: Cruise.id,
-      ship_name: Cruise.ship,
+      assist_version: ASSIST_VERSION,
+      cruise_id: Cruise[:id],
+      ship_name: Cruise[:ship],
       observation_count: observations.count,
       observations: "#{name}.json",
       photos_included: !!params[:include_photos]
@@ -320,7 +261,7 @@ class Observation < ActiveRecord::Base
     FileUtils.mkdir(path) unless File.exists?(path)
     files = []
     [formats].flatten.each do |format|
-      file = File.join(path,"#{Cruise.id}.observations.#{format.to_s}")
+      file = File.join(path,"#{Cruise[:id]}.observations.#{format.to_s}")
       File.open(file,"w") do |f|
         f << Observation.send("to_#{format.to_s}")
       end
@@ -332,12 +273,13 @@ class Observation < ActiveRecord::Base
   def name 
     obs_datetime.try(:strftime, "%Y.%m.%d-%H.%M") || "INVALID_OBSERVATION_#{self.id}"
   end
+  
   def path 
-    "#{EXPORT_DIR}/#{name}"
+    "#{EXPORT_DIR}/#{self.uuid}"
   end
+  
   def self.path
     EXPORT_DIR
   end
-
 
 end

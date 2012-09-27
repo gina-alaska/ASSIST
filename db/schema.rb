@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120622170554) do
+ActiveRecord::Schema.define(:version => 20121009230925) do
 
   create_table "algae_distribution_lookups", :force => true do |t|
     t.string   "name"
@@ -166,6 +166,7 @@ ActiveRecord::Schema.define(:version => 20120622170554) do
     t.text     "additional_comments"
     t.integer  "primary_observer_id"
     t.string   "status",              :default => "general"
+    t.string   "uuid"
   end
 
   create_table "on_boat_location_lookups", :force => true do |t|

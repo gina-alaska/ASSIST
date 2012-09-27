@@ -26,3 +26,5 @@
 /db/lookups/*.yaml
 
 config/initializers/cruises.rb
+
+.DS_Store

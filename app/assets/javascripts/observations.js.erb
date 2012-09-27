@@ -2,179 +2,25 @@
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
 */
-
-
 $(document).ready(function() {
-  $(".coord").change( parseCoord )
+  $("body").on("change", ".coord", parseCoord )
 
-  $(".obs-submit").click(function() {
-    $("#observation_form").attr("action", $(this).attr("data-url"));
-  
-    $("#observation_form").submit();
-  });
-
-  $("a[data-toggle=pill]").on("click", function() {
+  $("body").on("click", "a[data-toggle=pill]", function() {
     $(this).siblings(".btn-primary").removeClass("btn-primary");
     $(this).addClass("btn-primary");
     //Set up the comments to have the correct prefix
     $("#comment_data").val("(" + $(this).html() + ")");
   });
   
-  $("#obs-validate").click( function() {
-    var url = $("#obs-validate").attr("data-url");
-    var params = $("#observation_form").serialize();
-    $.ajax( url, {
-      data: params,
-      type: 'POST',
-      error: handleValidateError,
-      success: handleValidateSuccess
-    });
-  })
-    
-  $("#observation_form").on('change', function() {
+  $("body").on("click", "#save_observation", function(e) {
+    e.preventDefault();
+    $.rails.handleRemote($("#observation_form"));
+  });
+  
+  $("body").on('change', "#observation_form", function() {
     $("#save_observation").addClass('btn-danger').button('enable');
   });
-
-  return false;
-  var $obsForm = $('#observation_form');
-  $obsForm.tabs({
-    show: function(event, ui) {
-      $(ui.panel).find('.topography').chosen({
-        width: '98%'
-      }).change( handleTopographies );//.removeClass("topography");
-
-
-      $(ui.panel).find('.combobox:visible').chosen({
-        width: '98%'
-      });
-      $(ui.panel).find('.users:visible').chosen({
-        no_results_text: "That user was not found.",
-        width: '98%'
-      });
-    },
-    select: function(event,ui) {
-      var form = $(".ui-tabs-panel form.autosave.dirty:visible");
-      if(form.length !== 0 ) {
-        event.preventDefault();
-        saveFormAndChangeTab(form.first(), ui);
-      }
-    }
-
-  });
-
-  $("#next_button").click(function(event) {
-    event.preventDefault();
-
-    var panel = $("#observation_form");
-    var currentTab = $(panel).tabs('option','selected');
-    $(panel).tabs('option', 'selected', currentTab + 1);
-
-  });
-
-
-  $("#nav_buttons").buttonset();
-  $(".radioset").buttonset();
-  $("#adduser").button({
-    icons: {
-      primary: 'ui-icon-plusthick'
-    }
-  });
-
-  $("#observation_date").datepicker({
-    dateFormat: "yy.mm.dd",
-    constrainInput: false
-  });
-
-  $("form.autosave").change( function() {
-    $(this).addClass("dirty");
-    $("#save_button").addClass("dirty");
-    $("#save_button").button("enable");
-  });
-
-
-  $("#save_button").click( function(event) {
-    // var tab = $("#observation_form").tabs("option", "selected");
-    // $("#observation_form").trigger("select");
-    // event.preventDefault();
-    
-    var form = $(".ui-tabs-panel form.autosave.dirty:visible");
-    $.each(form, function( index, f ) {
-      $.rails.handleRemote( $(f) );
-    });
-    event.preventDefault();
-    
-  });
-
-
-
-  $("form.notify").bind("ajax:beforeSend", function(e) {
-    $(".field_with_errors").removeClass("field_with_errors");
-    $.growlUI("", "Saving");
-  });
-  $("form.notify").bind("ajax:error", function(evt, xhr, status, error) {
-    var response = $.parseJSON(xhr.responseText);
-    var msg = response.flash;
-
-    $.each(response.errors, function( key, values) {
-      $("."+key).addClass("field_with_errors");
-    });
-    $.growlUI("Errors", response.flash.join("<br />"));
-  });
-  $("form.notify").bind("ajax:success", function(evt, data, status, xhr) {
-    $.growlUI("","Save Successful");
-    $("form.dirty:first").removeClass("dirty");
-    $("#save_button").removeClass("dirty");
-    $("#save_button").button("disable");
-  });
-
-
-  $(".file_upload").button();
-  $(".import").fileupload({
-    dataType: 'json',
-    url: $(this).attr('action'),
-    add: function( e, data ) {
-      $("body").block({
-        message: "Please wait, this may take a while"
-      });
-      data.submit();
-    },
-    done: function(e, data ) {
-      $("body").unblock();
-    }, 
-    error: function( e, data ) {
-      $.growlUI("","There was an error");
-    },
-    success: function(xhr, result) {
-      $.growlUI("", xhr['imported'] + " records imported");
-    }
-  });
 });
-
-
-
-function saveFormAndChangeTab( form, ui ) {
-
-  $(form).block({message:null});
-  $.ajax({
-    url: $(form).attr("action"),
-    type: 'PUT',
-    data: $(form).serialize(),
-    beforeSend: function(xhr, settings) {
-      return $.rails.fire( form, "ajax:beforeSend",[xhr,settings]);
-    },
-    success: function(data, status, xhr) {
-      $("#observation_form").tabs('option', 'selected', ui.index);
-      form.trigger("ajax:success", [data,status,xhr]);
-    },
-    complete: function(xhr, status) {
-      form.trigger("ajax:complete", [xhr,status]);
-      $(form).unblock();
-    },
-    error: function(xhr, status, error) {
-      form.trigger("ajax:error", [xhr,status,error]);
-    }
-  });
-}
 
 function parseCoord( evt ) {
   var value = $(evt.target).val();
@@ -207,18 +53,4 @@ function parseCoord( evt ) {
 
   $(evt.target).siblings(".help-block:last").html(altText);
 
-}
-
-function handleValidateError(jqXhr, status, e) {
-  console.log(jqXhr);
-  flashNotice(jqXhr.responseText);
-}
-
-function handleValidateSuccess(data, status, jqXhr) {
-  console.log(jqXhr);
-  //flashNotice(jqXhr.responseText);
-}
-
-function flashNotice(data) {
-  $("#errors").html(data)
 }

@@ -1,0 +1,6 @@
+$("#attached_photos").append(
+  $('#attached_photos').
+    data('fields').
+    replace(RegExp("uploaded_photo", 'g'), <%= @photo.id %>).
+    replace(RegExp("/placehoder_image/",'g'), 
+      '<%= "#{observation_photo_url(@observation, @photo)}#{File.extname(@photo.name)}" %>'));

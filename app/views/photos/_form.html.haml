@@ -1,0 +1,5 @@
+.hide
+  = form_for [@observation,@observation.photos.build], remote: true do |f|
+    .file_uploads
+      Upload Photo
+      = f.file_field :data

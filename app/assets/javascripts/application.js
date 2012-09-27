@@ -36,28 +36,22 @@ $(document).ready( function() {
       bPaginate: false
   });
   
-  $("input").focus( function() {
-    $(this).parent(".fields").addClass("focus");
-  });
-  $("input").blur( function() {
-    $(this).parent(".fields").removeClass("focus");
-  });
-  
-  
   $("#export_all").change( function() {
     if($(this).attr("checked") === "checked") {
-      $(".observation input:visible").attr("checked", "checked");
+      $(".observation input:visible:enabled").attr("checked", "checked");
     } else {
       $(".observation input").removeAttr("checked");
     }
   });
   
   $("#exportAllBtn").click( function(e) {
-    document.location = $(this).parents('form').attr('action');
+    e.preventDefault();
+    if(confirm("This will only export valid observations. Proceed?")) {
+      document.location = $(this).parents('form').attr('action');
+    }
   });
   
-  $("#exportBtn").click( function(e) {
-   
+  $("#exportBtn").click( function(e) {   
     e.preventDefault();
     var obsList = $(".observation input:checked:not(#export_all)").filter(":visible");
   
@@ -79,8 +73,7 @@ $(document).ready( function() {
       document.location = action;
     }
   });
-  
-  
+
   $("#import_observations").fileupload({
     dataType: 'json',
     url: $("#import_observations").attr('action'),

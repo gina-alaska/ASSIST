@@ -1,2 +1,11 @@
 #obs_form
   =render 'form'
+
+=render 'observations/user'
+
+.hide
+  = form_for [@observation,@observation.photos.build], remote: true do |f|
+    .file_upload
+      Upload Photo
+      = f.file_field :data
+  

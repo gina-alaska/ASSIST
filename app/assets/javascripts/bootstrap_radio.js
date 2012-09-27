@@ -1,21 +1,14 @@
-jQuery(function($) {
-  $('div.btn-group[data-toggle-name=*]').each(function(){
-    var group   = $(this);
-    var form    = group.parents('form').eq(0);
-    var name    = group.attr('data-toggle-name');
-    var hidden  = $('input[id="' + name + '"]', form);
-    $('button', group).each(function(){
-      var button = $(this);
-      button.live('click', function(e){
-        e.preventDefault();
-        form.trigger('change');
-        hidden.val($(this).attr('data-radio-value'));
-      
-        if($(this).parents('form').attr('data-remote')) {
-          $(this).parents('form').submit();
-        }
-      });
-      
-    });
+$(document).ready( function() {
+  $("body").on("click","div.btn-group[data-toggle-name]", function(e){
+    e.preventDefault();
+    var name = $(this).attr('data-toggle-name');
+    var hidden = $('input[id="' + name + '"]');
+    var form = $(this).parents('form');
+    var value = $(this).find(".btn.active").attr("data-radio-value") || '';
+    
+    $(hidden).val(value);
+    
+    //Let the parent form know data has changed
+    $(form).trigger("change")
   });
 });

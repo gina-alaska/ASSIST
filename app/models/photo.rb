@@ -23,11 +23,7 @@ class Photo < ActiveRecord::Base
   end
 
   def as_json opts={}
-    {
-      checksum_id: checksum_id,
-      name: name,
-      on_boat_location_lookup_code: on_boat_location_lookup.try(&:code)
-    }
+    super except: [:id, :created_at, :updated_at]
   end
 
 end

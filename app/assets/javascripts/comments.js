@@ -1,19 +1,18 @@
 $(document).ready(function() {
 
-  $("#new_comment").on("ajax:success", appendComment );
-  $("#new_comment").on("ajax:error", function(){
+  $("body").on("ajax:success", "#new_comment", appendComment );
+  $("body").on("ajax:error", "#new_comment", function(){
   });
-  $("#new_comment").on("ajax:complete", function() {
+  $("body").on("ajax:complete", "#new_comment", function() {
     $(this).parent(".modal").modal('hide');
   });
-  $("#attached_comments").on('ajax:success',".close", function() {
+  $("body").on('ajax:success',"#attached_comments .close", function() {
+    console.log("DOOM")
     $(this).parents(".comment:first").fadeOut('fast', function() {
       $(this).remove();
     });
   });
 });
-
-
 
 function appendComment(e, data) {
   var url = data.url;

@@ -1,55 +1,45 @@
 $(document).ready( function() {
-  var $photoForm = $('#new_photo');
+  $("body").on('click', "#upload_photo_btn", function(){
+    $("#photo_data").trigger('click').fileupload({
+      dataType: 'script',
+      url: $(this).attr('action'),
+      add: function(e, data) {
+        data.submit();
+      },
+      error: function(xhr,status,error) {
+        $(".errors").html(xhr.responseText);
+      },
+      complete: function() {
+        $("#new_photo").unblock();
+      },
+      start: function() {
+        $(".errors").html("");
+      }
+    });
+  });
 
-  $("#attached_photos").on('change', ".edit_photo input", function(el){
-    $(el.target).submit();
+  $("body").on("change", ".new_photo", function(){
+    $(this).fileupload({
+      dataType: 'script',
+      url: $(this).attr('action'),
+      add: function(e, data) {
+        data.submit();
+      },
+      error: function(xhr,status,error) {
+        $(".errors").html(xhr.responseText);
+      },
+      complete: function() {
+        $("#new_photo").unblock();
+      },
+      start: function() {
+        $(".errors").html("");
+      }
+    });
   });
   
-  $("#attached_photos").on("ajax:beforeSend", ".edit_photo", function(el) {
-    $(this).find('.label-success').addClass('hide');
-    $(this).find('.label-warning').removeClass('hide');      
-  })
-  $("#attached_photos").on("ajax:success", ".edit_photo", function(el) {
-    $(this).find('.label-warning').addClass('hide');
-    $(this).find('.label-success').removeClass('hide').fadeOut('slow', function() {
-      $(this).addClass('hide').removeAttr('style');
-    });  
-  });
-
-  $photoForm.fileupload({
-    dataType: 'json',
-    url: $photoForm.attr('action'),
-    add: function(e, data) {
-      data.submit();
-    },
-    done: appendPhoto,
-    error: function(xhr,status,error) {
-      $(".errors").html(xhr.responseText);
-    },
-    complete: function() {
-      $("#new_photo").unblock();
-    },
-    start: function() {
-      $(".errors").html("");
-    }
-  });
-
-  $("#attached_photos").on('ajax:success',".delete_photo", function() {
+  $("body").on('ajax:success', "#attached_photos .delete_photo", function() {
     $(this).parents(".row:first").fadeOut('fast', function() {
       $(this).remove();
     });
   });
-  
-  
-  
 });
-
-
-function appendPhoto(e, data) {
-  var r = data.result;
-  var url = r.url;
-  var photo = $.get( url, function(data) {
-    $("#attached_photos").append(data);
-  });
-  //$("#new_photo").unblock();
-}

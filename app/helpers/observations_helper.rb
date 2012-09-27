@@ -49,4 +49,12 @@ module ObservationsHelper
     options_for_select(range, {selected: selected, disabled: disabled})
   end
   
+  def photo_upload_fields(f)
+    photo = Photo.new(name: "/placeholder_photo/")
+    fields = f.fields_for(:photos, photo, child_index: 'uploaded_photo') do |form|
+      render 'photos/photo_fields', photo: photo, form: form
+    end
+    fields.gsub("\n","")
+  end
+  
 end

@@ -1,2 +1,0 @@
-class CloudsController < ApplicationController
-end

@@ -1,11 +1,7 @@
--# = render 'observations/build/form'
--# .errors
-
-.well
-  = form_for [@observation,@observation.photos.build], remote: true do |f|
-    .file_upload
+.row
+  .well.span4.offset4
+    #upload_photo_btn.btn.btn-primary.btn-large.btn-block
       Upload Photo
-      = f.file_field :data
-
-#attached_photos    
-  = render partial: 'photos/photo', collection: @observation.photos, as: 'photo'
+    
+#attached_photos{data: {fields: photo_upload_fields(f)}}    
+  = render partial: 'photos/photo', collection: @observation.photos, as: 'photo', locals: {f: f}

@@ -36,35 +36,10 @@ class Meteorology < ActiveRecord::Base
 
   accepts_nested_attributes_for :clouds
 
-  #validates_presence_of :visibility_lookup_id, :if => :finalized_or_meteorology?
-  
-  # def finalized_or_meteorology?
-  #   return false if observation.nil?
-  #   o = Observation.find(self.observation_id)
-  #   o.finalized? || o.status == 'meteorology'
-  # end
-  # 
-  # def as_csv 
-  #   [ 
-  #     visibility_lookup.try(&:code),
-  #     weather_lookup.try(&:code),
-  #     clouds.collect{|c| c.try(&:as_csv) }
-  #   ]
-  # end
-
   def as_json opts={}
-    {
-      visibility_lookup_code: visibility_lookup.try(&:code),
-      weather_lookup_code: weather_lookup.try(&:code),
-      clouds_attributes: clouds.collect(&:as_json)
-    }
+    data = super except: [:id, :created_at, :updated_at, :observation_id]
+    data[:cloud_attributes] = self.clouds.as_json
+    data
   end
 
-  # def self.headers opts={}
-  #   headers = %w( Visibility Weather )
-  #   headers.map!{|h| "#{opts[:prefix]}#{h}"} if opts[:prefix]
-  #   headers.map!{|h| "#{h}#{opts[:postfix]}"}  if opts[:postfix] 
-  #   %w(High Medium Low).each{|h| headers.push(Cloud.headers(:prefix => h))}
-  #   headers
-  # end
 end

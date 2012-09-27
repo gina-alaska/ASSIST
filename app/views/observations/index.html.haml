@@ -60,16 +60,20 @@
             %th 
         %tbody
           - @observations.each do |o|
-            %tr.observation
-              %td= check_box_tag "observations[]", o.id, false, id: "observation_#{o.id}"
+            %tr.observation{class: o.valid? ? '' : 'error' }
+              %td= check_box_tag "observations[]", o.id, false, id: "observation_#{o.id}", disabled: !o.valid?
               %td= o.obs_datetime
               %td= o.updated_at
               %td= o.ice.try(:total_concentration)
               %td= o.primary_observer.try(:first_and_last_name)
               %td= o.additional_observers.collect(&:first_and_last_name).join ","
               %td
-                = link_to "[edit]", observation_build_path(o,:general)
-                = link_to "[csv]", observation_path(o,:csv)
+                = link_to edit_observation_path(o), class: 'btn btn-mini' do 
+                  %i.icon-pencil
+                  Edit
+                = link_to  observation_path(o,:csv), class: 'btn btn-mini' do 
+                  %i.icon-list
+                  CSV
 -else
   %p
     There have been no observations made yet.

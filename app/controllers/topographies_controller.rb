@@ -1,2 +1,0 @@
-class TopographiesController < ApplicationController
-end

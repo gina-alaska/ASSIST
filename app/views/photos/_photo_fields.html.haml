@@ -1,0 +1,30 @@
+.row
+  .thumbnail.span2
+    - if photo.new_record?
+      = image_tag "/placehoder_image/"
+      = form.hidden_field :id, value: 'uploaded_photo'
+    - else
+      = image_tag "#{observation_photo_url(@observation, photo)}#{File.extname(photo.name)}"
+      = form.hidden_field :id, value: photo.id
+  .edit_photo_div.span10
+    .control-group
+      .controls
+        .btn-toolbar
+          .btn-group{'data-toggle' => 'buttons-radio', 'data-toggle-name' => "photo_location_id_#{photo.id}" }
+            - OnBoatLocationLookup.all.each do |loc|
+              %button.btn.boat_location{'data-toggle' => 'button', 'data-radio-value' => loc.id, class: photo.on_boat_location_lookup_id == loc.id ? "active" : ""}
+                = loc.name
+            = form.hidden_field :on_boat_location_lookup_id, id: "photo_location_id_#{photo.id}"
+
+          .btn-group
+            = link_to "Delete", [@observation,photo], method: :delete, class: 'btn btn-danger delete_photo', confirm: 'Are you sure?', remote: true
+    .control-group
+      .controls
+        = form.text_field :note, placeholder: 'notes'
+        %p.help-text
+          %span.label.label-success.hide
+            Saved
+          %span.label.label-warning.hide
+            Saving
+          %span.label.label-important.hide
+            Error

@@ -23,7 +23,9 @@ class PhotosController < ApplicationController
       end
 
       if request.xhr?                              
-        render :json => {:photo => @photo, :url => observation_photo_path(@observation, @photo)}, :status => :ok
+        respond_to do |format|
+          format.js {render partial: 'photos/photo', layout: false}
+        end
       else
         redirect_to edit_observation_url(@photo.observation)
       end

@@ -14,14 +14,15 @@
           =link_to root_url, class: :brand do
             %strong
               ASSIST:
-            - %w(Arctic Ship-based Sea Ice Standardization Tool).each do |word|
+            - %w(Arctic Shipbourne Sea Ice Standardization Tool).each do |word|
               = succeed(word[1..-1] + " ") do
                 %strong= word.first
-
           %ul.nav.pull-right
             %li= link_to 'List', root_url
-            %li= link_to 'New', new_observation_path
+            %li= link_to 'New', observations_path, method: :post
             %li.last=# link_to 'Manage [not implemented]', manage_observations_path
+    #errors
+      = yield :errors
     .container
       .row
         = yield :header_nav

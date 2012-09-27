@@ -21,31 +21,11 @@ class IceObservation < ActiveRecord::Base
     obs.melt_pond = MeltPond.new if obs.melt_pond.nil?
   end
 
-
-
   def as_json opts={}
-    {
-      obs_type: obs_type,
-      partial_concentration: partial_concentration,
-      ice_lookup_code: ice_lookup.try(&:code),
-      thickness: thickness,
-      floe_size_lookup_code: floe_size_lookup.try(&:code), 
-      snow_lookup_code: snow_lookup.try(&:code),
-      snow_thicness: snow_thickness,
-      biota_lookup_code: biota_lookup.try(&:code),
-      sediment_lookup_code: sediment_lookup.try(&:code),
-      melt_pond_attributes: melt_pond.as_json,
-      topography_attributes: topography.as_json
-    }
-  end
+    data = super except: [:id, :updated_at, :created_at, :observation_id]
+    data[:melt_pond_attributes] = melt_pond.as_json
+    data[:topography_attributes] = topography.as_json
+    data
 
-
-  def self.headers opts={}
-    puts opts
-    headers = %w( ObsType C T Z F SY SH AL SD )
-    headers.map!{|h| "#{opts[:prefix]}#{h}"} unless opts[:prefix].nil?
-    headers.map!{|h| "#{h}#{opts[:postfix]}"}  unless opts[:postfix].nil? 
-    headers.push(MeltPond.headers prefix: opts[:prefix])
-    headers.push(Topography.headers prefix: opts[:prefix])
   end
 end

@@ -1,88 +1,49 @@
-function handleTopographies( ) {
+function handleTopographies() {
   var levelCodes = <%= TopographyLookup.where("code >= 100 AND code < 200").pluck(:id) %>;
   var pancakeCodes = <%= TopographyLookup.where("code >= 200 AND code < 400").pluck(:id) %>;
   var raftCodes = <%= TopographyLookup.where("code >= 400 AND code < 500").pluck(:id) %>;
   var ridgeCodes = <%= TopographyLookup.where("code >= 500 AND code < 600").pluck(:id) %>;
-  var rafts = false;
-  var ridges = false;
-  var concentration = false;
-  var pancakes = false;
-  
-  
+
+  this.clearInputs = function(el) {
+    $(el).val('');
+    $(el).removeAttr("selected");
+    $(el).removeAttr("checked");
+    $(el).attr("readonly","readonly")
+  };
+    
   $(".topography option:selected").each( function(index, item) {
     var value = parseInt($(item).val());
     var group = $(this).parents(".topography_group");
     
-    if(levelCodes.indexOf(value) >= 0) {
-      var inputs = $(group.find("input"));
-      $(group).find('.concentration').select2("disable");
-      $(inputs).val('');
-      $(group).find(".concentration option:selected").removeAttr("selected");
-      $(inputs).attr("disabled", true);
-      $(inputs).find(".btn").removeClass('active').attr('disabled',true);
-      $(group).find('.concentration').trigger('change');
-    } else if(pancakeCodes.indexOf(value) >= 0) {
-      concentration = true;
-      var inputs = $(group.find("input:not(:hidden)"));
-      $(group).find('.concentration').select2("enable");
-      $(inputs).val('');
-      $(inputs).removeAttr("selected");
-      $(inputs).attr("disabled", true);
-      $(inputs).find(".btn").removeClass('active').attr('disabled',true); 
-    } else if(raftCodes.indexOf(value) >= 0) {
-      rafts = true;
-      //Disable non-rafts
-      var inputs = $(group).find(".ridges:not(.rafts)");
-      $(group).find(".ridges:not(.rafts) select").select2("disable");
-      $(group).find(".rafts select").select2("enable");
-      $(group).find(".concentration").select2("enable");
-
-      $(inputs).val('');
-      $(inputs).removeAttr("selected");
-      $(inputs).removeAttr("checked")
-      $(inputs).attr("disabled", true);
-      $(group).find('.btn').removeClass('active').attr('disabled',true);
-      //Enable rafts
-      $(group).find(".rafts").removeAttr("disabled");
-    } else if(ridgeCodes.indexOf(value) >= 0) {
-
-      ridges = true;
-      $(group).find(".concentration").select2("enable");
-
-      $(group).find(".ridges input").removeAttr("disabled");
-      $(group).find(".rafts:not(.ridges) select").select2('disable')
-      $(group).find('.btn').removeAttr('disabled');
-      $(group).find(".ridges select").select2("enable");
+    var concentration = $(group).find(".concentration");
+    if([].concat(pancakeCodes,raftCodes,ridgeCodes).indexOf(value) >= 0) {
+      $(concentration).select2("enable")
+      $(concentration).trigger("change");
     } else {
-      var inputs = $(group).find(".ridges");
-      $(inputs).val('');
-      $(inputs).attr("disabled", true);
-      $(group).find(".concentration").select2("disable");
-      $(group).find(".concentration option:selected").removeAttr("selected");
-      $(group).find('.btn').removeClass('active').attr('disabled',true);
-      
-      $(group).find(".ridges").val('');
-      $(group).find('.concentration').trigger('change');
+      clearInputs($(concentration));
+      $(concentration).select2("disable")
+      $(concentration).trigger("change");
     }
-  
+    
+    var ridges = $(group).find(".ridge-height");
+    if([].concat(raftCodes,ridgeCodes).indexOf(value) >= 0) {
+      $(ridges).find("input").removeAttr("readonly");
+    } else {
+      clearInputs($(ridges).find("input"));
+    }
+    
+    var buttons = $(group).find(".ridge-boolean");
+    if([].concat(ridgeCodes).indexOf(value) >= 0) {
+      $(buttons).find(".btn").removeAttr('disabled');
+    } else {
+      clearInputs($(buttons).find("input"));
+      $(buttons).find(".btn").removeClass('active').attr('disabled',true); 
+    }  
   });
-/*  
-  if(ridges) {
-    //$(".ridges").removeClass("hide");
-    //$(".rafts:not(.ridges)").addClass('hide');  
-  } else if(rafts) { 
-    //$(".rafts").removeClass("hide")
-    //$(".ridges:not(.rafts)").addClass("hide");
-  } else if(concentration) {
-    //$(".concentration").parents(".control-group").removeClass("hide");
-  }else {
-    $(".ridges").addClass("hide");
-    $(".rafts").addClass("hide")
-  }
-*/
 }
 
 $(document).ready( function() {
+  $(".concentration").select2();
   handleTopographies();
-  $(".topography").on("change", handleTopographies);
+  $("body").on("change", ".topography", handleTopographies);
 });
