@@ -27,7 +27,7 @@ namespace :package do
   task :generate_zip, :name do |t, args|
     name = args[:name] || "ASSIST"
     name = "#{name}.zip"
-    
+    puts Dir.glob("*").inspect
     system("zip -j #{name} ASSIST.war vendor/launcher* db/production.sqlite3 doc/README.txt")
   end
   
