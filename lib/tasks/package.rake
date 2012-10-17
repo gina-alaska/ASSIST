@@ -28,7 +28,7 @@ namespace :package do
     name = args[:name] || "ASSIST"
     name = "#{name}.zip"
     
-    system("zip -j #{name} vendor/launcher* db/production.sqlite3 doc/README.txt")
+    system("zip -j #{name} ASSIST.war vendor/launcher* db/production.sqlite3 doc/README.txt")
   end
   
   desc "Run all package steps to produce a distributable zip"
