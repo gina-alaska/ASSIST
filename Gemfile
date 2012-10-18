@@ -18,7 +18,7 @@ gem 'assist-shared', git: 'http://github.com/gina-alaska/iceobs-shared', require
 
 gem 'haml'
 
-gem 'rubyzip', git: 'http://github.com/aussiegeek/rubyzip', :require => "zip/zipfilesystem"
+gem 'rubyzip', require: "zip/zipfilesystem"
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
