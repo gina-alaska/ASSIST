@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121009230925) do
+ActiveRecord::Schema.define(:version => 20121024182726) do
 
   create_table "algae_distribution_lookups", :force => true do |t|
     t.string   "name"
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(:version => 20121009230925) do
   end
 
   create_table "clouds", :force => true do |t|
-    t.float    "cover"
+    t.integer  "cover"
     t.integer  "height"
     t.integer  "cloud_lookup_id"
     t.integer  "meteorology_id"
