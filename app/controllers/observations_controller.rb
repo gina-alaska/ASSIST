@@ -221,7 +221,7 @@ protected
   
   def generate_zip observations, opts={}
     name = opts[:name] || "observations"
-    File.mkdir(Observation.path) unless File.exists? Observation.path
+    FileUtils.mkdir_p(Observation.path) unless File.exists? Observation.path
     fullpath = File.join(Observation.path, "#{name}.zip")
     FileUtils.remove(fullpath) if File.exists?(fullpath)
   
