@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121024182726) do
+ActiveRecord::Schema.define(:version => 20130128214216) do
 
   create_table "algae_distribution_lookups", :force => true do |t|
     t.string   "name"
