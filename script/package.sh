@@ -6,7 +6,7 @@ unset BUNDLE_GEMFILE
 
 git submodule init
 git submodule update
-bundle install
+bundle
 rake package:metadata["$1","$2"]
 rake db:setup
 rake assets:precompile
