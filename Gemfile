@@ -7,8 +7,8 @@ gem 'rails', '3.2.8'
 
 if RUBY_PLATFORM == 'java'
   gem 'warbler'
-  gem 'activerecord-jdbc-adapter', :require => false
-  gem 'jdbc-sqlite3'
+  gem 'activerecord-jdbcsqlite3-adapter', '1.2.2', :require => false
+  gem 'jdbc-sqlite3', '3.7.2'
   gem 'jruby-openssl'
 else
   gem 'sqlite3'
