@@ -1,15 +1,16 @@
 class ObservationsController < ApplicationController
   respond_to :html, :csv, :json, :zip
-
+  before_filter :load_cruise_info
+  
   def index
     @observations = Observation.includes(:ice, ice_observations: [:topography, :melt_pond], meteorology: [:clouds])
-    
+
     if(observation_ids.any?)
       @observations = @obserations.where(observation_ids)
     end
 
     respond_with @observations do |format|
-      format.html
+      format.html 
       format.csv {render text: generate_csv(@observations)}
       format.zip do 
        # Observation.zip! @observations, name: "Observation", formats: [:csv,:json]
@@ -256,4 +257,14 @@ protected
       end
     end
   end
+  
+  private
+  def load_cruise_info
+    @cruise = CruiseInfo.first
+    
+    if @cruise.nil?
+      redirect_to new_cruise_info_path
+    end
+  end
+
 end
