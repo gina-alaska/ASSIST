@@ -1,16 +1,16 @@
 #!/bin/bash
 
 export JRUBY_OPTS="--1.9"
+export RAILS_ENV="production"
 unset BUNDLE_GEMFILE
 
 git submodule init
 git submodule update
 bundle install
 rake package:metadata["$1","$2"]
-rake db:migrate
-rake db:seed
+rake db:setup
 rake assets:precompile
-warble executable war
+bundle exec warble executable war 
 
 DATE=`date "+%Y%m%d"`
 PKGNAME="ASSIST_$1_$DATE"
