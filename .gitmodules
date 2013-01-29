@@ -1,9 +1,0 @@
-[submodule "vendor/assets/jquery-plugins/jquery-file-upload"]
-	path = vendor/assets/jquery-plugins/jquery-file-upload
-	url = http://github.com/blueimp/jQuery-File-Upload
-[submodule "vendor/assets/jquery-plugins/jquery-blockUI"]
-	path = vendor/assets/jquery-plugins/jquery-blockUI
-	url = https://github.com/malsup/blockui.git
-[submodule "vendor/assets/jquery-plugins/select2"]
-	path = vendor/assets/jquery-plugins/select2
-	url = https://github.com/ivaynberg/select2.git
