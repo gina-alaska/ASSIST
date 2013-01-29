@@ -1,36 +1,15 @@
-#content
-  = form_for @observation, url: observation_path(@observation), html: { class: "autosave notify", id: "observation_form" }, remote: true  do |f|
-    .row
-      .span12
-        = render partial: 'observations/header', locals: {f: f} unless @observation.new_record?
-    .tab-content
-      #general.tab-pane.active
-        =render partial: "observations/general", locals: {f: f}
-      #ice.tab-pane
-        =render partial: "observations/ice", locals: {f: f}
-      #meteorology.tab-pane
-        =render partial: "observations/meteorology", locals: {f: f}
-      #photos.tab-pane
-        =render partial: "observations/photos", locals: {f: f}
-      #comments.tab-pane
-        =render partial: "observations/comments" 
-
-#add_comment.modal.hide
-  - comment = @observation.comments.build data: "(General)"
-  = form_for [@observation,comment], remote: true do |f|
-    .modal-header
-      %h4
-        Add Comment
-        = link_to "×", "#", 'data-dismiss' => 'modal', class: 'close'
-    .modal-body
-      .control-group
-        = f.label :user_id, "Add as:", class: 'control-label'
-        .controls
-          = f.collection_select :user_id, User.all, :id, :first_and_last_name, |
-            { :include_blank => false }, {class: 'users combobox'}
-        %p.help-block
-      .control-group
-        .controls
-          = f.text_area :data, rows: 10
-    .modal-footer
-      = f.submit "Add Comment", class: 'btn btn-primary btn-large'
+= form_for @observation, url: observation_path(@observation), html: { class: "autosave notify", id: "observation_form" }, remote: true  do |f|
+  .row
+    .span12
+      = render partial: 'observations/header', locals: {f: f} unless @observation.new_record?
+  .tab-content
+    #general.tab-pane.active
+      =render partial: "observations/general", locals: {f: f}
+    #ice.tab-pane
+      =render partial: "observations/ice", locals: {f: f}
+    #meteorology.tab-pane
+      =render partial: "observations/meteorology", locals: {f: f}
+    #photos.tab-pane
+      =render partial: "observations/photos", locals: {f: f}
+    #comments.tab-pane
+      =render partial: "observations/comments" 
