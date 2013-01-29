@@ -14,7 +14,7 @@ else
   gem 'sqlite3'
 end
 
-gem 'assist-shared', git: 'http://github.com/gina-alaska/iceobs-shared', require: 'assist_shared'
+gem 'assist-shared', '0.0.9', git: 'http://github.com/gina-alaska/iceobs-shared', require: 'assist_shared'
 
 gem 'haml'
 
@@ -33,6 +33,8 @@ end
 
 group :development do
   gem 'quiet_assets'
+  gem 'better_errors'
+  gem 'meta_request'
 end
 
 gem 'bootstrap-sass', '~> 2.1.0.0'
