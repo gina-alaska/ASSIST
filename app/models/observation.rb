@@ -1,6 +1,7 @@
 require 'csv'
 
 class Observation < ActiveRecord::Base
+  class InvalidLookupException < Exception;end
   include ImportHandler
   
   include AssistShared::CSV::Observation
@@ -63,94 +64,6 @@ class Observation < ActiveRecord::Base
     dec = (min.to_i * 60 + sec.to_i) / 3600.0
     dd = deg.to_i > 0 ? "#{(deg.to_i+dec)}" : "#{deg.to_i - dec}"
     dd.to_f.round(4)
-  end
-
-
-  def self.from_csv csv, map = "import_map.yml"
-    count = 0
-    errors = Array.new
-
-    if map.is_a? String
-      map = ::YAML.load_file map
-    end
-
-    if csv.is_a? String
-      csv = ::CSV.open csv, {:headers => true, :return_headers => false}
-    end
-
-    unknownObserver = User.find_or_create_by_firstname_and_lastname(map[:user][:first_name], map[:user][:last_name])
-      
-    csv.each do |row|
-      next if row.empty?
- 
-      data = parse_csv(row,map)
-      begin
-        date = data[:date]
-        obs_datetime = DateTime.parse( ERB.new(date[:parse]).result(binding) )
-      rescue => e
-        logger.info("Invalid date #{date.inspect}")
-      end
-      if data[:observation][:primary_observer_id].nil?
-        data[:observation][:primary_observer_id] = unknownObserver.id
-      else
-        name = data[:observation][:primary_observer_id].split " "
-        user = User.find_or_create_by_firstname_and_lastname(name.first, name.last)
-        data[:observation][:primary_observer_id] = user.id
-      end
-
-      observation = Observation.import(data[:observation])
-      observation.obs_datetime = obs_datetime
-   
-      if(observation.save)
-        count += 1
-      else
-        errors << observation.errors
-      end
-    end
-
-    {:count => count, :errors => errors}
-  end
-
-  def self.from_json jsonFile 
-    count = 0
-    errors = Array.new
-
-    data = JSON.parse(File.read(jsonFile))
-    [data].flatten.each do |obs|
-      obs = ActiveSupport::JSON.decode(obs).symbolize_keys!
-      primary= obs.delete(:primary_observer)
-      additional = obs.delete(:additional_observers)
-      observation = Observation.import(obs)
-      observation.primary_observer = User.where(primary).first_or_create
-     # additional.each do |a|
-     #   observation.additional_observers << User.where(firstname: a[:firstname], lastname: a[:lastname]).first_or_create
-     # end
-      if(observation.save)
-        count += 1
-      else 
-        errors << observation.errors
-      end
-    end
-    {count: count, errors: errors}
-  end
-
-  def self.parse_csv row, map
-    data = Hash.new
-    map.each do |k,v|
-      if v.is_a? String
-        data[k] = row.include?(v) ? row[v] : v
-      elsif v.is_a? Integer
-        data[k] = v
-      elsif v.is_a? Hash
-        data[k] = parse_csv(row, v)
-      elsif v.is_a? Array
-        data[k] = v.collect{|i| parse_csv(row, i) }
-      else
-        nil
-      end
-    end
-    
-    data
   end
 
   def as_json opts={}
@@ -282,4 +195,30 @@ class Observation < ActiveRecord::Base
     EXPORT_DIR
   end
 
+  private
+  def self.lookup_code_to_id attrs
+    attrs.inject(Hash.new) do |h,(k,v)|
+      key = k.to_s.gsub(/lookup_code$/, "lookup_id")
+  
+      if key =~ /lookup_id$/ and not v.nil?
+        table = key.gsub(/^thi(n|ck)_ice_lookup_id$/,"ice_lookup_id")
+        lookup = table.chomp("_id").camelcase.constantize.where(code: v).first
+        raise InvalidLookupException, "Unknown Lookup Id -- #{table}: #{v.inspect}" if lookup.nil?
+        v = lookup.id
+      end
+      
+      case v.class.to_s
+      when "Hash"
+        h[key] = lookup_code_to_id(v)
+      when "Array"
+        h[key] = v.collect{|el| el.is_a?(Hash) ? lookup_code_to_id(el) : el}
+      else
+        h[key] = v
+      end
+  
+      h
+    end
+  end  
+
 end
+

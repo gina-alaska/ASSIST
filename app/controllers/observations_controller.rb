@@ -107,22 +107,14 @@ class ObservationsController < ApplicationController
   end
 
   def import
-    uploaded_file = params[:data]
-
-#    mapFile = Rails.root.join("config/import_map_#{year}.yml") 
-#    mapFile = File.exists?(mapFile) ? mapFile : Rails.root.join("config/import_map.yml")
-
- #   results = Observation.from_csv( Rails.root.join( data.tempfile.path ).to_s, mapFile.to_s )
-    results = {}
-
-    filetype = uploaded_file.content_type.split("/").last
-
-    results = self.send("import_#{filetype}", uploaded_file)
-
-    if request.xhr? 
-      render :json => {:success => true, :results => results }
-    else
-      redirect_to observation_url
+    @imports = ImportObservation.new(file: params[:data])
+    
+    if @imports.save
+      if request.xhr? 
+        render :json => {:success => true, :results => @imports }
+      else
+        redirect_to root_url
+      end 
     end
   end
   
@@ -165,45 +157,6 @@ protected
       p[:ice_attributes][:total_concentration] = nil if p[:ice_attributes] && p[:ice_attributes][:total_concentration].empty?
     end
     p
-  end
-
-  def import_zip file
-    results = []
-    directory = "/tmp/#{File.basename(file.tempfile.path)}_zip_#{Time.now.to_i}"
-    begin
-      Dir.mkdir(directory) unless File.exists? directory
-  
-      Zip::ZipFile.open(file.tempfile) do |zipfile|
-        zipfile.each do |f|
-          path = File.join(directory, f.name)
-          FileUtils.mkdir_p( File.dirname(path) )
-          f.extract(path)
-        end
-      end
-
-      Dir.chdir(directory) do |d|
-        files = Dir.glob(File.join("**", "*.json"))
-        files = Dir.glob(File.join("**", "*.csv")) if files.empty?
-        raise "Nothing to import" if files.empty?
-
-        files.each do |f|
-          ftype = File.extname(f).slice(1..-1)
-          results << Observation.send("from_#{ftype}", f)
-        end
-      end
-    rescue => ex
-      results = [{error: "Unable to import"}]
-    ensure
-     # FileUtils.remove(directory, :recursive => true)
-    end
-    results
-  end
-
-  def import_csv file
-    mapFile = "config/import_map.yml"
-
-    results = Observation.from_csv(Rails.root.join(file.tempfile.path).to_s, mapFile)
-    results
   end
 
   def observation_ids 
