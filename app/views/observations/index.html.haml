@@ -18,7 +18,19 @@
           =link_to "#", class: 'btn btn-large import', id: 'importCSVBtn' do
             %i.icon-list
             Import From CSV
-          =file_field_tag :data  
+          =file_field_tag :data
+.row
+  .span12
+    #upload_status{style:"display:none;"}
+      .row-fluid
+        .span12
+          %h5 Upload status
+      .row-fluid
+        #upload_messages.span12
+.row
+  .span12
+    #errors
+         
 -if Rails.env == "development"
   .alert.alert-error
     %h3.alert-heading

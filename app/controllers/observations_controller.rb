@@ -110,11 +110,9 @@ class ObservationsController < ApplicationController
     @imports = ImportObservation.new(file: params[:data])
     
     if @imports.save
-      if request.xhr? 
-        render :json => {:success => true, :results => @imports }
-      else
-        redirect_to root_url
-      end 
+      render action: :import, layout: !request.xhr?
+    else
+      render action: :import, layout: !request.xhr?, error: "There was an error importing records", status: :unprocessable_entity
     end
   end
   

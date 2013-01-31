@@ -21,8 +21,6 @@
             %li= link_to 'List', root_url
             %li= link_to 'New', observations_path, method: :post
             %li.last=# link_to 'Manage [not implemented]', manage_observations_path
-    #errors
-      = yield :errors
     .container
       .row
         = yield :header_nav

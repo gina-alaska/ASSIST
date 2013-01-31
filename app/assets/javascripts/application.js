@@ -75,18 +75,37 @@ $(document).ready( function() {
   });
 
   $("#import_observations").fileupload({
-    dataType: 'json',
+    // dataType: 'html',
     url: $("#import_observations").attr('action'),
     acceptFileTypes: /(\.|\/)csv$/i,
     add: function(e, data) {
+      $('#upload_status').show();
+      
+      data.context = $('<div class="progress" />').appendTo($('#upload_messages'))
+      $('<div class="bar" style="width:0%" />').text('Uploading').appendTo($(data.context));
+
       data.submit();
     },
-    error: function(xhr,status,error) {
-      $(".errors").html(xhr.responseText);
+    done: function (e, data) {
+      data.context.find('.bar').text('Finished');
+      data.context.find('.bar').addClass('bar-success');
     },
-    start: function() {
-      $(".errors").html("");
+    fail: function(e, data) {
+      data.context.find('.bar').text('Failed');
+      data.context.find('.bar').addClass('bar-danger');
+      $("#errors").html(data.jqXHR.responseText);
+    },
+    progress: function (e, data) {
+      var progress = parseInt(data.loaded / data.total * 100, 10);
+      data.context.find('.bar').css(
+        'width',
+        progress + '%'
+      );
     }
   });
   
 });
+
+
+
+

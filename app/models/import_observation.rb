@@ -10,17 +10,22 @@ class ImportObservation
   end
 
   def save
-    if imported_observations.map(&:valid?).all?
-      imported_observations.each(&:save) 
-      true
-    else
-      imported_observations.each_with_index do |obs, index|
-        obs.errors.full_messages.each do |message|
-          errors.add :base, "Row #{index+2}: #{message}"
+    begin
+      if imported_observations.map(&:valid?).all?
+        imported_observations.each(&:save) 
+        true
+      else
+        imported_observations.each_with_index do |obs, index|
+          obs.errors.full_messages.each do |message|
+            errors.add :base, "Row #{index+2}: #{message}"
+          end
         end
-      end
+        false
+      end 
+    rescue Exception => ex
+      errors.add :base, ex.message
       false
-    end 
+    end
   end
 
   def imported_observations
