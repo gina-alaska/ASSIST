@@ -42,13 +42,13 @@ class ObservationsController < ApplicationController
   end
 
   def edit
-    @observation = Observation.includes(:ice, ice_observations: [:topography, :melt_pond], meteorology: [:clouds]).where(:id => params[:id]).first
+    @observation = Observation.includes(:ice, ice_observations: [:topography, :melt_pond], meteorology: [:clouds]).where(:id => observation_id).first
     @observation.valid?
     respond_with @observation
   end
   
   def update
-    @observation = Observation.where(:id => params[:id])
+    @observation = Observation.where(:id => observation_id)
     @observation = @observation.includes(:ice, ice_observations: [:topography, :melt_pond], meteorology: [:clouds])
     @observation = @observation.first
     
@@ -86,7 +86,7 @@ class ObservationsController < ApplicationController
   end
 
   def show
-    @observation = Observation.includes(:ice, ice_observations: [:topography, :melt_pond], meteorology: [:clouds]).where(:id => params[:id]).first
+    @observation = Observation.includes(:ice, ice_observations: [:topography, :melt_pond], meteorology: [:clouds]).where(:id => observation_id).first
 
 
     if request.xhr?
@@ -155,6 +155,9 @@ protected
       p[:ice_attributes][:total_concentration] = nil if p[:ice_attributes] && p[:ice_attributes][:total_concentration].empty?
     end
     p
+  end
+  def observation_id
+    params[:id].split("-").last
   end
 
   def observation_ids 

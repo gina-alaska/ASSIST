@@ -195,6 +195,14 @@ class Observation < ActiveRecord::Base
     EXPORT_DIR
   end
 
+  def to_param
+    self.to_s
+  end
+  
+  def to_s
+    "#{obs_datetime.strftime("%Y%m%d%H%M")}-#{id}"
+  end
+
   private
   def self.lookup_code_to_id attrs
     attrs.inject(Hash.new) do |h,(k,v)|

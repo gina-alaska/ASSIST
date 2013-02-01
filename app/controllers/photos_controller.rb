@@ -7,7 +7,7 @@ class PhotosController < ApplicationController
     photo = params[:photo]
     uploaded_file = photo.delete(:data)
 
-    @observation = Observation.find(params[:observation_id])
+    @observation = Observation.find(observation_id)
     @photo = @observation.photos.build photo
     @photo.name = uploaded_file.original_filename
     @photo.on_boat_location_lookup_id ||= OnBoatLocationLookup.where(:name => 'other').first
@@ -78,5 +78,10 @@ class PhotosController < ApplicationController
         redirect_to show_photo_url @photo
       end
     end
+  end
+  
+  private
+  def observation_id
+    params[:observation_id].split("-").last
   end
 end

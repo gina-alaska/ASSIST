@@ -3,7 +3,7 @@ class CommentsController < ApplicationController
 
   def create
     comment = comment_params(params[:comment])
-    @observation = Observation.find(params[:observation_id])
+    @observation = Observation.find(observation_id)
 
     @comment = @observation.comments.build comment
 
@@ -45,5 +45,8 @@ class CommentsController < ApplicationController
 protected
   def comment_params p
     p.slice(:user_id, :data)
+  end
+  def observation_id
+    params[:observation_id].split("-").last
   end
 end
