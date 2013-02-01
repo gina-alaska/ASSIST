@@ -18,12 +18,10 @@
         =# link_to "See Examples", lookup_url("ice"), target: '_blank'
         =#lookup_url_helper :ice
     .control-group
-      =io.label :thickness, "Thickness"
+      =io.label :thickness, "Thickness (cm)"
       .controls
         .input-append
           =io.text_field :thickness
-          %span.add-on
-            cm
         %p.help-block 
 
     .control-group

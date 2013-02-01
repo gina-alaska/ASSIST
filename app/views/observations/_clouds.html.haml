@@ -18,11 +18,9 @@
         %p.help-block
           in 1/8ths
     .control-group
-      = c.label :height, 'Cloud Height', class: 'control-label'
+      = c.label :height, 'Cloud Height (m)', class: 'control-label'
       .controls
         .input-append
-          = c.number_field :height,{ :min => 0, :step => 100, :id => "#{index}_meteorology_cloud_cloud_height"}
-          .add-on
-            m  
+          = c.number_field :height,{ :min => 0, :step => 100, :id => "#{index}_meteorology_cloud_cloud_height"} 
         %p.help-block
           (meters)

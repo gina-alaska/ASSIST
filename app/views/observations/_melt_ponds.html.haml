@@ -21,12 +21,10 @@
             { :include_blank => true }, { :class => :combobox }
           %p.help-block
       .control-group
-        = m.label :freeboard, "Freeboard of Pond", class: 'control-label'
+        = m.label :freeboard, "Freeboard of Pond (cm)", class: 'control-label'
         .controls     
           .input-append   
             = m.text_field :freeboard
-            .add-on
-              cm
           %p.help-block
       .control-group  
         = m.label :max_depth_lookup_id, "Depth", class: 'control-label'

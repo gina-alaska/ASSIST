@@ -15,12 +15,11 @@
           %p.help-block
             in 1/10ths            
       .control-group.ridge-height
-        = t.label :ridge_height, class: 'control-label'
+        = t.label :ridge_height, "Ridge Height (m)", class: 'control-label'
         .controls
           .input-append
             = t.number_field :ridge_height, :step => 0.5
-            .add-on
-              m
+
           %p.help-block
             meters to nearest half-meter
       .control-group.ridge-boolean

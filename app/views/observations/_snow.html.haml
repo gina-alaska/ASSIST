@@ -8,11 +8,10 @@
           { include_blank: true }, { class: :combobox }
       %p.help-block
     .control-group
-      = s.label :snow_thickness, "Snow Thickness", class: 'control-label'
+      = s.label :snow_thickness, "Snow Thickness (cm)", class: 'control-label'
       .controls
         .input-append
           = s.text_field :snow_thickness
-          .add-on
-            cm
+
         %p.help-block
           
