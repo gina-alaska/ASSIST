@@ -12,7 +12,7 @@ class PhotosController < ApplicationController
     @photo.name = uploaded_file.original_filename
     @photo.on_boat_location_lookup_id ||= OnBoatLocationLookup.where(:name => 'other').first
     uploaded_file.rewind
-    @photo.checksum_id = Digest::MD5.hexdigest( "#{@observation.id}_#{uploaded_file.read}")
+    @photo.checksum_id = Digest::MD5.hexdigest(uploaded_file.read)
 
     if(@photo.save)
 

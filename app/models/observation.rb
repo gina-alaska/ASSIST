@@ -70,7 +70,7 @@ class Observation < ActiveRecord::Base
     data = {
       obs_datetime: obs_datetime,
       primary_observer: primary_observer.as_json,
-      additional_observers: additional_observers.collect{|o| o.try(&:first_and_last_name)},
+      additional_observers: additional_observers.collect(&:as_json),
       latitude: latitude,
       longitude: longitude,
       hexcode: hexcode,
@@ -89,7 +89,8 @@ class Observation < ActiveRecord::Base
   def lookup_id_to_code(hash) 
     hash.inject(Hash.new) do |h, (k,v)|
       key = k.to_s.gsub(/lookup_id$/, "lookup_code")
-    
+      table = key.gsub(/^thi(n|ck)_ice_lookup_code$/,"ice_lookup_code")
+
       case v.class.to_s
       when "Hash"
         h[key] = lookup_id_to_code(v)
@@ -99,7 +100,8 @@ class Observation < ActiveRecord::Base
         #If it's a lookup and not nil, convert it into a code
         if(key =~ /lookup_code$/ and !!v)
           #Use where instead of find. If any bad values got injected it will turn them into nil
-          v = key.chomp("_code").camelcase.constantize.where(id: v).first.try(&:code)
+          table = key.gsub(/^thi(n|ck)_ice_lookup_code$/,"ice_lookup_code")
+          v = table.chomp("_code").camelcase.constantize.where(id: v).first.try(&:code)
         end
         h[key] = v
       end
@@ -200,6 +202,7 @@ class Observation < ActiveRecord::Base
   end
   
   def to_s
+    obs_datetime = Time.new if obs_datetime.nil?
     "#{obs_datetime.strftime("%Y%m%d%H%M")}-#{id}"
   end
 
