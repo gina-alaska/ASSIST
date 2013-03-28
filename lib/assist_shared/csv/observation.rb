@@ -10,10 +10,10 @@ module AssistShared
           self.latitude,
           self.longitude,
           self.ice.as_csv,
-          self.meteorology.as_csv,
           self.ice_observations.primary.as_csv, 
           self.ice_observations.secondary.as_csv, 
-          self.ice_observations.tertiary.as_csv
+          self.ice_observations.tertiary.as_csv,
+          self.meteorology.as_csv
         ].flatten
       end
       
@@ -45,8 +45,8 @@ module AssistShared
             'LAT',
             'LON',
             Ice.headers,
-            Meteorology.headers,
-            %w{ P S T }.collect{|type| IceObservation.headers prefix: type }
+            %w{ P S T }.collect{|type| IceObservation.headers prefix: type },
+            Meteorology.headers
           ].flatten
         end
       end
