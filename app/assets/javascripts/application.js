@@ -14,12 +14,12 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require bootstrap-datepicker
-//= require select2/select2
 //= require datatables-1.9.0/js/jquery.dataTables
 //= require jquery-file-upload/js/vendor/jquery.ui.widget.js
 //= require jquery-file-upload/js/jquery.iframe-transport.js
 //= require jquery-file-upload/js/jquery.fileupload.js
 //= require jquery-blockUI/jquery.blockUI
+//= require select2/select2
 //= require_tree .
 
 $(document).ready( function() {
