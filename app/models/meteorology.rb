@@ -38,7 +38,7 @@ class Meteorology < ActiveRecord::Base
 
   def as_json opts={}
     data = super except: [:id, :created_at, :updated_at, :observation_id]
-    data[:cloud_attributes] = self.clouds.as_json
+    data[:clouds_attributes] = self.clouds.as_json
     data
   end
 
