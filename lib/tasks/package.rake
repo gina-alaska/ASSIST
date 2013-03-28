@@ -5,7 +5,7 @@ namespace :package do
   desc "Generate static cruise data"
   task :metadata, :cruise_id, :ship_name, :lookups do |t, args|
     #Get the lookup data and populate the database
-    lookups_url = args[:lookups] || "http://icebox.dev/api/lookups.json"
+    lookups_url = args[:lookups] || "http://icewatch.gina.alaska.edu/api/lookups.json"
     
     lookups = JSON.parse(open(lookups_url).read)
     
