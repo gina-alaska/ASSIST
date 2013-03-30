@@ -7,7 +7,11 @@ module AssistShared
             klass = table.camelcase.constantize
             unless options[:allow_blank] && record.send(field).nil?
               unless klass.where(id: record.send(field)).any?
-                record.errors.add field, "contains an invalid lookup code"
+                if record.send(field).nil?
+                  record.errors.add field, "cannot be blank"
+                else
+                  record.errors.add field, "contains an invalid lookup code"
+                end
               end
             end
           end
