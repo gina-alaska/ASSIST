@@ -4,13 +4,13 @@
     .control-group
       = o.label :biota_lookup_id, "Algae", class: 'control-label'
       .controls
-        = o.collection_select :biota_lookup_id, BiotaLookup.all, :code, :code_with_name, |
+        = o.collection_select :biota_lookup_id, BiotaLookup.all, :id, :code_with_name, |
           { :include_blank => true }, { :class => :combobox }
         %p.help-block
 
     .control-group
       = o.label :sediment_lookup_id, "Sediment", class: 'control-label'
       .controls
-        = o.collection_select :sediment_lookup_id, SedimentLookup.all, :code, :code_with_name, |
+        = o.collection_select :sediment_lookup_id, SedimentLookup.all, :id, :code_with_name, |
           { :include_blank => true }, { :class => :combobox }
         %p.help-block
