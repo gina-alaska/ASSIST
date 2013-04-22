@@ -17,8 +17,8 @@ module ObservationsHelper
     deg = coord < 0 ? coord.ceil : coord.floor
 
     min = ((coord - deg).abs * 60.0).floor
-    sec = (((coord - deg).abs * 60.0) % 1) * 60.0
-    "#{deg} #{min + (sec/100.0).round(2)}"
+    sec = ((((coord - deg).abs * 60.0) % 1) * 60.0).round
+    "#{deg} #{min} #{sec}"
   end
   
   def lookup_url_helper item

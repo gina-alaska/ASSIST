@@ -39,13 +39,13 @@
     .control-group
       = f.label :latitude, class: 'control-label'
       .controls
-        = f.text_field :latitude, class: 'coord', placeholder: 'DD.DDD or DD MM.SS' 
+        = f.text_field :latitude, class: 'coord', placeholder: 'DD.DDDD or DD MM SS' 
         %p.help-block
           ="DMS: #{to_dms(@observation.latitude)}"
   .span4
     .control-group
       = f.label :longitude, class: 'control-label'
       .controls
-        = f.text_field :longitude, class: 'coord', placeholder: 'DD.DDD or DD MM.SS' 
+        = f.text_field :longitude, class: 'coord', placeholder: 'DD.DDDD or DD MM SS' 
         %p.help-block
           ="DMS: #{to_dms(@observation.longitude)}"

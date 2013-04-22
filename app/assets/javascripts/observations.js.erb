@@ -24,12 +24,13 @@ $(document).ready(function() {
 
 function parseCoord( evt ) {
   var value = $(evt.target).val();
-  this.toDD = function( v) {
-    var c = v.split(" ")
-    var deg = parseFloat(c[0]);
-    var ms = c[1].split(".");
-    var min = parseInt(ms[0]);
-    var sec = ms.length > 1 ? parseInt(ms[1]) : 0;
+  this.toDD = function(v) {
+    var dms = v.split(" ")
+    
+    var deg = parseFloat(dms[0]);
+    var min = parseInt(dms[1]);
+    var sec = dms.length > 2 ? parseInt(dms[2]) : 0;
+
     var dec = (min * 60 + sec) / 3600.0;
     var dd = deg > 0 ? deg + dec : deg - dec;
     return "DD: " + dd.toFixed(4);
@@ -41,11 +42,11 @@ function parseCoord( evt ) {
     var ms = Math.abs( c - deg )  * 60.0;
     var min = Math.floor( ms );
     var sec = (ms % 1 ) * 60.0;
-    return "DMS: " + deg + " " + (min + Math.round(sec) / 100.0 );
+    return "DMS: " + deg + " " + min + " " + Math.round(sec); //(min + Math.round(sec) / 100.0 );
   };
   
   var altText = "";
-  if( value.match(/^(\+|-)?[0-9]{1,3}\s[0-9]{1,2}(\.[0-9]{1,2})?(\s?[NSEW])?$/)) {
+  if( value.match(/^(\+|-)?[0-9]{1,3}\s[0-9]{1,2}(\s[0-9]{1,2})?(\s?[NSEW])?$/)) {
     altText = this.toDD(value)
   } else if ( value.match(/^(\+|-)?[0-9]{1,3}\.[0-9]*(\s?[EW])?$/)) {
     altText = this.toDMS(value)

@@ -52,15 +52,14 @@ class Observation < ActiveRecord::Base
   accepts_nested_attributes_for :photos
 
   before_save do
-    self.latitude = self.to_dd(latitude) if latitude =~ /^(\+|-)?[0-9]{1,2}\s[0-9]{1,2}(\.[0-9]{1,2})?(\s?[NS])?$/
-    self.longitude = self.to_dd(longitude) if longitude =~ /^(\+|-)?[0-9]{1,3}\s[0-9]{1,2}(\.[0-9]{1,2})?(\s?[EW])?$/
+    self.latitude = self.to_dd(latitude) if latitude =~ /^(\+|-)?[0-9]{1,2}\s[0-9]{1,2}(\s[0-9]{1,2})?(\s?[NS])?$/
+    self.longitude = self.to_dd(longitude) if longitude =~ /^(\+|-)?[0-9]{1,3}\s[0-9]{1,2}(\s[0-9]{1,2})?(\s?[EW])?$/
     self.hexcode = Digest::MD5.hexdigest("#{obs_datetime}#{latitude}#{longitude}#{primary_observer.try(&:first_and_last_name)}")
   end
 
 
   def to_dd dms
-    deg,ms = dms.split " "
-    min,sec = ms.split "."
+    deg,min,sec = dms.split " "
     dec = (min.to_i * 60 + sec.to_i) / 3600.0
     dd = deg.to_i > 0 ? "#{(deg.to_i+dec)}" : "#{deg.to_i - dec}"
     dd.to_f.round(4)
