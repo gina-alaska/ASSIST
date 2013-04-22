@@ -15,7 +15,7 @@ module AssistShared
       def self.headers opts={}
         [
           'Top',
-          'C',
+          'TopC',
           'RH',
           'Old',
           'Cs',
