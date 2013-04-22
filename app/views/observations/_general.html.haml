@@ -21,7 +21,10 @@
 .row
   .span4
     .control-group
-      = label_tag "Date ",nil, class: 'control-label'
+      = label_tag nil, class: 'control-label' do
+        Date 
+        %p.help-block{style: 'display: inline-block;'}
+          yyyy.mm.dd
       .controls
         = text_field_tag "observation_date", date(@observation), class: 'datefield', 'data-date-format' => 'yyyy.mm.dd'
   .span4            
