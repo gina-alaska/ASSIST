@@ -13,7 +13,7 @@
         .controls
           = t.select :concentration, options_for_percent(topography.concentration.to_i), {include_blank: true}, {class: [ :concentration]}
           %p.help-block
-            in 1/10ths            
+            in tenths            
       .control-group.ridge-height
         = t.label :ridge_height, "Ridge Height (m)", class: 'control-label'
         .controls
