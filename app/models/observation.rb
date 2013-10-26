@@ -56,7 +56,8 @@ class Observation < ActiveRecord::Base
     self.longitude = self.to_dd(longitude) if longitude =~ /^(\+|-)?[0-9]{1,3}\s[0-9]{1,2}(\s[0-9]{1,2})?(\s?[EW])?$/
     self.hexcode = Digest::MD5.hexdigest("#{obs_datetime}#{latitude}#{longitude}#{primary_observer.try(&:first_and_last_name)}")
   end
-
+  
+  after_save :export, if: Proc.new{|obs| obs.valid? }
 
   def to_dd dms
     deg,min,sec = dms.split " "
@@ -108,103 +109,36 @@ class Observation < ActiveRecord::Base
     end
   end
 
-  def zip!
-    FileUtils.mkdir(path) unless File.exists?(path)
-    FileUtils.remove(File.join(path, "#{name}.zip")) if File.exists?(File.join(path,"#{name}.zip"))
-    dump!([:csv,:json])
-    files = Dir.glob(File.join(path, "*")).collect!{|f| File.basename(f)}
-
-    Zip::ZipFile.open(File.join(path, "#{name}.zip"), Zip::ZipFile::CREATE) do |zipfile|
-      files.each do |f|
-        zipfile.add(f, File.join(path,f))
-      end
-    end
-  end
-
-  def self.zip! observations, params={}
-    name = params[:name] || "observations"
-    
-    FileUtils.remove(File.join(path,"#{name}.zip")) if File.exists?(File.join(path,"#{name}.zip"))
-
-    metadata = {
-      exported_on: Time.now.utc,
-      assist_version: ASSIST_VERSION,
-      cruise_id: Cruise[:id],
-      ship_name: Cruise[:ship],
-      observation_count: observations.count,
-      observations: "#{name}.json",
-      photos_included: !!params[:include_photos]
-    }
-
-    files = dump!([:csv, :json])
-    observations.each do |o|
-      files << o.dump!([:csv, :json])
-    end
-    
-    Zip::ZipFile.open(File.join(path, "#{name}.zip"), Zip::ZipFile::CREATE) do |zipfile|
-      #Add the metadata
-      zipfile.file.open("METADATA", "w"){|f| f.puts metadata.to_yaml}
-      logger.info(files);
-      files.flatten.each do |f|
-        zipfile.add(File.basename(f), f)
-      end
-      if params[:include_photos]
-        observations.each do |o|
-          o.photos.each do |p|
-            zipfile.add(File.join(p.observation.name,p.name), File.join( p.observation.path, p.name))
-          end
-        end
-      end
-    end
-  end
-
-  def dump!(formats)
-    FileUtils.mkdir(path) unless File.exists?(path)
-    files = []
-    [formats].flatten.each do |format|
-      file = File.join(path,"#{name}.#{format.to_s}")
-      File.open(file,"w") do |f|
-        f << self.send("to_#{format.to_s}")
-      end
-      files << file
-    end
-    files
-  end
-
-  def self.dump!(formats)
-    FileUtils.mkdir(path) unless File.exists?(path)
-    files = []
-    [formats].flatten.each do |format|
-      file = File.join(path,"#{Cruise[:id]}.observations.#{format.to_s}")
-      File.open(file,"w") do |f|
-        f << Observation.send("to_#{format.to_s}")
-      end
-      files << file
-    end
-    files
-  end
-
-  def name 
-    obs_datetime.try(:strftime, "%Y.%m.%d-%H.%M") || "INVALID_OBSERVATION_#{self.id}"
-  end
-  
-  def path 
-    "#{EXPORT_DIR}/#{self.uuid}"
-  end
-  
-  def self.path
-    EXPORT_DIR
-  end
-
   def to_param
     self.to_s
   end
   
-  def to_s
-    obs_datetime = Time.new if obs_datetime.nil?
-    "#{obs_datetime.strftime("%Y%m%d%H%M")}-#{id}"
+  def name 
+    obs_datetime.try(:strftime, "%Y.%m.%d-%H.%M") || "INVALID_OBSERVATION_#{self.id}"
   end
-
+  
+  def to_s
+    self.obs_datetime = Time.new if self.obs_datetime.nil?
+    "#{self.obs_datetime.strftime("%Y%m%d%H%M")}-#{self.id}"
+  end
+  
+  def export_path
+    File.join(EXPORT_DIR, self.to_s)
+  end
+  
+  def export
+    FileUtils.mkdir(export_path) unless File.exists?(export_path)
+  
+    ['csv','json'].each do |format|
+      file = File.join(export_path, "#{name}.#{format}")
+      File.open(file, "w") do |f|
+        f << self.send("to_#{format}")
+      end
+    end
+    
+    return true
+  end
+  
   private
   def self.lookup_code_to_id attrs
     attrs.inject(Hash.new) do |h,(k,v)|
