@@ -11,14 +11,6 @@ class ObservationsController < ApplicationController
 
     respond_with @observations do |format|
       format.html 
-      format.csv {render text: generate_csv(@observations)}
-      format.zip do 
-       # Observation.zip! @observations, name: "Observation", formats: [:csv,:json]
-        generate_zip @observations, name: "Observation", formats: [:csv,:json], include_photos: params[:include_photos]
-        File.open(File.join(Observation.path,"Observation.zip"), "rb") do |f|
-          send_data f.read
-        end
-      end
     end
   end
 
@@ -88,7 +80,6 @@ class ObservationsController < ApplicationController
   def show
     @observation = Observation.includes(:ice, ice_observations: [:topography, :melt_pond], meteorology: [:clouds]).where(:id => observation_id).first
 
-
     if request.xhr?
       respond_with @observation, :layout => false
     else
@@ -96,12 +87,6 @@ class ObservationsController < ApplicationController
         format.html
         format.csv {render text: generate_csv(@observation) }
         format.json {render json: @observation.to_json}
-        format.zip do
-          @observation.zip!
-          File.open(Rails.root.join(@observation.path, "#{@observation.name}.zip"), "rb" ) do |f|
-            send_data f.read
-          end
-        end
       end
     end
   end
@@ -120,18 +105,19 @@ class ObservationsController < ApplicationController
     @observations = Observation.includes(:ice, ice_observations: [:topography, :melt_pond], meteorology: [:clouds])
     
     if(observation_ids.any?)
-      @observation = @observations.where(observation_ids).all
+      Rails.logger.info(observation_ids)
+      @observations = @observations.where(observation_ids)
     end
-    
-    @observations.select!{|obs| obs.valid?}
+
+    @export_name = [Cruise[:ship], Time.now.utc.strftime("%Y%m%d%H%M"), @observations.count].join("_")
     
     respond_with @observations do |format|
       format.html
       format.csv 
       format.zip do 
-        generate_zip @observations, name: "Observation", formats: [:csv,:json], include_photos: params[:include_photos]
-        File.open(File.join(Observation.path,"Observation.zip"), "rb") do |f|
-          send_data f.read, filename: "ASSIST_#{Time.now.strftime("%Y%m%d%H%M%S")}_export.zip"
+        generate_zip @observations, include_photos: params[:include_photos]
+        File.open(File.join(EXPORT_DIR, "#{@export_name}.zip"), "rb") do |f|
+          send_data f.read, filename: "#{@export_name}.zip"
         end
       end
     end    
@@ -175,31 +161,38 @@ protected
   end    
   
   def generate_zip observations, opts={}
-    name = opts[:name] || "observations"
-    FileUtils.mkdir_p(Observation.path) unless File.exists? Observation.path
-    fullpath = File.join(Observation.path, "#{name}.zip")
+    
+    
+    FileUtils.mkdir_p(EXPORT_DIR) unless File.exists? EXPORT_DIR
+    fullpath = File.join(EXPORT_DIR, "#{@export_name}.zip")
     FileUtils.remove(fullpath) if File.exists?(fullpath)
-  
+    
     metadata = {
       exported_on: Time.now.utc,
       assist_version: ASSIST_VERSION,
       cruise_id: Cruise[:id],
       ship_name: Cruise[:ship],
       observation_count: observations.count,
-      observations: "#{name}.json",
+      observations: "#{@export_name}.json",
       photos_included: !!opts[:include_photos]
     }
-    opts[:formats] ||= [:csv, :json]
+    
+    #Make sure no invalid observations have snuck in
+    observations.select!{|o| o.valid?}
 
     Zip::ZipFile.open(fullpath, Zip::ZipFile::CREATE) do |zipfile|
       #Add the metadata
       zipfile.file.open("METADATA", "w"){|f| f.puts metadata.to_yaml}
       
-      [opts[:formats]].flatten.each do |format|
+      ['csv','json'].flatten.each do |format|
         observations.each do |obs|
-          zipfile.file.open("#{obs.name}.#{format}","w"){|f| f << obs.send("to_#{format}")}
+          filepath = File.join(obs.to_s,"#{obs.name}.#{format}")
+          zipfile.add(filepath, File.expand_path(File.join(EXPORT_DIR,filepath)))
         end
-        zipfile.file.open("#{name}.#{format}","w"){|f| f << observations.send("to_#{format}")}
+        
+        zipfile.file.open("#{@export_name}.#{format}","w") do |f| 
+          f << observations.send("to_#{format}")
+        end
       end
       
       if opts[:include_photos]

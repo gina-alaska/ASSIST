@@ -12,4 +12,8 @@ bundle exec warble executable war
 
 DATE=`date "+%Y%m%d"`
 PKGNAME="ASSIST_$1_$DATE"
-bundle exec  rake package:generate_zip[$PKGNAME]
+bundle exec rake package:generate_zip[$PKGNAME]
+
+#Clean up assets and database
+rm db/production.sqlite3
+rm -rf public/assets

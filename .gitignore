@@ -28,3 +28,7 @@
 config/initializers/cruises.rb
 
 .DS_Store
+
+ASSIST.war
+
+ASSIST__20131025.zip

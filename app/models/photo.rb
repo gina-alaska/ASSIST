@@ -10,16 +10,15 @@ class Photo < ActiveRecord::Base
   end
 
   def uri
-    File.join(observation.path, name)
+    File.join(observation.export_path, name)
   end
 
-
   def directory
-    observation.path
+    observation.export_path
   end
 
   def url
-    File.join(observation.path, name).gsub!(/public\//,'')
+    File.join(observation.export_path, name).gsub!(/public\//,'')
   end
 
   def as_json opts={}

@@ -7,7 +7,7 @@
         .controls
           =m.select :surface_coverage, options_for_select((0..10).to_a, selected: melt_pond.surface_coverage), {}, class: 'combobox'
           %p.help-block
-            area of ice covered in 1/10ths
+            area of ice covered in tenths
       .control-group
         = m.label :pattern_lookup_id,  "Pattern", class: 'control-label'
         .controls        
