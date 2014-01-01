@@ -27,10 +27,6 @@ body {
   #display: inline-block;
 }
 
-.select2-drop.select2-drop-active {
-  z-index: 1051;
-}
-
 .field_with_errors {
   @extend .control-group.error;
   .select2-container {
