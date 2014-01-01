@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.8'
+gem 'rails', '~> 3.2'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -58,3 +58,4 @@ gem 'active_attr'
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
 gem 'wicked'
+gem 'bower-tools', path: "/Users/scott/workspace/bower-tools" #git: 'https://github.com/gina-alaska/bower-tools.git'

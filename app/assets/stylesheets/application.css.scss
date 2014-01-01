@@ -9,12 +9,9 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *=# require seaice/css/custom-theme/jquery-ui-1.8.18.custom
- *=# require_tree .
  *= require select2/select2
- *=# require datatables-1.9.0/css/jquery.dataTables
- *= require datatables-1.9.0/css/jquery.dataTables_themeroller
- *=# require qtip/jquery.qtip.css
+ *= require datatables/media/css/jquery.dataTables
+ *= require datatables/media/css/jquery.dataTables_themeroller
  *= require bootstrap-datepicker
 */
 
@@ -137,4 +134,8 @@ table {
 
 .field_with_errors + .controls .select2-container a.select2-choice {
   border: 1px solid #b94a48;
+}
+
+div.combobox {
+  width: 100%;
 }
