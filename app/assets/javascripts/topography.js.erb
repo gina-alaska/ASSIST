@@ -17,11 +17,13 @@ function handleTopographies() {
     
     var concentration = $(group).find(".concentration");
     if([].concat(pancakeCodes,raftCodes,ridgeCodes).indexOf(value) >= 0) {
-      $(concentration).select2("enable")
+      $(concentration).select2("enable", true);
+      $(concentration).select2("readonly", false);
       $(concentration).trigger("change");
     } else {
       clearInputs($(concentration));
-      $(concentration).select2("disable")
+      $(concentration).select2("enable", false);
+      $(concentration).select2("readonly", true);
       $(concentration).trigger("change");
     }
     
