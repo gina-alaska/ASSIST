@@ -27,7 +27,7 @@ body {
   #display: inline-block;
 }
 
-.field_with_errors {
+t.field_with_errors {
   @extend .control-group.error;
   .select2-container {
     @extend .control-group.error;
@@ -133,5 +133,8 @@ table {
 }
 
 div.combobox {
+  width: 100%;
+}
+.concentration {
   width: 100%;
 }
