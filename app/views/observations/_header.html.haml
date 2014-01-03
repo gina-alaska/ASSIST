@@ -1,4 +1,3 @@
-=#content_for :header_nav do
 .btn-toolbar.span12
   .btn-group
     -if @observation.errors.any?
@@ -9,7 +8,6 @@
         Valid
   .btn-group
     -%w(general ice meteorology photos comments).each do |s|
-      -# = f.submit s.capitalize, data: {url: wizard_path(s.to_s)}, class: "btn btn-large obs-submit #{s == step.to_s ? 'btn-primary' : ''}"
       = link_to s.capitalize, "##{s}", data: {toggle: 'pill'}, class: "btn btn-large #{s == 'general' ? 'btn-primary' : ''}"
   .btn-group
     %button.btn.btn-info.btn-large{data: {target: '#add_comment', toggle: 'modal'}}

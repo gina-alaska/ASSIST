@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130128221520) do
+ActiveRecord::Schema.define(:version => 20140101011540) do
 
   create_table "algae_distribution_lookups", :force => true do |t|
     t.string   "name"
@@ -63,9 +63,13 @@ ActiveRecord::Schema.define(:version => 20130128221520) do
 
   create_table "cruise_infos", :force => true do |t|
     t.string   "ship"
-    t.string   "season"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.string   "purpose"
+    t.string   "chief_scientist"
+    t.string   "captain"
+    t.string   "begin_at"
+    t.string   "end_at"
   end
 
   create_table "floe_size_lookups", :force => true do |t|

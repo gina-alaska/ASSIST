@@ -1,0 +1,42 @@
+.well
+  = form_for @cruise do |f|
+    .row
+      .span5
+        .control-group
+          =f.label :ship, "Ship Name", class: 'control-label'
+          .controls
+            =f.text_field :ship, required: true
+      .span5
+        .control-group
+          =f.label :purpose, "Cruise Purpose", class: 'control-label'
+          .controls
+            =f.text_field :purpose, required: true
+    .row
+      .span5
+        .control-group
+          =f.label :begin_at, "Start Date", class: 'control-label'
+          .controls
+            =f.text_field :begin_at, class: 'datefield', 'data-date-format' => 'yyyy.mm.dd', required: true
+      .span5
+        .control-group
+          =f.label :end_at, "End Date", class: 'control-label'
+          .controls
+            =f.text_field :end_at, class: 'datefield', 'data-date-format' => 'yyyy.mm.dd'
+    .row
+      .span5
+        .control-group
+          =f.label :captain, "Captain", class: 'control-label'
+          .controls
+            =f.text_field :captain
+      .span5
+        .control-group
+          =f.label :chief_scientist, "Chief Scientist", class: 'control-label'
+          .controls
+            =f.text_field :chief_scientist
+    %br
+    - if @cruise.new_record?
+      =f.submit "Begin Cruise Observation Record", class: 'btn btn-primary btn-large'
+    - else
+      =f.submit "Update Cruise Information", class: 'btn btn-primary btn-large'
+:javascript
+  $(".datefield").datepicker();
