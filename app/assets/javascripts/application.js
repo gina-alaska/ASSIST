@@ -79,6 +79,7 @@ $(document).ready( function() {
     url: $("#import_observations").attr('action'),
     acceptFileTypes: /(\.|\/)csv$/i,
     add: function(e, data) {
+      console.log("Added a file")
       $('#upload_status').show();
       
       data.context = $('<div class="progress" />').appendTo($('#upload_messages'))

@@ -7,18 +7,28 @@
         %strong= word.first
   %h4
     = @cruise.to_s
-  .row
-    .span3
-      =link_to observations_path, class: 'btn btn-large btn-primary', method: 'post' do
-        %i.icon-eye-open
-        Start Observation
-    .span3
-      =form_tag import_observations_url, id: 'import_observations', multipart: true do
-        #import.file_upload
-          =link_to "#", class: 'btn btn-large import', id: 'importCSVBtn' do
-            %i.icon-list
-            Import From CSV
-          =file_field_tag :data
+
+.btn-toolbar
+  .btn-group
+    =link_to observations_path, class: 'btn btn-large btn-primary', method: 'post' do
+      %i.icon-eye-open
+      Start Observation
+    =link_to "#", class: 'btn btn-large import', id: 'importCSVBtn' do
+      %i.icon-list
+      Import From CSV
+  .btn-group
+    .btn.btn-large.disabled
+      Download
+    =link_to "CSV Template", "#", class: 'btn btn-large'
+    =link_to "Obs Guide", "#", class: 'btn btn-large'
+  .btn-group
+    =link_to "Edit Cruise Information", edit_cruise_info_path,class: 'btn btn-large'
+
+#import_observations
+  =form_tag import_observations_url id: 'import_observations', multipart: true do
+    #import.file_upload
+      =file_field_tag :data
+
 .row
   .span12
     #upload_status{style:"display:none;"}
@@ -40,3 +50,8 @@
       Observations may be wiped at any time.
       
 = render 'obs_list'
+
+:javascript 
+  $("#importCSVBtn").on('click', function() {
+    $("#data").click();
+  })
