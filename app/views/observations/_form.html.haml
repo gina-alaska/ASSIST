@@ -13,3 +13,10 @@
       =render partial: "observations/photos", locals: {f: f}
     #comments.tab-pane
       =render partial: "observations/comments" 
+
+:javascript
+  $('input[type=text],input[type=number]').on('keydown', function(e) {
+    if (e.which == 13) {
+      e.preventDefault();
+    }
+  });
