@@ -4,11 +4,12 @@
       .control-group  
         = i.label :total_concentration, 'Total Concentration (tenths)', class: 'control-label'
         .controls
-          = i.select :total_concentration, options_for_percent(@observation.ice.total_concentration),{include_blank: true},{:class => :combobox}
+          = i.select :total_concentration, options_for_percent(i.object.total_concentration), |
+            {include_blank: true}, {:class => :combobox}
         %p.help-text
     .span4
       .control-group
-        = i.label @observation.ice.open_water_lookup_id, 'Open Water', class: 'control-label'
+        = i.label i.object.open_water_lookup_id, 'Open Water', class: 'control-label'
         .controls
           = i.collection_select :open_water_lookup_id, OpenWaterLookup.all, :id, :code_with_name, |
             { :include_blank => true }, { :class => :combobox }

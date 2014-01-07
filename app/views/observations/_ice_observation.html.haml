@@ -14,18 +14,17 @@
       .controls
         =io.collection_select :ice_lookup_id, IceLookup.all, :id, :code_with_name, |
           { include_blank: true}, {class: :combobox}
-      %p.help-block
-        =# link_to "See Examples", lookup_url("ice"), target: '_blank'
-        =#lookup_url_helper :ice
+        %p.help-block
+          =# link_to "See Examples", lookup_url("ice"), target: '_blank'
+          =#lookup_url_helper :ice
     .control-group
-      =io.label :thickness, "Thickness (cm)"
+      =io.label :thickness, "Thickness (cm)", class: 'control-label'
       .controls
-        .input-append
-          =io.text_field :thickness
+        =io.text_field :thickness
         %p.help-block 
 
     .control-group
-      =io.label :floe_size_lookup_id, "Floe Size"
+      =io.label :floe_size_lookup_id, "Floe Size", class: 'control-label'
       .controls
         = io.collection_select :floe_size_lookup_id, FloeSizeLookup.all, :id, :code_with_name, |
           { :include_blank => true }, { :class => :combobox }      
