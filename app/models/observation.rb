@@ -12,18 +12,19 @@ class Observation < ActiveRecord::Base
   has_many :comments, :dependent => :destroy
   has_many :ice_observations, :dependent => :destroy do
     def obs_type o
-      o = o.to_sym
-      ice = where(:obs_type => o).first
-      ice
+      #o = o.to_sym
+      select { |item| item.obs_type == o }.first
+      #ice = where(:obs_type => o).first
+      #ice
     end
     def primary
-      obs_type :primary
+      obs_type "primary"
     end
     def secondary
-      obs_type :secondary
+      obs_type "secondary"
     end
     def tertiary
-      obs_type :tertiary
+      obs_type "tertiary"
     end
   end
   has_one  :meteorology, :dependent => :destroy

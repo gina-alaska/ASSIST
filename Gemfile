@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 3.2'
+gem 'rails', '~> 3.2.0'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -14,7 +14,7 @@ else
   gem 'sqlite3'
 end
 
-#gem 'assist-shared', '0.0.9', git: 'http://github.com/gina-alaska/iceobs-shared', require: 'assist_shared'
+gem 'assist-shared', '0.2.0', git: 'http://github.com/gina-alaska/iceobs-shared', require: 'assist_shared'
 
 gem 'haml'
 
@@ -57,5 +57,5 @@ gem 'active_attr'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
-gem 'wicked'
+# gem 'wicked'
 gem 'bower-tools', path: "/Users/scott/workspace/bower-tools" #git: 'https://github.com/gina-alaska/bower-tools.git'

@@ -1,11 +1,12 @@
 #obs_form
   #content
-    -@observation.errors.messages.each do |field, errors|
-      .alert.alert-danger
-        -if field != :hexcode
-          %strong
-            =field.to_s.humanize
-        = errors.join(", ")
+    - @observation.errors.messages.each do |field, errors|
+      - errors.each do |error|
+        .alert.alert-danger
+          - if field != :hexcode
+            %strong
+              = field.to_s.humanize
+          = error
     =render 'form'
 
 

@@ -34,7 +34,7 @@
         = select_tag "observation_hour", options_for_select((0..23).to_a, hour(@observation)), {:class => :combobox}
   .span4
     .control-group
-      =label_tag "Minute", nil, class: 'control-label'
+      = label_tag "Minute", nil, class: 'control-label'
       .controls
         = select_tag "observation_minute", options_for_select((0..59).to_a, minute(@observation)), {:class => :combobox}
 .row
