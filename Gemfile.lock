@@ -1,7 +1,8 @@
-PATH
-  remote: ../iceobs-shared
+GIT
+  remote: http://github.com/gina-alaska/iceobs-shared
+  revision: 2f12a7447a118dfeec3ac6309a23c3b62d686c56
   specs:
-    assist-shared (0.1.6)
+    assist-shared (0.2.0)
 
 PATH
   remote: /Users/scott/workspace/bower-tools
@@ -148,7 +149,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_attr
-  assist-shared (= 0.1.6)!
+  assist-shared (= 0.2.0)!
   better_errors
   bootstrap-datepicker-rails
   bootstrap-sass (~> 2.1.0.0)
