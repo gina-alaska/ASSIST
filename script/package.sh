@@ -11,7 +11,7 @@ bundle exec rake assets:precompile
 bundle exec warble executable war 
 
 DATE=`date "+%Y%m%d"`
-PKGNAME="ASSIST_$1_$DATE"
+PKGNAME="ASSIST_$DATE"
 bundle exec rake package:generate_zip[$PKGNAME]
 
 #Clean up assets and database
