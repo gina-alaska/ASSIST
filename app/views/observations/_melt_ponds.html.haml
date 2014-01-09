@@ -5,7 +5,7 @@
       .control-group
         = m.label :surface_coverage, "Concentration", class: 'control-label'
         .controls
-          =m.select :surface_coverage, options_for_select((0..10).to_a, selected: melt_pond.surface_coverage), {}, class: 'combobox'
+          =m.select :surface_coverage, options_for_select((0..10).to_a, selected: melt_pond.surface_coverage), {:include_blank => true}, class: 'combobox'
           %p.help-block
             area of ice covered in tenths
       .control-group

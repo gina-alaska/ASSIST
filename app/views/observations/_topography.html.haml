@@ -6,12 +6,12 @@
         = t.label :topography_lookup_id, "Topography Type", class: 'control-label'
         .controls
           = t.collection_select :topography_lookup_id, TopographyLookup.all, :id, :code_with_name, |
-          { :include_blank => true }, { :class => "combobox topography" }
+          { allow_blank: true, include_blank: true }, { :class => "combobox topography" }
           %p.help-block
       .control-group
         =t.label :concentration, "Concentration", class: 'control-label'
         .controls
-          = t.select :concentration, options_for_percent(topography.concentration.to_i), {include_blank: true}, {class: [ :concentration]}
+          = t.select :concentration, options_for_percent(topography.concentration), {allow_blank: true, include_blank: true}, {class: [:combobox, :concentration]}
           %p.help-block
             in tenths            
       .control-group.ridge-height

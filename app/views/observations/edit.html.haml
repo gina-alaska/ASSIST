@@ -1,14 +1,4 @@
-#obs_form
-  #content
-    - @observation.errors.messages.each do |field, errors|
-      - errors.each do |error|
-        .alert.alert-danger
-          - if field != :hexcode
-            %strong
-              = field.to_s.humanize
-          = error
-    =render 'form'
-
+=render 'form'
 
 #add_comment.modal.hide
   - comment = @observation.comments.build data: "(General)"

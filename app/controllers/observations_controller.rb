@@ -62,7 +62,7 @@ class ObservationsController < ApplicationController
         if params[:commit] == "Save and Exit"
           redirect_to root_url          
         else
-          render params[:id]
+          render 'edit' #@observation
         end
       end
     else

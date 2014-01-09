@@ -6,14 +6,14 @@
         = m.label :visibility_lookup_id, "Visibility (m-km)", class: 'control-label'
         .controls
           = m.collection_select :visibility_lookup_id, VisibilityLookup.all, :id, :code_with_name, |
-            { :include_blank => true }, { :class => :combobox }
+            { include_blank: true, allow_blank: true }, { class: :combobox }
           %p.help-block
     .span4
       .control-group
         = m.label :weather_lookup_id, "Weather", class: 'control-label'
         .controls
           = m.collection_select :weather_lookup_id, WeatherLookup.all, :id, :code_with_name, |
-            { :include_blank => true }, { :class => :combobox }
+            { include_blank: true, allow_blank: true }, { class: :combobox }
           %p.help-block
   .row
     = render :partial => 'clouds', locals: {f: m, cloud: @observation.meteorology.clouds.high, index: (cloudindex += 1), title: 'High'}

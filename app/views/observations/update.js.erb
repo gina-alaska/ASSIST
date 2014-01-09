@@ -1,7 +1,5 @@
-$("#obs_form").load("<%= edit_observation_path(@observation)%> #content", function(){
-  $(".combobox").select2();
+$("#obs_form").load("<%= edit_observation_path(@observation)%> #obs_form", function(){
+  $("#obs_form").find(".combobox").select2({allowClear: true});
   $("#observation_date").datepicker();
-  $(".concentration").select2();
   handleTopographies();
 });
-  

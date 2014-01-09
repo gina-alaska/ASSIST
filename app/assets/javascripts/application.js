@@ -23,7 +23,6 @@
 //= require_tree .
 
 $(document).ready( function() {
-  $(".combobox").select2();
   $("#observation_date").datepicker();
   
   $('#obslist').dataTable( {

@@ -1,22 +1,23 @@
-= form_for @observation, url: observation_path(@observation), html: { class: "autosave notify", id: "observation_form" }, remote: true  do |f|
-  .row
-    .span12
-      = render partial: 'observations/header', locals: {f: f} unless @observation.new_record?
-  .tab-content
-    #general.tab-pane.active
-      =render partial: "observations/general", locals: {f: f}
-    #ice.tab-pane
-      =render partial: "observations/ice", locals: {f: f}
-    #meteorology.tab-pane
-      =render partial: "observations/meteorology", locals: {f: f}
-    #photos.tab-pane
-      =render partial: "observations/photos", locals: {f: f}
-    #comments.tab-pane
-      =render partial: "observations/comments" 
-
+#obs_form
+  = form_for @observation, url: observation_path(@observation), html: { class: "autosave notify", id: "observation_form" }, remote: true do |f|
+    = render partial: 'observations/header', locals: {f: f} unless @observation.new_record?
+    - @observation.errors.messages.each do |field, errors|
+      - errors.each do |error|
+        .alert.alert-danger
+          - if field != :hexcode
+            %strong
+              = field.to_s.humanize
+          = error
+    #form-fields.tab-content
+      =render partial: 'form_fields', locals: {f: f}
+    
+    
 :javascript
   $('input[type=text],input[type=number]').on('keydown', function(e) {
     if (e.which == 13) {
       e.preventDefault();
     }
   });
+  $(".combobox").select2({allowClear: true});
+  handleTopographies();
+  
