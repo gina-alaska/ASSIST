@@ -21,7 +21,7 @@
       :old: POld
       :consolidated: PCs
       :snow_covered: PSC
-      :concentration: PC
+      :concentration: PTopC
       :ridge_height: PRH
     :sediment_lookup_code: PSD
     :biota_lookup_code: PA
@@ -44,7 +44,7 @@
       :old: SOld
       :consolidated: SCs
       :snow_covered: SSC
-      :concentration: SC
+      :concentration: STopC
       :ridge_height: SRH
     :sediment_lookup_code: SSD
     :biota_lookup_code: SA
@@ -67,7 +67,7 @@
       :old: TOld
       :consolidated: TCs
       :snow_covered: TSC
-      :concentration: TC
+      :concentration: TTopC
       :ridge_height: TRH
     :sediment_lookup_code: TSD
     :biota_lookup_code: TA
