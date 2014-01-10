@@ -16,4 +16,4 @@ bundle exec rake package:generate_zip[$PKGNAME]
 
 #Clean up assets and database
 rm db/production.sqlite3
-rm -rf public/assets
+rm -f public/assets/application*
