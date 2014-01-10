@@ -128,7 +128,7 @@ class Observation < ActiveRecord::Base
   end
   
   def export
-    FileUtils.mkdir(export_path) unless File.exists?(export_path)
+    FileUtils.mkdir_p(export_path) unless File.exists?(export_path)
   
     ['csv','json'].each do |format|
       file = File.join(export_path, "#{name}.#{format}")
