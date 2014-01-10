@@ -8,7 +8,7 @@ Iceobs::Application.routes.draw do
     resources :comments      
   end
   resources :users
-  resource  :cruise_info
+  resource  :cruise_infos
   resources :lookups
   root :to => 'observations#index'
 end
