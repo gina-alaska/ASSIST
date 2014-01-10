@@ -22,7 +22,6 @@ gem 'rubyzip', require: "zip/zipfilesystem"
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
   gem 'compass-rails'
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
@@ -37,6 +36,7 @@ group :development do
   gem 'meta_request'
 end
 
+gem 'sass-rails',   '~> 3.2.3'
 gem 'bootstrap-sass', '~> 2.1.0.0'
 gem 'bootstrap-datepicker-rails'
 
@@ -58,4 +58,5 @@ gem 'active_attr'
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
 # gem 'wicked'
-gem 'bower-tools', path: "/Users/scott/workspace/bower-tools" #git: 'https://github.com/gina-alaska/bower-tools.git'
+# gem 'bower-tools', git: 'https://github.com/gina-alaska/bower-tools.git'
+gem 'bower-tools', path: '/Users/scott/workspace/bower-tools'
