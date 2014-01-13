@@ -7,6 +7,7 @@ class Observation < ActiveRecord::Base
   include AssistShared::CSV::Observation
   include AssistShared::Validations::Observation
   
+  has_one  :ship, :dependent => :destroy
   has_one  :ice, :dependent => :destroy
   has_many :photos, :dependent => :destroy
   has_many :comments, :dependent => :destroy
@@ -45,6 +46,7 @@ class Observation < ActiveRecord::Base
         obs.ice_observations << IceObservation.new(:obs_type => obs_type)
       end
     end
+    obs.ship = Ship.new if obs.ship.nil?
   end    
 
   accepts_nested_attributes_for :ice

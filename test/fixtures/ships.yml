@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  observation_id: 1
+  speed: MyString
+  heading: MyString
+  power: MyString
+  ship_activity_lookup_id: 1
+
+two:
+  observation_id: 1
+  speed: MyString
+  heading: MyString
+  power: MyString
+  ship_activity_lookup_id: 1

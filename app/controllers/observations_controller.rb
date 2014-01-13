@@ -161,8 +161,6 @@ protected
   end    
   
   def generate_zip observations, opts={}
-    
-    
     FileUtils.mkdir_p(EXPORT_DIR) unless File.exists? EXPORT_DIR
     fullpath = File.join(EXPORT_DIR, "#{@export_name}.zip")
     FileUtils.remove(fullpath) if File.exists?(fullpath)
