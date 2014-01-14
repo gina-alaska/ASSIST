@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140113212826) do
+ActiveRecord::Schema.define(:version => 20140114003339) do
 
   create_table "algae_distribution_lookups", :force => true do |t|
     t.string   "name"
@@ -156,6 +156,13 @@ ActiveRecord::Schema.define(:version => 20140113212826) do
     t.integer  "weather_lookup_id"
     t.datetime "created_at",           :null => false
     t.datetime "updated_at",           :null => false
+    t.integer  "total_cloud_cover"
+    t.integer  "wind_speed"
+    t.string   "wind_direction"
+    t.integer  "air_temperature"
+    t.integer  "water_temperature"
+    t.integer  "relative_humidity"
+    t.integer  "air_pressure"
   end
 
   create_table "observation_users", :force => true do |t|

@@ -1,21 +1,68 @@
 -cloudindex = 0
 = f.fields_for :meteorology do |m|
-  .row
-    .span4
-      .control-group
-        = m.label :visibility_lookup_id, "Visibility (m-km)", class: 'control-label'
-        .controls
-          = m.collection_select :visibility_lookup_id, VisibilityLookup.all, :id, :code_with_name, |
-            { include_blank: true, allow_blank: true }, { class: :combobox }
-          %p.help-block
-    .span4
-      .control-group
-        = m.label :weather_lookup_id, "Weather", class: 'control-label'
-        .controls
-          = m.collection_select :weather_lookup_id, WeatherLookup.all, :id, :code_with_name, |
-            { include_blank: true, allow_blank: true }, { class: :combobox }
-          %p.help-block
-  .row
-    = render :partial => 'clouds', locals: {f: m, cloud: @observation.meteorology.clouds.high, index: (cloudindex += 1), title: 'High'}
-    = render :partial => 'clouds', locals: {f: m, cloud: @observation.meteorology.clouds.medium, index: (cloudindex += 1), title: 'Medium'}
-    = render :partial => 'clouds', locals: {f: m, cloud: @observation.meteorology.clouds.low, index: (cloudindex += 1), title: 'Low'}
+  %h3
+    %ul.nav.nav-tabs{id: 'met-properties'}
+      %li.active
+        =link_to "Meteorology", "#met_obs", {data: {toggle: 'tab'}}
+      %li
+        =link_to "Clouds", "#clouds", {data: {toggle: 'tab'}}
+  .tab-content
+    #met_obs.tab-pane.active
+      .row
+        .span4
+          .control-group
+            = m.label :visibility_lookup_id, "Visibility (m-km)", class: 'control-label'
+            .controls
+              = m.collection_select :visibility_lookup_id, VisibilityLookup.all, :id, |        
+                :code_with_name, { include_blank: true, allow_blank: true }, { class: :combobox }
+              %p.help-block
+        .span4
+          .control-group
+            = m.label :weather_lookup_id, "Weather", class: 'control-label'
+            .controls
+              = m.collection_select :weather_lookup_id, WeatherLookup.all, :id, :code_with_name, |
+                { include_blank: true, allow_blank: true }, { class: :combobox }
+              %p.help-block
+        .span4
+          .control-group
+            = m.label :total_cloud_cover, "Total Cloud Cover", class: 'control-label'
+            .controls
+              = m.text_field :total_cloud_cover
+      .row
+        .span4
+          .control-group
+            = m.label :wind_speed, "Wind speed", class: 'control-label'
+            .controls
+            = m.text_field :wind_speed
+        .span4
+          .control-group
+            = m.label :wind_direction, "Wind direction", class: 'control-label'
+            .controls
+            = m.text_field :wind_direction
+      .row
+        .span4
+          .control-group
+            = m.label :air_temperature, "Air Temperature", class: 'control-label'
+            .controls
+            = m.text_field :air_temperature
+        .span4
+          .control-group
+            = m.label :water_temperature, "Water Temperature", class: 'control-label'
+            .controls
+            = m.text_field :water_temperature
+      .row
+        .span4
+          .control-group
+            = m.label :relative_humidity, "Relative Humidity", class: 'control-label'
+            .controls
+            = m.text_field :relative_humidity
+        .span4
+          .control-group
+            = m.label :air_pressure, "Air Pressure", class: 'control-label'
+            .controls
+            = m.text_field :air_pressure
+    #clouds.tab-pane
+      .row
+        = render :partial => 'clouds', locals: {f: m, cloud: @observation.meteorology.clouds.high, index: (cloudindex += 1), title: 'High'}
+        = render :partial => 'clouds', locals: {f: m, cloud: @observation.meteorology.clouds.medium, index: (cloudindex += 1), title: 'Medium'}
+        = render :partial => 'clouds', locals: {f: m, cloud: @observation.meteorology.clouds.low, index: (cloudindex += 1), title: 'Low'}

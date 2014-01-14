@@ -53,6 +53,7 @@ class Observation < ActiveRecord::Base
   accepts_nested_attributes_for :ice_observations
   accepts_nested_attributes_for :meteorology
   accepts_nested_attributes_for :photos
+  accepts_nested_attributes_for :ship
 
   before_save do
     self.latitude = self.to_dd(latitude) if latitude =~ /^(\+|-)?[0-9]{1,2}\s[0-9]{1,2}(\s[0-9]{1,2})?(\s?[NS])?$/
