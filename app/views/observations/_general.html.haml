@@ -52,3 +52,4 @@
         = f.text_field :longitude, class: 'coord', placeholder: 'DD.DDDD or DD MM SS' 
         %p.help-block
           ="DMS: #{to_dms(@observation.longitude)}"
+=render partial: 'ship', locals: {f: f}

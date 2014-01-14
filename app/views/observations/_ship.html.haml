@@ -1,0 +1,27 @@
+%h2 Ship Activity
+
+= f.fields_for :ship do |s|
+  .row
+    .span4
+      .control-group        
+        = s.label :heading, class: 'control-label'
+        .controls
+          = s.text_field :heading
+    .span4
+      .control-group
+        = s.label :power, class: 'control-label'
+        .controls
+          = s.text_field :power
+    .span4
+      .control-group
+        = s.label :speed, class: 'control-label'
+        .controls
+          = s.text_field :speed
+  / .row
+  /   .span4
+  /     .control-group
+  /       = s.label :ship_activity_lookup_id, "Ship Activity", class: 'control-label'
+  /       .controls
+  /         = s.collection_select :ship_activity_lookup_id, ShipActivityLookup.all, |
+  /           :code, :name, {include_blank: true, allow_blank: true}, class: 'combobox'
+  
