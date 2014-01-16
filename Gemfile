@@ -58,5 +58,4 @@ gem 'active_attr'
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
 # gem 'wicked'
-# gem 'bower-tools', git: 'https://github.com/gina-alaska/bower-tools.git'
-gem 'bower-tools', path: '/Users/scott/workspace/bower-tools'
+gem 'bower-tools', git: 'https://github.com/gina-alaska/bower-tools.git'

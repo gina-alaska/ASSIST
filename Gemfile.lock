@@ -4,10 +4,11 @@ GIT
   specs:
     assist-shared (0.2.0)
 
-PATH
-  remote: /Users/scott/workspace/bower-tools
+GIT
+  remote: https://github.com/gina-alaska/bower-tools.git
+  revision: 490896e44a072df40e5fe383b5f4b8cec8ae20d6
   specs:
-    bower-tools (0.0.3)
+    bower-tools (0.0.5)
 
 GEM
   remote: https://rubygems.org/
