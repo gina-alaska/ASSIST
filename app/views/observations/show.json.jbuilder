@@ -6,10 +6,10 @@ json.partial! 'observations/user', collection: @observation.additional_observers
 
 json.partial! 'observations/ice', @observation.ice_attributes
 json.partial! 'observations/ice_observations', collection: @observation.ice_observations, 
-  as: :ice_observations_attributes
+  as: :ice_observation_attributes
 json.partial! 'observations/meteorology', @observation.meteorology_attributes
 
 json.partial! 'observations/ship', @observation.ship
 json.partial! 'observations/photos', collection: @observation.photos, as: :photos_attributes
 json.partial! 'observations/comments', collection: @observation.comments, 
-  as: :comments_attributes
+  as: :comment_attributes
