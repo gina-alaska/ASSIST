@@ -1,3 +1,5 @@
+require 'net/http'
+
 class ObservationsController < ApplicationController
   respond_to :html, :csv, :json, :zip
   before_filter :load_cruise_info
@@ -50,6 +52,9 @@ class ObservationsController < ApplicationController
     @observation.finalize = (params[:id] == "validate")  
     
     if @observation.update_attributes(observation_params)
+      %w{json csv}.each do |format |
+        save_to_disk(observation_url(@observation, format), @observation.export_name(format))
+      end
       if request.xhr?
         respond_to do |format|
           if params[:commit] == "Save and Exit"
@@ -85,8 +90,8 @@ class ObservationsController < ApplicationController
     else
       respond_with @observation do |format|
         format.html
+        format.json 
         format.csv {render text: generate_csv(@observation) }
-        format.json {render json: @observation.to_json}
       end
     end
   end
@@ -103,13 +108,13 @@ class ObservationsController < ApplicationController
   
   def export
     @observations = Observation.includes(:ice, ice_observations: [:topography, :melt_pond], meteorology: [:clouds])
-    
+    cruise_info = CruiseInfo.first
     if(observation_ids.any?)
       Rails.logger.info(observation_ids)
       @observations = @observations.where(observation_ids)
     end
 
-    @export_name = [Cruise[:ship], Time.now.utc.strftime("%Y%m%d%H%M"), @observations.count].join("_")
+    @export_name = [cruise_info.ship, Time.now.utc.strftime("%Y%m%d%H%M"), @observations.count].join("_")
     
     respond_with @observations do |format|
       format.html
@@ -168,8 +173,9 @@ protected
     metadata = {
       exported_on: Time.now.utc,
       assist_version: ASSIST_VERSION,
-      cruise_id: Cruise[:id],
-      ship_name: Cruise[:ship],
+      ship_name: cruise_info.ship,
+      captain: cruise_info.captain,
+      chief_scientist: cruise_info.chief_scientist,
       observation_count: observations.count,
       observations: "#{@export_name}.json",
       photos_included: !!opts[:include_photos]
@@ -211,5 +217,12 @@ protected
       redirect_to new_cruise_infos_path
     end
   end
+  
+  def save_to_disk uri, filepath
+    FileUtils.mkdir_p(File.dirname(filepath)) unless File.exists?(File.dirname(filepath))
 
+    File.open(filepath, "w") do |file|
+       file << Net::HTTP.get(URI.parse(uri))
+    end
+  end
 end
