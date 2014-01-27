@@ -25,40 +25,40 @@
               %p.help-block
         .span4
           .control-group
-            = m.label :total_cloud_cover, "Total Cloud Cover", class: 'control-label'
+            = m.label :total_cloud_cover, "Total Cloud Cover (eighths)", class: 'control-label'
             .controls
               = m.text_field :total_cloud_cover
       .row
         .span4
           .control-group
-            = m.label :wind_speed, "Wind speed", class: 'control-label'
+            = m.label :wind_speed, "Wind speed (m/sec)", class: 'control-label'
             .controls
             = m.text_field :wind_speed
         .span4
           .control-group
-            = m.label :wind_direction, "Wind direction", class: 'control-label'
+            = m.label :wind_direction, "Wind direction (degrees)", class: 'control-label'
             .controls
             = m.text_field :wind_direction
       .row
         .span4
           .control-group
-            = m.label :air_temperature, "Air Temperature", class: 'control-label'
+            = m.label :air_temperature, "Air Temperature (c)", class: 'control-label'
             .controls
             = m.text_field :air_temperature
         .span4
           .control-group
-            = m.label :water_temperature, "Water Temperature", class: 'control-label'
+            = m.label :water_temperature, "Water Temperature (c)", class: 'control-label'
             .controls
             = m.text_field :water_temperature
       .row
         .span4
           .control-group
-            = m.label :relative_humidity, "Relative Humidity", class: 'control-label'
+            = m.label :relative_humidity, "Relative Humidity (%)", class: 'control-label'
             .controls
             = m.text_field :relative_humidity
         .span4
           .control-group
-            = m.label :air_pressure, "Air Pressure", class: 'control-label'
+            = m.label :air_pressure, "Air Pressure (mBar)", class: 'control-label'
             .controls
             = m.text_field :air_pressure
     #clouds.tab-pane

@@ -10,17 +10,14 @@
           { :class => :combobox, :id => "#{index}_meteorology_cloud_cloud_lookup_id" } 
       %p.help-block
     .control-group
-      = c.label :cover, 'Cloud Cover', class: 'control-label'
+      = c.label :cover, 'Cloud Cover (eighths)', class: 'control-label'
       .controls
         = c.select :cover, options_for_select( (0..8).to_a, selected: cloud.cover), |
           { include_blank: true, allow_blank: true }, |
           {:class => :combobox, :id => "#{index}_meteorology_cloud_cloud_cover"}        
-        %p.help-block
-          (eigths)
     .control-group
       = c.label :height, 'Cloud Height (m)', class: 'control-label'
       .controls
         .input-append
           = c.number_field :height,{ :min => 0, :step => 100, :id => "#{index}_meteorology_cloud_cloud_height"} 
-        %p.help-block
-          (meters)
+

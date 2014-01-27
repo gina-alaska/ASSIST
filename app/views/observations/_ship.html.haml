@@ -4,17 +4,17 @@
   .row
     .span4
       .control-group        
-        = s.label :heading, class: 'control-label'
+        = s.label :heading, "Heading (degrees)", class: 'control-label'
         .controls
           = s.text_field :heading
     .span4
       .control-group
         = s.label :power, class: 'control-label'
         .controls
-          = s.text_field :power
+          = s.select :power, ship_power_options(s.object.power), {include_blank: true, allow_blank: true}, {class: 'combobox'}
     .span4
       .control-group
-        = s.label :speed, class: 'control-label'
+        = s.label :speed, "Speed (knots)", class: 'control-label'
         .controls
           = s.text_field :speed
   / .row

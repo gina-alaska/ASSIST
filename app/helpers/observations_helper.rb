@@ -57,4 +57,7 @@ module ObservationsHelper
     fields.gsub("\n","")
   end
   
+  def ship_power_options(p)
+    options_for_select([["0", 0],["1/4", 1],["1/2", 2],["3/4", 3],["Full", 4]], p)
+  end
 end

@@ -14,7 +14,7 @@ else
   gem 'sqlite3'
 end
 
-gem 'assist-shared', '0.2.0', git: 'http://github.com/gina-alaska/iceobs-shared', require: 'assist_shared'
+gem 'assist-shared', '0.2.4', git: 'http://github.com/gina-alaska/iceobs-shared', require: 'assist_shared'
 
 gem 'haml'
 
@@ -58,5 +58,4 @@ gem 'jbuilder'
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
 # gem 'wicked'
-# gem 'bower-tools', git: 'https://github.com/gina-alaska/bower-tools.git'
-gem 'bower-tools', path: '/Users/scott/workspace/bower-tools'
+gem 'bower-tools', git: 'https://github.com/gina-alaska/bower-tools.git'

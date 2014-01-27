@@ -1,4 +1,8 @@
 class Ship < ActiveRecord::Base
+  include ImportHandler
+  include AssistShared::CSV::Ship
+  include AssistShared::Validations::Ship
+
   attr_accessible :heading, :observation_id, :power, :ship_activity_lookup_id, :speed
   
   belongs_to :observation

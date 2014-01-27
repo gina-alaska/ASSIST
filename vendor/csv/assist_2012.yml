@@ -4,6 +4,11 @@
 :additional_observers: AO
 :latitude: LAT
 :longitude: LON
+:ship_attributes:
+  :power: ShP
+  :speed: ShS
+  :heading: ShH
+  :ship_activity_lookup_code: ShA
 :ice_attributes:
   :total_concentration: TC
   :thick_ice_lookup_code: TH
@@ -82,6 +87,12 @@
 :meteorology_attributes:
   :visibility_lookup_code: V
   :weather_lookup_code: WX
+  :total_cloud_cover: TCC
+  :wind_speed: WS
+  :air_temperature: AT
+  :water_temperature: WT
+  :realtive_humidity: RelH
+  :air_pressure: AP
   :clouds_attributes:
     -
       :cloud_type: high
