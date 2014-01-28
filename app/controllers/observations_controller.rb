@@ -38,6 +38,7 @@ class ObservationsController < ApplicationController
   def edit
     @observation = Observation.includes(:ice, ice_observations: [:topography, :melt_pond], meteorology: [:clouds]).where(:id => observation_id).first
     @observation.valid?
+    @observation.faunas.build
     respond_with @observation
   end
   

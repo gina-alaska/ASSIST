@@ -32,7 +32,7 @@ class Observation < ActiveRecord::Base
   has_many :observation_users
   belongs_to :primary_observer, :class_name => "User"
   has_many :additional_observers, :through => :observation_users, :class_name => "User", :source => :user
-
+  has_many :faunas
 
   before_create do |obs|
     begin
@@ -49,11 +49,7 @@ class Observation < ActiveRecord::Base
     obs.ship = Ship.new if obs.ship.nil?
   end    
 
-  accepts_nested_attributes_for :ice
-  accepts_nested_attributes_for :ice_observations
-  accepts_nested_attributes_for :meteorology
-  accepts_nested_attributes_for :photos
-  accepts_nested_attributes_for :ship
+  accepts_nested_attributes_for :ice,:ice_observations,:meteorology,:photos,:ship,:faunas
 
   before_save do
     self.latitude = self.to_dd(latitude) if latitude =~ /^(\+|-)?[0-9]{1,2}\s[0-9]{1,2}(\s[0-9]{1,2})?(\s?[NS])?$/

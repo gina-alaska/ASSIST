@@ -1,0 +1,11 @@
+.row
+  .span4.offset2
+    .control-group
+      = f.label :type, "Type", class: 'control-label'
+      .controls
+        = f.text_field :type
+  .span4
+    .control-group
+      = f.label :count, "Count", class: 'control-label'
+      .controls
+        = f.number_field :count
