@@ -1,0 +1,9 @@
+.row
+  .span4.offset2
+    = f.text_field :name
+  .span4
+    = f.number_field :count
+  .span2
+    = f.link_to_remove class: 'btn btn-mini btn-danger' do
+      %i.icon-remove.icon-white
+      Remove

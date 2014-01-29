@@ -20,6 +20,7 @@
 //= require jquery-file-upload/js/jquery.fileupload.js
 //= require jquery-blockUI/jquery.blockUI
 //= require select2/select2
+//= require jquery_nested_form
 //= require_tree .
 
 $(document).ready( function() {

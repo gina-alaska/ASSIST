@@ -9,6 +9,9 @@
   :speed: ShS
   :heading: ShH
   :ship_activity_lookup_code: ShA
+:faunas_attributes:
+  :name: FN
+  :count: FC
 :ice_attributes:
   :total_concentration: TC
   :thick_ice_lookup_code: TH
@@ -91,7 +94,7 @@
   :wind_speed: WS
   :air_temperature: AT
   :water_temperature: WT
-  :realtive_humidity: RelH
+  :relative_humidity: RelH
   :air_pressure: AP
   :clouds_attributes:
     -

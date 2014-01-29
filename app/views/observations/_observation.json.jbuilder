@@ -19,6 +19,11 @@ end
 json.ship_attributes do 
   json.partial! observation.ship
 end
+
+json.fauna_attributes observation.faunas do |fauna|
+  json.partial! fauna
+end
+
 json.photo_attributes do 
   json.partial! observation.photos
 end

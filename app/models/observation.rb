@@ -13,10 +13,7 @@ class Observation < ActiveRecord::Base
   has_many :comments, :dependent => :destroy
   has_many :ice_observations, :dependent => :destroy do
     def obs_type o
-      #o = o.to_sym
       select { |item| item.obs_type == o }.first
-      #ice = where(:obs_type => o).first
-      #ice
     end
     def primary
       obs_type "primary"
@@ -32,7 +29,7 @@ class Observation < ActiveRecord::Base
   has_many :observation_users
   belongs_to :primary_observer, :class_name => "User"
   has_many :additional_observers, :through => :observation_users, :class_name => "User", :source => :user
-
+  has_many :faunas, :dependent => :destroy
 
   before_create do |obs|
     begin
@@ -49,11 +46,8 @@ class Observation < ActiveRecord::Base
     obs.ship = Ship.new if obs.ship.nil?
   end    
 
-  accepts_nested_attributes_for :ice
-  accepts_nested_attributes_for :ice_observations
-  accepts_nested_attributes_for :meteorology
-  accepts_nested_attributes_for :photos
-  accepts_nested_attributes_for :ship
+  accepts_nested_attributes_for :ice,:ice_observations,:meteorology,:photos,:ship
+  accepts_nested_attributes_for :faunas, reject_if: proc { |fauna| fauna['name'].blank? }, allow_destroy: true
 
   before_save do
     self.latitude = self.to_dd(latitude) if latitude =~ /^(\+|-)?[0-9]{1,2}\s[0-9]{1,2}(\s[0-9]{1,2})?(\s?[NS])?$/
@@ -88,14 +82,6 @@ class Observation < ActiveRecord::Base
   #   }
   #   data = lookup_id_to_code(data)
   #   data
-  # end
-
-  # def to_json opts={}
-  #   ActionView::Base.new(Rails.configuration.paths['app/views'].first).render(
-  #     partial: 'observations/observation',
-  #     format: 'json',
-  #     locals: {observation: self}
-  #   )
   # end
 
   def lookup_id_to_code(hash) 
