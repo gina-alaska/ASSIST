@@ -1,14 +1,13 @@
 GIT
-  remote: http://github.com/gina-alaska/iceobs-shared
-  revision: 92a8ff7f99dd871e70f1189d65e0b60217540e0a
-  specs:
-    assist-shared (0.2.4)
-
-GIT
   remote: https://github.com/gina-alaska/bower-tools.git
   revision: 490896e44a072df40e5fe383b5f4b8cec8ae20d6
   specs:
     bower-tools (0.0.5)
+
+PATH
+  remote: ../iceobs-shared
+  specs:
+    assist-shared (0.2.5)
 
 GEM
   remote: https://rubygems.org/
@@ -91,6 +90,7 @@ GEM
       rails
     mime-types (1.25.1)
     multi_json (1.8.2)
+    nested_form (0.3.2)
     polyglot (0.3.3)
     quiet_assets (1.0.1)
       railties (~> 3.1)
@@ -153,7 +153,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_attr
-  assist-shared (= 0.2.4)!
+  assist-shared (= 0.2.5)!
   better_errors
   bootstrap-datepicker-rails
   bootstrap-sass (~> 2.1.0.0)
@@ -164,6 +164,7 @@ DEPENDENCIES
   jbuilder
   jquery-rails
   meta_request
+  nested_form
   quiet_assets
   rails (~> 3.2.0)
   rubyzip

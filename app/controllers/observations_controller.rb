@@ -92,7 +92,7 @@ class ObservationsController < ApplicationController
       respond_with @observation do |format|
         format.html
         format.json 
-        format.csv {render text: generate_csv(@observation) }
+        format.csv #{render text: generate_csv(@observation) }
       end
     end
   end

@@ -1,0 +1,1 @@
+json.(fauna, :name, :count)

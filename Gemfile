@@ -14,8 +14,8 @@ else
   gem 'sqlite3'
 end
 
-gem 'assist-shared', '0.2.4', git: 'http://github.com/gina-alaska/iceobs-shared', require: 'assist_shared'
-
+#gem 'assist-shared', '0.2.4', git: 'http://github.com/gina-alaska/iceobs-shared', require: 'assist_shared'
+gem 'assist-shared', '0.2.5', path: "/Users/scott/workspace/iceobs-shared", require: 'assist_shared'
 gem 'haml'
 
 gem 'rubyzip', require: "zip/zipfilesystem"
@@ -48,7 +48,7 @@ gem 'active_attr'
 
 # To use Jbuilder templates for JSON
 gem 'jbuilder'
-
+gem 'nested_form'
 # Use unicorn as the web server
 # gem 'unicorn'
 

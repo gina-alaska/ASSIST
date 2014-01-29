@@ -73,7 +73,7 @@ ActiveRecord::Schema.define(:version => 20140127220009) do
   end
 
   create_table "faunas", :force => true do |t|
-    t.string   "type"
+    t.string   "name"
     t.integer  "count"
     t.integer  "observation_id"
     t.datetime "created_at",     :null => false
@@ -258,9 +258,9 @@ ActiveRecord::Schema.define(:version => 20140127220009) do
 
   create_table "ships", :force => true do |t|
     t.integer  "observation_id"
-    t.string   "speed"
-    t.string   "heading"
-    t.string   "power"
+    t.integer  "speed"
+    t.integer  "heading"
+    t.integer  "power"
     t.integer  "ship_activity_lookup_id"
     t.datetime "created_at",              :null => false
     t.datetime "updated_at",              :null => false

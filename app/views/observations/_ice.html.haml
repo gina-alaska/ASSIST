@@ -30,8 +30,6 @@
     %li
       =link_to "Other", "#other", {data: {toggle: 'tab'}}
     
-
-
 .tab-content
   #ice_obs.tab-pane.active
     .row
@@ -55,9 +53,19 @@
       =render partial: 'melt_ponds', locals: { f: f, melt_pond: @observation.ice_observations.tertiary.melt_pond, title: "Tertiary"}
   
   #fauna.tab-pane
-    =f.fields_for @observation.faunas do |fau|
-      = render fau.object, f: fau
-  
+    .row
+      .span4.offset2
+        %strong Type
+      .span4
+        %strong Count
+      .span2
+        = f.link_to_add :faunas, data: {target: "#faunas"}, class: "btn btn-mini btn-success" do
+          %i.icon-plus.icon-white
+          Add Fauna Type
+    #faunas
+      = f.fields_for :faunas do |fau|
+        = render fau.object, f: fau
+      
   #other.tab-pane
     .row
       =render partial: 'other', locals: { f: f, other: @observation.ice_observations.primary, title: "Primary"}

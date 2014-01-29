@@ -1,11 +1,9 @@
 .row
   .span4.offset2
-    .control-group
-      = f.label :type, "Type", class: 'control-label'
-      .controls
-        = f.text_field :type
+    = f.text_field :name
   .span4
-    .control-group
-      = f.label :count, "Count", class: 'control-label'
-      .controls
-        = f.number_field :count
+    = f.number_field :count
+  .span2
+    = f.link_to_remove class: 'btn btn-mini btn-danger' do
+      %i.icon-remove.icon-white
+      Remove
