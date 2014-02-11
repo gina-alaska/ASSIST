@@ -215,7 +215,7 @@ protected
     @cruise = CruiseInfo.first
     
     if @cruise.nil?
-      redirect_to new_cruise_infos_path
+      redirect_to new_cruise_info_path
     end
   end
   
