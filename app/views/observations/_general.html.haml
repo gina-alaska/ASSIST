@@ -1,55 +1,82 @@
-#observers_fields.row
-  .span4
-    .control-group
-      = f.label :primary_observer, "Primary Observer", class: 'control-label'
-      .controls
-        = f.collection_select :primary_observer_id, User.all, :id, :first_and_last_name, |
-          { :include_blank => true }, {class: 'users combobox'}
-        %p.help-block
-  .span4
-    .control-group
-      = f.label :additional_observer_ids, "Additional Observers", class: 'control-label'
-      .controls
-        = f.collection_select :additional_observer_ids, User.all, :id, :first_and_last_name, |
-          { :include_blank => true}, { :class => 'users combobox', :multiple => true }
-  .span4
-    .control-group
-      .control-label
-        %br
-      .controls
-        = link_to "Add User", "#user_form", {class: 'btn btn-info', 'data-toggle' => 'modal'}
-.row
-  .span4
-    .control-group
-      = label_tag nil, class: 'control-label' do
-        Date 
-        %p.help-block{style: 'display: inline-block;'}
-          yyyy.mm.dd
-      .controls
-        = text_field_tag "observation_date", date(@observation), class: 'datefield', 'data-date-format' => 'yyyy.mm.dd'
-  .span4            
-    .control-group
-      = label_tag "Hour", nil, class: 'control-label'
-      .controls
-        = select_tag "observation_hour", options_for_select((0..23).to_a, hour(@observation)), {:class => :combobox}
-  .span4
-    .control-group
-      = label_tag "Minute", nil, class: 'control-label'
-      .controls
-        = select_tag "observation_minute", options_for_select((0..59).to_a, minute(@observation)), {:class => :combobox}
-.row
-  .span4
-    .control-group
-      = f.label :latitude, class: 'control-label'
-      .controls
-        = f.text_field :latitude, class: 'coord', placeholder: 'DD.DDDD or DD MM SS' 
-        %p.help-block
-          ="DMS: #{to_dms(@observation.latitude)}"
-  .span4
-    .control-group
-      = f.label :longitude, class: 'control-label'
-      .controls
-        = f.text_field :longitude, class: 'coord', placeholder: 'DD.DDDD or DD MM SS' 
-        %p.help-block
-          ="DMS: #{to_dms(@observation.longitude)}"
-=render partial: 'ship', locals: {f: f}
+%ul.nav.nav-tabs{id: 'general-properties'}
+  %li.active
+    =link_to "Observation", '#obstab', data: {toggle: 'tab'}
+  %li
+    =link_to "Ship", '#shiptab', data: {toggle: 'tab'}
+  %li
+    =link_to "Fauna", '#faunatab', data: {toggle: 'tab'}
+
+.tab-content
+  #obstab.tab-pane.active
+    #observers_fields.row
+      .span4
+        .control-group
+          = f.label :primary_observer, "Primary Observer", class: 'control-label'
+          .controls
+            = f.collection_select :primary_observer_id, User.all, :id, :first_and_last_name, |
+              { :include_blank => true }, {class: 'users combobox'}
+            %p.help-block
+      .span4
+        .control-group
+          = f.label :additional_observer_ids, "Additional Observers", class: 'control-label'
+          .controls
+            = f.collection_select :additional_observer_ids, User.all, :id, :first_and_last_name, |
+              { :include_blank => true}, { :class => 'users combobox', :multiple => true }
+      .span4
+        .control-group
+          .control-label
+            %br
+          .controls
+            = link_to "Add User", "#user_form", {class: 'btn btn-info', 'data-toggle' => 'modal'}
+    .row
+      .span4
+        .control-group
+          = label_tag nil, class: 'control-label' do
+            Date 
+            %p.help-block{style: 'display: inline-block;'}
+              yyyy.mm.dd
+          .controls
+            = text_field_tag "observation_date", date(@observation), class: 'datefield', 'data-date-format' => 'yyyy.mm.dd'
+      .span4            
+        .control-group
+          = label_tag "Hour", nil, class: 'control-label'
+          .controls
+            = select_tag "observation_hour", options_for_select((0..23).to_a, hour(@observation)), {:class => :combobox}
+      .span4
+        .control-group
+          = label_tag "Minute", nil, class: 'control-label'
+          .controls
+            = select_tag "observation_minute", options_for_select((0..59).to_a, minute(@observation)), {:class => :combobox}
+    .row
+      .span4
+        .control-group
+          = f.label :latitude, class: 'control-label'
+          .controls
+            = f.text_field :latitude, class: 'coord', placeholder: 'DD.DDDD or DD MM SS' 
+            %p.help-block
+              ="DMS: #{to_dms(@observation.latitude)}"
+      .span4
+        .control-group
+          = f.label :longitude, class: 'control-label'
+          .controls
+            = f.text_field :longitude, class: 'coord', placeholder: 'DD.DDDD or DD MM SS' 
+            %p.help-block
+              ="DMS: #{to_dms(@observation.longitude)}"
+
+
+  #shiptab.tab-pane 
+    =render partial: 'ship', locals: {f: f}
+  #faunatab.tab-pane
+    .row
+      .span4.offset2
+        %strong Type
+      .span4
+        %strong Count
+      .span2
+        = f.link_to_add :faunas, data: {target: "#faunas"}, class: "btn btn-mini btn-success" do
+          %i.icon-plus.icon-white
+          Add Fauna Type
+    #faunas
+      = f.fields_for :faunas do |fau|
+        = render fau.object, f: fau
+      
