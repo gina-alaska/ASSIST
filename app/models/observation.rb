@@ -55,8 +55,6 @@ class Observation < ActiveRecord::Base
     self.hexcode = Digest::MD5.hexdigest("#{obs_datetime}#{latitude}#{longitude}#{primary_observer.try(&:first_and_last_name)}")
   end
   
-  # after_save :export, if: Proc.new{|obs| obs.valid? }
-
   def to_dd dms
     deg,min,sec = dms.split " "
     dec = (min.to_i * 60 + sec.to_i) / 3600.0
@@ -64,26 +62,6 @@ class Observation < ActiveRecord::Base
     dd.to_f.round(4)
   end
   
-  # def as_json opts={}
-  #   data = {
-  #     obs_datetime: obs_datetime,
-  #     primary_observer: primary_observer.as_json,
-  #     additional_observers: additional_observers.collect(&:as_json),
-  #     latitude: latitude,
-  #     longitude: longitude,
-  #     hexcode: hexcode,
-  #     cruise_id: Cruise[:id],
-  #     ship_name: Cruise[:ship],
-  #     ice_attributes: ice.as_json,
-  #     ice_observations_attributes: ice_observations.collect(&:as_json),
-  #     meteorology_attributes: meteorology.as_json,
-  #     photos_attributes: photos.collect(&:as_json),
-  #     comments_attributes: comments.collect(&:as_json)
-  #   }
-  #   data = lookup_id_to_code(data)
-  #   data
-  # end
-
   def lookup_id_to_code(hash) 
     hash.inject(Hash.new) do |h, (k,v)|
       key = k.to_s.gsub(/lookup_id$/, "lookup_code")
