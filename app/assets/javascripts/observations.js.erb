@@ -11,12 +11,7 @@ $(document).ready(function() {
     //Set up the comments to have the correct prefix
     $("#comment_data").val("(" + $(this).html() + ")");
   });
-  
-  // $("body").on("click", "#save_observation", function(e) {
-  //   e.preventDefault();
-  //   $.rails.handleRemote($("#observation_form"));
-  // });
-  
+
   $("body").on('change', "#observation_form", function() {
     $("#save_observation").addClass('btn-danger').button('enable');
   });

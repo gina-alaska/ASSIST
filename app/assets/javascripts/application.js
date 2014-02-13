@@ -73,6 +73,13 @@ $(document).ready( function() {
       document.location = action;
     }
   });
+  
+  $("body").on("ajax:beforeSend", "#observation_form", function(xhr,s) {
+    $(".spinner").removeClass("hide");
+  });
+  $("body").on("ajax:complete", "#observation_form", function(xhr, s){
+    $(".spinner").addClass("hide");
+  });
 
   $("#import_observations").fileupload({
     // dataType: 'html',
