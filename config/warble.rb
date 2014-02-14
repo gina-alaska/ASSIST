@@ -145,7 +145,7 @@ Warbler::Config.new do |config|
   # since 1 runtime(default for threadsafe mode) will be enough.
   # config.webxml.jruby.min.runtimes = 2
   # config.webxml.jruby.max.runtimes = 4
-  config.webxml.jruby.max.runtimes = 1
+  config.webxml.jruby.max.runtimes = 2
 
   # JNDI data source name
   # config.webxml.jndi = 'jdbc/rails'

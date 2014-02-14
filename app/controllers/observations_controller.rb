@@ -51,7 +51,7 @@ class ObservationsController < ApplicationController
     @observation.obs_datetime = obs_datetime unless obs_datetime.nil?
     
     @observation.finalize = (params[:id] == "validate")  
-    
+
     if @observation.update_attributes(observation_params)
       %w{json csv}.each do |format |
         save_to_disk(observation_url(@observation, format), @observation.export_name(format))
@@ -111,7 +111,6 @@ class ObservationsController < ApplicationController
     @observations = Observation.includes(:ice, ice_observations: [:topography, :melt_pond], meteorology: [:clouds])
     cruise_info = CruiseInfo.first
     if(observation_ids.any?)
-      Rails.logger.info(observation_ids)
       @observations = @observations.where(observation_ids)
     end
 
