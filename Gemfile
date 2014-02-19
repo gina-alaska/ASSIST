@@ -14,7 +14,7 @@ else
   gem 'sqlite3'
 end
 
-gem 'assist-shared', '0.2.5', git: 'http://github.com/gina-alaska/iceobs-shared', require: 'assist_shared'
+gem 'assist-shared', '0.2.6', git: 'http://github.com/gina-alaska/iceobs-shared', require: 'assist_shared'
 gem 'haml'
 
 gem 'rubyzip', require: "zip/zipfilesystem"
