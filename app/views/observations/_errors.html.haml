@@ -1,0 +1,8 @@
+- if @observation.errors.any?
+  - @observation.errors.messages.each do |field, errors|
+    - errors.each do |error|
+      .alert.alert-danger
+        - if field != :hexcode
+          %strong
+            = field.to_s.gsub(/^(.*\.)*/,"").humanize
+        = error

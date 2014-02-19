@@ -1,13 +1,14 @@
 GIT
+  remote: http://github.com/gina-alaska/iceobs-shared
+  revision: e0d8cccf8693618010216122189156959fc38fb3
+  specs:
+    assist-shared (0.2.6)
+
+GIT
   remote: https://github.com/gina-alaska/bower-tools.git
   revision: 490896e44a072df40e5fe383b5f4b8cec8ae20d6
   specs:
     bower-tools (0.0.5)
-
-PATH
-  remote: ../iceobs-shared
-  specs:
-    assist-shared (0.2.5)
 
 GEM
   remote: https://rubygems.org/
@@ -153,7 +154,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_attr
-  assist-shared (= 0.2.5)!
+  assist-shared (= 0.2.6)!
   better_errors
   bootstrap-datepicker-rails
   bootstrap-sass (~> 2.1.0.0)

@@ -1,7 +1,7 @@
 .btn-toolbar
   .btn-group
     -if @observation.errors.any?
-      .btn.btn-large.btn-warning.disabled
+      .btn.btn-large.btn-danger.disabled
         Invalid
     -else
       .btn.btn-large.btn-success.disabled
@@ -14,7 +14,7 @@
       %i.icon-comment.icon-white
       Comment
   .btn-group
-    = f.submit "Saved", class: 'btn btn-large disabled','data-enable-text' => 'Save', disabled: true, id: 'save_observation'
+    = f.submit "Save", class: 'btn btn-large btn-success', id: 'save_observation'
     = f.submit "Save and Exit", class: 'btn btn-large btn-inverse', id: 'save_and_exit_observation'
   .spinner.pull-right.hide
     .rect1
