@@ -1,4 +1,5 @@
 #obs_form
+  = render 'errors'
   = nested_form_for @observation, url: observation_path(@observation), html: { class: "autosave notify", id: "observation_form" }, remote: true do |f|
     = render partial: 'observations/header', locals: {f: f} unless @observation.new_record?
     #form-fields.tab-content

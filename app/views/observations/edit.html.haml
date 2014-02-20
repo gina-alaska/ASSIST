@@ -1,6 +1,4 @@
-=render 'form'
-/ #error_messages{style: 'position:absolute; top: 50px; right:50px;'}
-/   =render 'errors'
+= render 'form'
   
 #add_comment.modal.hide
   - comment = @observation.comments.build data: "(General)"
