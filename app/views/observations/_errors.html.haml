@@ -4,5 +4,5 @@
       .alert.alert-danger
         - if field != :hexcode
           %strong
-            = field.to_s.gsub(/^(.*\.)*/,"").humanize
+            = field.to_s.gsub(/^(.*\.)*/,"").gsub(/lookup/,"").humanize
         = error
