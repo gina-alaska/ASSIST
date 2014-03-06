@@ -18,7 +18,6 @@
 //= require jquery-file-upload/js/vendor/jquery.ui.widget.js
 //= require jquery-file-upload/js/jquery.iframe-transport.js
 //= require jquery-file-upload/js/jquery.fileupload.js
-//= require jquery-blockUI/jquery.blockUI
 //= require select2/select2
 //= require jquery_nested_form
 //= require_tree .

@@ -14,11 +14,12 @@ else
   gem 'sqlite3'
 end
 
-gem 'assist-shared', '0.2.8', git: 'http://github.com/gina-alaska/iceobs-shared', require: 'assist_shared'
+gem 'assist-shared', '~> 0.2.0', git: 'http://github.com/gina-alaska/iceobs-shared', require: 'assist_shared'
 
 gem 'haml'
 
 gem 'rubyzip', require: "zip/zipfilesystem"
+gem 'zip-zip'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
