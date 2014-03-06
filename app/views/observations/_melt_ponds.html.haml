@@ -32,8 +32,8 @@
           = m.collection_select :max_depth_lookup_id, MaxDepthLookup.all, :id, :code_with_name, |
             { :include_blank => true }, { :class => :combobox }
           %p.help-block
-      / .control-group
-      /   =m.label :bottom_type_lookup_id, "Bottom Type", class: 'control-label'
-      /   .controls
-      /     = m.collection_select :bottom_type_lookup_id, BottomTypeLookup.all, :id, |    
-      /       :code_with_name, {include_blank: true, allow_blank: true}, {class: :combobox}
+      .control-group
+        =m.label :bottom_type_lookup_id, "Bottom Type", class: 'control-label'
+        .controls
+          = m.collection_select :bottom_type_lookup_id, BottomTypeLookup.all, :id, |    
+            :code_with_name, {include_blank: true, allow_blank: true}, {class: :combobox}

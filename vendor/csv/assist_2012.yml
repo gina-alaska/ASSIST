@@ -33,6 +33,7 @@
       :ridge_height: PRH
     :sediment_lookup_code: PSD
     :biota_lookup_code: PA
+    :biota_density_lookup_code: PAD
     :snow_lookup_code: PSY
     :snow_thickness: PSH
     :melt_pond_attributes:
@@ -56,6 +57,7 @@
       :ridge_height: SRH
     :sediment_lookup_code: SSD
     :biota_lookup_code: SA
+    :biota_density_lookup_code: SAD
     :snow_lookup_code: SSY
     :snow_thickness: SSH
     :melt_pond_attributes:
@@ -79,6 +81,7 @@
       :ridge_height: TRH
     :sediment_lookup_code: TSD
     :biota_lookup_code: TA
+    :biota_density_lookup_code: TAD
     :snow_lookup_code: TSY
     :snow_thickness: TSH
     :melt_pond_attributes:

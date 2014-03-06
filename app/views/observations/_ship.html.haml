@@ -15,11 +15,11 @@
         = s.label :speed, "Speed (knots)", class: 'control-label'
         .controls
           = s.text_field :speed
-  / .row
-  /   .span4
-  /     .control-group
-  /       = s.label :ship_activity_lookup_id, "Ship Activity", class: 'control-label'
-  /       .controls
-  /         = s.collection_select :ship_activity_lookup_id, ShipActivityLookup.all, |
-  /           :code, :name, {include_blank: true, allow_blank: true}, class: 'combobox'
+  .row
+    .span4
+      .control-group
+        = s.label :ship_activity_lookup_id, "Ship Activity", class: 'control-label'
+        .controls
+          = s.collection_select :ship_activity_lookup_id, ShipActivityLookup.all, |
+            :code, :code_with_name, {include_blank: true, allow_blank: true}, class: 'combobox'
   
