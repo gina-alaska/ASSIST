@@ -10,6 +10,7 @@ namespace :package do
     lookups = JSON.parse(open(lookups_url).read)
     
     lookups.each do |lookup|
+      puts lookup.first
       File.open(Rails.root.join("db/lookups","#{lookup.first}.yaml"), "w") do |f|
         f << lookup.last.to_yaml
       end

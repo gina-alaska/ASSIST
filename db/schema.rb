@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140127220009) do
+ActiveRecord::Schema.define(:version => 20140305180948) do
 
   create_table "algae_distribution_lookups", :force => true do |t|
     t.string   "name"
@@ -27,9 +27,23 @@ ActiveRecord::Schema.define(:version => 20140127220009) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "biota_density_lookups", :force => true do |t|
+    t.integer  "code"
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "biota_lookups", :force => true do |t|
     t.integer  "code"
     t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "bottom_type_lookups", :force => true do |t|
+    t.string   "name"
+    t.integer  "code"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -124,9 +138,10 @@ ActiveRecord::Schema.define(:version => 20140127220009) do
     t.integer  "snow_thickness"
     t.integer  "biota_lookup_id"
     t.integer  "sediment_lookup_id"
-    t.datetime "created_at",            :null => false
-    t.datetime "updated_at",            :null => false
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
     t.string   "obs_type"
+    t.integer  "biota_density_lookup_id"
   end
 
   create_table "ices", :force => true do |t|
@@ -250,6 +265,13 @@ ActiveRecord::Schema.define(:version => 20140127220009) do
   end
 
   create_table "sediment_lookups", :force => true do |t|
+    t.string   "name"
+    t.integer  "code"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "ship_activity_lookups", :force => true do |t|
     t.string   "name"
     t.integer  "code"
     t.datetime "created_at", :null => false
