@@ -1,6 +1,6 @@
 class ImportObservation
   include ActiveAttr::Model
-  
+
   class InvalidLookupException < Exception;end
 
   attr_accessor :file, :cruise_id
@@ -12,7 +12,7 @@ class ImportObservation
   def save
     begin
       if imported_observations.map(&:valid?).all?
-        imported_observations.each(&:save) 
+        imported_observations.each(&:save)
         true
       else
         imported_observations.each_with_index do |obs, index|
@@ -21,7 +21,7 @@ class ImportObservation
           end
         end
         false
-      end 
+      end
     rescue Exception => ex
       errors.add :base, ex.message
       false
@@ -37,7 +37,7 @@ class ImportObservation
   end
 
   def open_file
-    case File.extname(file.original_filename) 
+    case File.extname(file.original_filename)
     when ".zip"
       from_zip
     when ".csv"
@@ -51,7 +51,7 @@ class ImportObservation
 
   def create_observation(obs)
     begin
-      o = Observation.new(lookup_code_to_id(obs)) 
+      o = Observation.new(lookup_code_to_id(obs))
 
       #Handle csv that doesn't have hexcodes
       if o.hexcode.nil?
@@ -75,26 +75,26 @@ class ImportObservation
       imports << create_observation(obs)
     end
     imports
-  end 
+  end
 
   def from_csv
     imports = []
     import_map_path = Rails.root.join("vendor","csv")
     import_map_filename = "#{::File.basename(file.original_filename).split(".").first}.yml"
     unless File.exists?(import_map_path.join(import_map_filename))
-      import_map_filename = "assist_2012.yml" 
+      import_map_filename = "assist_2012.yml"
     end
     import_map = ::YAML.load_file(import_map_path.join(import_map_filename))
 
     raw_data = ::CSV.open(file.tempfile, {headers: true, return_headers: false, converters: :all})
-    
+
     raw_data.each do |row|
       imports << create_observation(csv_to_hash(row, import_map))
     end
     imports
   end
 
-  def from_zip 
+  def from_zip
     imports = []
     Zip::ZipFile.open(file.tempfile) do |z|
       obs_file = nil
@@ -146,14 +146,12 @@ class ImportObservation
       when "Hash"
         case k
         when :faunas_attributes
-          Rails.logger.info("**************************************")
-          names = row[v[:name]].split("//") if row.include?(v[:name])
-          counts = row[v[:count]].split("//") if row.include?(v[:count])
+          names = row[v[:name]].to_s.split("//") if row.include?(v[:name])
+          counts = row[v[:count]].to_s.split("//") if row.include?(v[:count])
           faunas = []
           unless names.nil? or counts.nil?
             names.zip(counts).each do |fauna|
               faunas << {name: fauna.first, count: fauna.last}
-              Rails.logger.info(faunas.last.inspect)
             end
           end
           data[k] = faunas
@@ -171,7 +169,6 @@ class ImportObservation
   def lookup_code_to_id attrs
     attrs.inject(Hash.new) do |h,(k,v)|
       key = k.to_s.gsub(/lookup_code$/, "lookup_id")
-
       if key =~ /lookup_id$/ and not v.nil?
         table = key.gsub(/^thi(n|ck)_ice_lookup_id$/,"ice_lookup_id")
         lookup = table.chomp("_id").camelcase.constantize.where(code: v).first
@@ -191,5 +188,5 @@ class ImportObservation
 
       h
     end
-  end  
+  end
 end
