@@ -19,8 +19,8 @@
   .btn-group
     .btn.btn-large.disabled
       Download
-    =link_to "CSV Template", "#", class: 'btn btn-large'
-    =link_to "Obs Guide", "#", class: 'btn btn-large'
+    =link_to "CSV Template", "assist_csv_template.zip", class: 'btn btn-large'
+    =#link_to "Obs Guide", "#", class: 'btn btn-large'
   .btn-group
     =link_to "Edit Cruise Information", edit_cruise_info_path, class: 'btn btn-large'
 
@@ -40,18 +40,18 @@
 .row
   .span12
     #errors
-         
+
 -if Rails.env == "development"
   .alert.alert-error
     %h3.alert-heading
       WARNING!
     %h4.alert-block
-      This site is for testing the latest changes to ASSIST.  
+      This site is for testing the latest changes to ASSIST.
       Observations may be wiped at any time.
-      
+
 = render 'obs_list'
 
-:javascript 
+:javascript
   $("#importCSVBtn").on('click', function() {
     $("#data").click();
   })

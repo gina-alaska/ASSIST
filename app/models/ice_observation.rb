@@ -2,7 +2,7 @@ class IceObservation < ActiveRecord::Base
   include ImportHandler
   include AssistShared::CSV::IceObservation
   include AssistShared::Validations::IceObservation
-  
+
   belongs_to :observation
   has_one :melt_pond, :dependent => :destroy
   has_one :topography, :dependent => :destroy
@@ -10,7 +10,9 @@ class IceObservation < ActiveRecord::Base
   belongs_to :floe_size_lookup
   belongs_to :sediment_lookup
   belongs_to :biota_lookup
+  belongs_to :biota_density_lookup
   belongs_to :snow_lookup
+  belongs_to :biota_location_lookup
 
   accepts_nested_attributes_for :melt_pond
   accepts_nested_attributes_for :topography

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140305180948) do
+ActiveRecord::Schema.define(:version => 20140319233018) do
 
   create_table "algae_distribution_lookups", :force => true do |t|
     t.string   "name"
@@ -28,6 +28,13 @@ ActiveRecord::Schema.define(:version => 20140305180948) do
   end
 
   create_table "biota_density_lookups", :force => true do |t|
+    t.integer  "code"
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "biota_location_lookups", :force => true do |t|
     t.integer  "code"
     t.string   "name"
     t.datetime "created_at", :null => false
@@ -138,10 +145,11 @@ ActiveRecord::Schema.define(:version => 20140305180948) do
     t.integer  "snow_thickness"
     t.integer  "biota_lookup_id"
     t.integer  "sediment_lookup_id"
-    t.datetime "created_at",              :null => false
-    t.datetime "updated_at",              :null => false
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
     t.string   "obs_type"
     t.integer  "biota_density_lookup_id"
+    t.integer  "biota_location_lookup_id"
   end
 
   create_table "ices", :force => true do |t|
@@ -171,17 +179,19 @@ ActiveRecord::Schema.define(:version => 20140305180948) do
     t.datetime "created_at",            :null => false
     t.datetime "updated_at",            :null => false
     t.integer  "bottom_type_lookup_id"
+    t.boolean  "dried_ice"
+    t.boolean  "rotten_ice"
   end
 
   create_table "meteorologies", :force => true do |t|
     t.integer  "observation_id"
     t.integer  "visibility_lookup_id"
     t.integer  "weather_lookup_id"
-    t.datetime "created_at",           :null => false
-    t.datetime "updated_at",           :null => false
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
     t.integer  "total_cloud_cover"
     t.integer  "wind_speed"
-    t.string   "wind_direction"
+    t.integer  "wind_direction",       :limit => 255
     t.integer  "air_temperature"
     t.integer  "water_temperature"
     t.integer  "relative_humidity"

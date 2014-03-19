@@ -13,8 +13,11 @@
         = o.collection_select :biota_density_lookup_id, BiotaDensityLookup.all, :id, :code_with_name, |
           { :include_blank => true }, { :class => :combobox }
         %p.help-block
-        
-
+    .control-group
+      = o.label :biota_location_lookup_id, "Algae Location", class: 'control-label'
+      .controls
+        = o.collection_select :biota_location_lookup_id, BiotaLocationLookup.all, :id, :code_with_name, |
+          { :include_blank => true}, {:class => :combobox}
     .control-group
       = o.label :sediment_lookup_id, "Sediment", class: 'control-label'
       .controls

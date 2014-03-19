@@ -10,10 +10,10 @@
             area of ice covered in tenths
       .control-group
         = m.label :pattern_lookup_id,  "Pattern", class: 'control-label'
-        .controls        
+        .controls
           = m.collection_select :pattern_lookup_id, PatternLookup.all, :id, :code_with_name, |
             { :include_blank => true }, { :class => :combobox }
-          %p.help-block        
+          %p.help-block
       .control-group
         = m.label :surface_lookup_id, "Surface Type", class: 'control-label'
         .controls
@@ -22,11 +22,11 @@
           %p.help-block
       .control-group
         = m.label :freeboard, "Freeboard of Pond (cm)", class: 'control-label'
-        .controls     
-          .input-append   
+        .controls
+          .input-append
             = m.text_field :freeboard
           %p.help-block
-      .control-group  
+      .control-group
         = m.label :max_depth_lookup_id, "Depth", class: 'control-label'
         .controls
           = m.collection_select :max_depth_lookup_id, MaxDepthLookup.all, :id, :code_with_name, |
@@ -35,5 +35,13 @@
       .control-group
         =m.label :bottom_type_lookup_id, "Bottom Type", class: 'control-label'
         .controls
-          = m.collection_select :bottom_type_lookup_id, BottomTypeLookup.all, :id, |    
+          = m.collection_select :bottom_type_lookup_id, BottomTypeLookup.all, :id, |
             :code_with_name, {include_blank: true, allow_blank: true}, {class: :combobox}
+      .control-group
+        =m.label :dried_ice, "Dried Ice"
+        .controls
+          = m.check_box :dried_ice
+      .control-group
+        =m.label :rotten_ice, "Rotten Ice"
+        .controls
+          = m.check_box :rotten_ice
