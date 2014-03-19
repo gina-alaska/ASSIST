@@ -109,12 +109,12 @@ class ObservationsController < ApplicationController
   
   def export
     @observations = Observation.includes(:ice, ice_observations: [:topography, :melt_pond], meteorology: [:clouds])
-    cruise_info = CruiseInfo.first
+    @cruise_info = CruiseInfo.first
     if(observation_ids.any?)
       @observations = @observations.where(observation_ids)
     end
 
-    @export_name = [cruise_info.ship, Time.now.utc.strftime("%Y%m%d%H%M"), @observations.count].join("_")
+    @export_name = [@cruise_info.ship, Time.now.utc.strftime("%Y%m%d%H%M"), @observations.count].join("_")
     
     respond_with @observations do |format|
       format.html
@@ -173,9 +173,9 @@ protected
     metadata = {
       exported_on: Time.now.utc,
       assist_version: ASSIST_VERSION,
-      ship_name: cruise_info.ship,
-      captain: cruise_info.captain,
-      chief_scientist: cruise_info.chief_scientist,
+      ship_name: @cruise_info.ship,
+      captain: @cruise_info.captain,
+      chief_scientist: @cruise_info.chief_scientist,
       observation_count: observations.count,
       observations: "#{@export_name}.json",
       photos_included: !!opts[:include_photos]
