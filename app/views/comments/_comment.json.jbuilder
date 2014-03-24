@@ -1,2 +1,2 @@
-json.partial! 'observations/user', user: comment.user
+json.partial! comment.user
 json.data comment.data
