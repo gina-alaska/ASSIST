@@ -1,4 +1,4 @@
-json.(melt_pond, :surface_coverage, :freeboard)
+json.(melt_pond, :surface_coverage, :freeboard, :dried_ice, :rotten_ice)
 
 json.max_depth_lookup_code melt_pond.max_depth_lookup.code unless melt_pond.max_depth_lookup.nil?
 json.pattern_lookup_code melt_pond.pattern_lookup.code unless melt_pond.pattern_lookup.nil?
