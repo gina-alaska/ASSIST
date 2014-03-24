@@ -5,6 +5,8 @@
     =link_to "Ship", '#shiptab', data: {toggle: 'tab'}
   %li
     =link_to "Fauna", '#faunatab', data: {toggle: 'tab'}
+  %li
+    =link_to "Notes", '#notestab', data: {toggle: 'tab'}
 
 .tab-content
   #obstab.tab-pane.active
@@ -77,3 +79,7 @@
     #faunas
       = f.fields_for :faunas do |fau|
         = render fau.object, f: fau
+  #notestab.tab-pane
+    .span12
+      %h6 Notes are limited to 80 characters
+    = f.fields_for :notes

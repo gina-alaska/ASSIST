@@ -3,19 +3,19 @@
   = f.fields_for :ice_observations, melt_pond.ice_observation do |builder|
     = builder.fields_for :melt_pond, melt_pond do |m|
       .control-group
-        = m.label :surface_coverage, "Concentration", class: 'control-label'
+        = m.label :surface_coverage, "Pond Concentration", class: 'control-label'
         .controls
           =m.select :surface_coverage, options_for_select((0..10).to_a, selected: melt_pond.surface_coverage), {:include_blank => true}, class: 'combobox'
           %p.help-block
             area of ice covered in tenths
       .control-group
-        = m.label :pattern_lookup_id,  "Pattern", class: 'control-label'
+        = m.label :pattern_lookup_id,  "Pond Pattern", class: 'control-label'
         .controls
           = m.collection_select :pattern_lookup_id, PatternLookup.all, :id, :code_with_name, |
             { :include_blank => true }, { :class => :combobox }
           %p.help-block
       .control-group
-        = m.label :surface_lookup_id, "Surface Type", class: 'control-label'
+        = m.label :surface_lookup_id, "Pond Surface Type", class: 'control-label'
         .controls
           = m.collection_select :surface_lookup_id, SurfaceLookup.all, :id, :code_with_name, |
             { :include_blank => true }, { :class => :combobox }
@@ -27,21 +27,35 @@
             = m.text_field :freeboard
           %p.help-block
       .control-group
-        = m.label :max_depth_lookup_id, "Depth", class: 'control-label'
+        = m.label :max_depth_lookup_id, "Depth of Pond(cm)", class: 'control-label'
         .controls
           = m.collection_select :max_depth_lookup_id, MaxDepthLookup.all, :id, :code_with_name, |
             { :include_blank => true }, { :class => :combobox }
           %p.help-block
       .control-group
-        =m.label :bottom_type_lookup_id, "Bottom Type", class: 'control-label'
+        =m.label :bottom_type_lookup_id, "Bottom of Pond", class: 'control-label'
         .controls
           = m.collection_select :bottom_type_lookup_id, BottomTypeLookup.all, :id, |
             :code_with_name, {include_blank: true, allow_blank: true}, {class: :combobox}
-      .control-group
-        =m.label :dried_ice, "Dried Ice"
-        .controls
-          = m.check_box :dried_ice
-      .control-group
-        =m.label :rotten_ice, "Rotten Ice"
-        .controls
-          = m.check_box :rotten_ice
+      = m.label :dried_ice, "Dried Ice?", class: 'control-label'
+      .controls
+        .btn-group{'data-toggle' => 'buttons-radio', 'data-toggle-name' => "dried_ice_#{melt_pond.id}"}
+          %button.btn{'data-toggle' => 'button', 'data-radio-value' => 't', class: boolean_button_state(melt_pond.dried_ice, true)}
+            Yes
+          %button.btn{'data-toggle' => 'button', 'data-radio-value' => 'f', class: boolean_button_state(melt_pond.dried_ice, false)}
+            No
+          %button.btn{'data-toggle' => 'button', 'data-radio-value' => nil, class: boolean_button_state(melt_pond.dried_ice, nil)}
+            %i.icon-remove
+          =m.hidden_field :dried_ice, id: "dried_ice_#{melt_pond.id}"
+        %p.help-block
+      = m.label :rotten_ice, "Rotten Ice?", class: 'control-label'
+      .controls
+        .btn-group{'data-toggle' => 'buttons-radio', 'data-toggle-name' => "rotten_ice_#{melt_pond.id}"}
+          %button.btn{'data-toggle' => 'button', 'data-radio-value' => 't', class: boolean_button_state(melt_pond.rotten_ice, true)}
+            Yes
+          %button.btn{'data-toggle' => 'button', 'data-radio-value' => 'f', class: boolean_button_state(melt_pond.rotten_ice, false)}
+            No
+          %button.btn{'data-toggle' => 'button', 'data-radio-value' => nil, class: boolean_button_state(melt_pond.rotten_ice, nil)}
+            %i.icon-remove
+          =m.hidden_field :rotten_ice, id: "rotten_ice_#{melt_pond.id}"
+        %p.help-block

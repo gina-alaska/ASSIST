@@ -86,9 +86,10 @@ class ImportObservation
     end
     import_map = ::YAML.load_file(import_map_path.join(import_map_filename))
 
-    raw_data = ::CSV.open(file.tempfile, {headers: true, return_headers: false, converters: :all})
+    raw_data = ::CSV.open(file.tempfile, {headers: true, return_headers: false})
 
     raw_data.each do |row|
+      next if row.empty?
       imports << create_observation(csv_to_hash(row, import_map))
     end
     imports
@@ -142,6 +143,7 @@ class ImportObservation
           val = row.include?(v) ? row[v] : v
           val = nil if val.blank?
         end
+
         data[k] = val
       when "Hash"
         case k
