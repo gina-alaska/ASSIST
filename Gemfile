@@ -6,7 +6,7 @@ gem 'rails', '~> 3.2.0'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 if RUBY_PLATFORM == 'java'
-  gem 'warbler'
+  gem 'warbler', '~> 1.4.0'
   gem 'activerecord-jdbcsqlite3-adapter', '~> 1.3.4', :require => false
   gem 'jdbc-sqlite3', '3.7.2'
   gem 'jruby-openssl'
@@ -18,7 +18,7 @@ gem 'assist-shared', '~> 0.2.0', git: 'http://github.com/gina-alaska/iceobs-shar
 
 gem 'haml'
 
-gem 'rubyzip', require: "zip/zipfilesystem"
+gem 'rubyzip', '~> 1.0.0', require: "zip/zipfilesystem"
 gem 'zip-zip'
 # Gems used only for assets and not required
 # in production environments by default.
