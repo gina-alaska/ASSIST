@@ -47,7 +47,7 @@ class Observation < ActiveRecord::Base
     obs.ship = Ship.new if obs.ship.nil?
   end
 
-  accepts_nested_attributes_for :ice,:ice_observations,:meteorology,:photos,:ship
+  accepts_nested_attributes_for :ice,:ice_observations,:meteorology,:photos,:ship,:notes
   accepts_nested_attributes_for :faunas, reject_if: proc { |fauna| fauna['name'].blank? }, allow_destroy: true
 
   before_save do
