@@ -6,7 +6,7 @@ class ObservationsController < ApplicationController
 
   def index
     @observations = Observation.includes(:ice, ice_observations: [:topography, :melt_pond], meteorology: [:clouds])
-
+    @comment_count = @observations.collect{|o| o.comments.count}.max
     if(observation_ids.any?)
       @observations = @obserations.where(observation_ids)
     end
@@ -39,6 +39,7 @@ class ObservationsController < ApplicationController
     @observation = Observation.includes(:ice, ice_observations: [:topography, :melt_pond], meteorology: [:clouds]).where(:id => observation_id).first
     @observation.valid?
     @observation.faunas.build
+    (3 - @observation.notes.count).times{ @observation.notes.build }
     respond_with @observation
   end
 
@@ -85,7 +86,7 @@ class ObservationsController < ApplicationController
 
   def show
     @observation = Observation.includes(:ice, ice_observations: [:topography, :melt_pond], meteorology: [:clouds]).where(:id => observation_id).first
-
+    @comment_count = @observation.comments.count
     if request.xhr?
       respond_with @observation, :layout => false
     else
