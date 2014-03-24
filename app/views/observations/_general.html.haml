@@ -82,4 +82,4 @@
   #notestab.tab-pane
     .span12
       %h6 Notes are limited to 80 characters
-    = render partial: 'note', collection: @observation.notes, locals: {f: f}
+    = f.fields_for :notes
