@@ -45,7 +45,6 @@ class Observation < ActiveRecord::Base
       end
     end
     obs.ship = Ship.new if obs.ship.nil?
-    3.times{ obs.notes.build }
   end
 
   accepts_nested_attributes_for :ice,:ice_observations,:meteorology,:photos,:ship
