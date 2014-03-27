@@ -8,11 +8,7 @@ class ObservationsController < ApplicationController
     @observations = Observation.includes(:ice, ice_observations: [:topography, :melt_pond], meteorology: [:clouds])
     @comment_count = @observations.collect{|o| o.comments.count}.max
     if(observation_ids.any?)
-      @observations = @obserations.where(observation_ids)
-    end
-
-    respond_with @observations do |format|
-      format.html
+      @observations = @observations.where(observation_ids)
     end
   end
 
@@ -171,6 +167,9 @@ protected
     fullpath = File.join(EXPORT_DIR, "#{@export_name}.zip")
     FileUtils.remove(fullpath) if File.exists?(fullpath)
 
+    #Make sure no invalid observations have snuck in
+    observations.select!{|o| o.valid?}
+
     metadata = {
       exported_on: Time.now.utc,
       assist_version: ASSIST_VERSION,
@@ -182,8 +181,6 @@ protected
       photos_included: !!opts[:include_photos]
     }
 
-    #Make sure no invalid observations have snuck in
-    observations.select!{|o| o.valid?}
 
     Zip::ZipFile.open(fullpath, Zip::ZipFile::CREATE) do |zipfile|
       #Add the metadata
@@ -195,9 +192,10 @@ protected
           zipfile.add(filepath, File.expand_path(File.join(EXPORT_DIR,filepath)))
         end
 
-        zipfile.file.open("#{@export_name}.#{format}","w") do |f|
-          f << observations.send("to_#{format}")
-        end
+        obs_filename = File.join(EXPORT_DIR, "observation.#{format}")
+        save_to_disk observations_url(format, id: observations.collect(&:id)), obs_filename
+
+        zipfile.add("#{@export_name}.#{format}", obs_filename)
       end
 
       if opts[:include_photos]
