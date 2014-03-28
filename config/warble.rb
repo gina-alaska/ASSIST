@@ -11,7 +11,7 @@ Warbler::Config.new do |config|
   # config.features = %w(gemjar)
 
   # Application directories to be included in the webapp.
-  config.dirs = %w(app config lib log vendor tmp db extras public) 
+  config.dirs = %w(app config lib log vendor tmp db extras public)
 
   # Additional files/directories to include, above those in config.dirs
   # config.includes = FileList["db"]
@@ -114,7 +114,7 @@ Warbler::Config.new do |config|
   # * <tt>winstone</tt> (default) - Winstone 0.9.10 from sourceforge
   # * <tt>jenkins-ci.winstone</tt> - Improved Winstone from Jenkins CI
   # * <tt>jetty</tt> - Embedded Jetty from Eclipse
-  config.webserver = 'winstone'
+  config.webserver = 'jenkins-ci.winstone'
 
   # Value of RAILS_ENV for the webapp -- default as shown below
   # config.webxml.rails.env = ENV['RAILS_ENV'] || 'production'
@@ -145,7 +145,8 @@ Warbler::Config.new do |config|
   # since 1 runtime(default for threadsafe mode) will be enough.
   # config.webxml.jruby.min.runtimes = 2
   # config.webxml.jruby.max.runtimes = 4
-  config.webxml.jruby.max.runtimes = 2
+  config.webxml.jruby.min.runtimes = 2
+  config.webxml.jruby.max.runtimes = 4
 
   # JNDI data source name
   # config.webxml.jndi = 'jdbc/rails'
