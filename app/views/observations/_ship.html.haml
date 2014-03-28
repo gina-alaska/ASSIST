@@ -1,7 +1,7 @@
 = f.fields_for :ship do |s|
   .row
     .span4
-      .control-group        
+      .control-group
         = s.label :heading, "Heading (degrees)", class: 'control-label'
         .controls
           = s.text_field :heading
@@ -21,5 +21,4 @@
         = s.label :ship_activity_lookup_id, "Ship Activity", class: 'control-label'
         .controls
           = s.collection_select :ship_activity_lookup_id, ShipActivityLookup.all, |
-            :code, :code_with_name, {include_blank: true, allow_blank: true}, class: 'combobox'
-  
+            :id, :code_with_name, {include_blank: true, allow_blank: true}, class: 'combobox'
