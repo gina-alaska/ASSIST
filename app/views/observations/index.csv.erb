@@ -1,2 +1,2 @@
-<%= Observation.headers(comment_count: @comment_count).flatten.to_csv -%>
+<%= Observation.headers.flatten.to_csv -%>
 <%= render :partial => @observations -%>
