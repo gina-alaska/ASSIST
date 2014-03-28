@@ -1,5 +1,5 @@
 = render 'form'
-  
+
 #add_comment.modal.hide
   - comment = @observation.comments.build data: "(General)"
   = form_for [@observation,comment], remote: true do |f|
@@ -8,6 +8,9 @@
         Add Comment
         = link_to "×", "#", 'data-dismiss' => 'modal', class: 'close'
     .modal-body
+      .alert.alert-info
+        %strong Comments
+        are seperated by "//" when exported to csv. Please do not use "//" in your comment. 
       .control-group
         = f.label :user_id, "Add as:", class: 'control-label'
         .controls
@@ -27,4 +30,3 @@
     .file_upload
       Upload Photo
       = f.file_field :data
-  
