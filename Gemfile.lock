@@ -1,8 +1,8 @@
 GIT
   remote: http://github.com/gina-alaska/iceobs-shared
-  revision: 34467cf187928afd6d3e3f8e28e2d2af11774f7c
+  revision: 96b9a4a8d6e61884a957f7a16f4373195eac7b78
   specs:
-    assist-shared (0.2.12)
+    assist-shared (0.2.13)
 
 GIT
   remote: https://github.com/gina-alaska/bower-tools.git
