@@ -1,91 +1,111 @@
-Date   - Observation (YYYY-mm-dd HH:MM:SS UTC)
-PO     - Primary Observer
-AO     - Additional Observers
-LAT    - Latitude (DMS)
-LON    - Longitude (DMS)
-ShP    - Ship Power (0 - 1, in 1/4 units)
-ShS    - Ship Speed (Knots)
-ShH    - Ship Heading (Degrees)
-ShA    - Ship Activity Code
-FN     - Fauna Names
-FC     - Fauna Counts
-TC     - Ice Total Concentration (tenths)
-TH     - Thick Ice Type Code
-OT     - Thin Ice Type Code
-OW     - Open Water Code
-PPC    - Primary Ice Partial Concentration (tenths)
-PT     - Primary Ice Type Code
-PZ     - Primary Thickness (cm)
-PF     - Primary Floe Size Code
-PTop   - Primary Topography Code
-POld   - Primary Topography Old Ice(?) (TRUE/FALSE)
-PCs    - Primary Topography Consolidated Ice(?) (TRUE/FALSE)
-PSC    - Primary Topography Snow Covered Ice(?) (TRUE/FALSE)
-PTopC  - Primary Topography Concentration (tenths)
-PRH    - Primary Topography Ridge Height (nearest 0.5 meter)
-PSD    - Primary Sediment Code
-PA     - Primary Algae Type Code
-PAD    - Primary Algae Density Code
-PSY    - Primary Snow Type Code
-PSH    - Primary Snow Thickness Code
-PMPC   - Primary Melt Pond Surface Coverage
-PMPD   - Primary Melt Pond Max Depth Code
-PMPP   - Primary Melt Pond Pattern Type Code
-PMPT   - Primary Melt Pond Surface Type Code
-PMPF   - Primary Melt Pond Freeboard (cm)
-PPC    - Primary Ice Partial Concentration (tenths)
-ST     - Secondary Ice Type Code
-SZ     - Secondary Thickness (cm)
-SF     - Secondary Floe Size Code
-STop   - Secondary Topography Code
-SOld   - Secondary Topography Old Ice(?) (TRUE/FALSE)
-SCs    - Secondary Topography Consolidated Ice(?) (TRUE/FALSE)
-SSC    - Secondary Topography Snow Covered Ice(?) (TRUE/FALSE)
-STopC  - Secondary Topography Concentration (tenths)
-SRH    - Secondary Topography Ridge Height (nearest 0.5 meter)
-SSD    - Secondary Sediment Code
-SA     - Secondary Algae Type Code
-SAD    - Secondary Algae Density Code
-SSY    - Secondary Snow Type Code
-SSH    - Secondary Snow Thickness Code
-SMPC   - Secondary Melt Pond Surface Coverage
-SMPD   - Secondary Melt Pond Max Depth Code
-SMPP   - Secondary Melt Pond Pattern Type Code
-SMPT   - Secondary Melt Pond Surface Type Code
-SMPF   - Secondary Melt Pond Freeboard (cm)
-TPC    - Tertiary Ice Partial Concentration (tenths)
-TT     - Tertiary Ice Type Code
-TZ     - Tertiary Thickness (cm)
-TF     - Tertiary Floe Size Code
-TTop   - Tertiary Topography Code
-TOld   - Tertiary Topography Old Ice(?) (TRUE/FALSE)
-TCs    - Tertiary Topography Consolidated Ice(?) (TRUE/FALSE)
-TSC    - Tertiary Topography Snow Covered Ice(?) (TRUE/FALSE)
-TTopC  - Tertiary Topography Concentration (tenths)
-TRH    - Tertiary Topography Ridge Height (nearest 0.5 meter)
-TSD    - Tertiary Sediment Code
-TA     - Tertiary Algae Type Code
-TAD    - Tertiary Algae Density Code
-TSY    - Tertiary Snow Type Code
-TSH    - Tertiary Snow Thickness Code
-TMPC   - Tertiary Melt Pond Surface Coverage
-TMPD   - Tertiary Melt Pond Max Depth Code
-TMPP   - Tertiary Melt Pond Pattern Type Code
-TMPT   - Tertiary Melt Pond Surface Type Code
-TMPF   - Tertiary Melt Pond Freeboard (cm)
-V      - Visibility Code
-WX     - Weather Code
-TCC    - Total Cloud Cover (eighths)
-WS     - Wind Speed (knots)
-WD     - Wind Direction (degrees)
-AT     - Air Temperature (celsius)
-WT     - Water Temperature (celsius)
-RelH   - Relative Humidity (percentage)
-AP     - Air Pressure (mBar)
-HV     - High Cloud Cover (eights)
-HH     - High Cloud Height (nearest 100 meter)
-MY     - Medium Cloud Type Code
-MV     - Medium Cloud Cover (eights)
-LH     - Low Cloud Height (nearest 100 meter)
-LY     - Low Cloud Type Code
-Photo  - Photo Count
+Data Field	Field Description				                      Entry Type
+Date				Date and time in UTC				                   ASSIST Formatted (YYYY-mm-dd HH:MM:SS UTC)
+PO				  Primary observer name			                    String
+AO				  Additional observer name                   		String
+LAT				 Latitude				                               ASSIST Formatted (decimal degrees OR dd mm ss)
+LON			 	Longitude				                              ASSIST Formatted (decimal degrees OR dd mm ss)
+TC				  Total ice concentration	                   	 integer (0 to 10)
+OW				  Open water				                             Menu (as Aspect)
+OT				  Other ice type				                         Menu (following Aspect)
+TH				  Thick ice type (thicker than primary)	     	 Menu (following Aspect)
+PPC				 Partial ice concentration (tenths)				     integer (0 to 10)
+PT				  Ice type				                               Menu (following Aspect)
+PZ				  Ice thickness (cm)				                     integer
+PF				  Floe size				                              Menu (following Aspect)
+PSY				 Snow type				                              Menu (as Aspect)
+PSH				 Snow thickness (cm)                  	     	 integer
+PTop				Topography Type				                        Menu (as Aspect)
+PTopC			 Topography concentration				               integer
+PRH				 Ridge height (to nearest 1/2 meter)			      decimal
+POld				Old ridge?				                             logical
+PCs				 Consolidated ridge?				                    logical
+PSC				 Snow covered ridge?				                    logical
+PMPC				Melt pond concentration (tenths of ice cover)	integer (0 to 10)
+PMPD				Melt pond depth (cm)				                   Menu
+PMPP				Melt pond pattern			                        Menu
+PMPT				Melt pond surface type			                 	Menu
+PMPF				Melt pond freeboard (cm)	                 		integer
+PMBT				Melt pond bottom type			                    Menu
+PMDI				Is the ice dried?				                      logical
+PMRI				Is the ice rotten?				                     logical
+PA				  Algae concentration (as percentage of ice)		 Menu
+PSD				 Sedinment concentration (as percentage of ice) Menu
+PAD				 Algae density based on colour  				        Menu
+PAL				 Algae location in ice				                  Menu
+SPC				 Partial ice concentration (tenths)				     integer (0 to 10)
+ST				  Ice type				                               Menu (following Aspect)
+SZ				  Ice thickness (cm)				                     integer
+SF				  Floe size			                              	Menu (following Aspect)
+SSY			   Snow type		                              		Menu (as Aspect)
+SSH		 		Snow thickness (cm)				                    integer
+STop				Topography Type				                        Menu (as Aspect)
+STopC			 Topography concentration				               integer
+SRH				 Ridge height (to nearest 1/2 meter)				    decimal
+SOld				Old ridge?				                             logical
+SCs				 Consolidated ridge?				                    logical
+SSC				 Snow covered ridge?				                    logical
+SMPC				Melt pond concentration (tenths of ice cover)  integer (0 to 10)
+SMPD				Melt pond depth (cm)				                   Menu
+SMPP				Melt pond pattern				                      Menu
+SMPT				Melt pond surface type		                   	Menu
+SMPF				Melt pond freeboard (cm)                   		integer
+SMBT				Melt pond bottom type                      		Menu
+SMDI				Is the ice dried?				                      logical
+SMRI				Is the ice rotten?			                       logical
+SA				  Algae concentration (as percentage of ice)		 Menu
+SSD				 Sediment concentration (as percentage of ice)  Menu
+SAD				 Algae density based on colour			          	Menu
+SAL				 Algae location in ice				                  Menu
+TPC				 Partial ice concentration (tenths)				     integer (0 to 10)
+TT				  Ice type				                               Menu (following Aspect)
+TZ				  Ice thickness (cm)				                     integer
+TF				  Floe size			                              	Menu (following Aspect)
+TSY				 Snow type			                              	Menu (as Aspect)
+TSH				 Snow thickness (cm)				                    integer
+TTop				Topography Type				                        Menu (as Aspect)
+TTopC       Topography concentration				               integer
+TRH		 		Ridge height (to nearest 1/2 meter)				    decimal
+TOld				Old ridge?				                             logical
+TCs				 Consolidated ridge?				                    logical
+TSC			 	Snow covered ridge?				                    logical
+TMPC				Melt pond concentration (tenths of ice cover)	integer (0 to 10)
+TMPD				Melt pond depth (cm)				                   Menu
+TMPP				Melt pond pattern				                      Menu
+TMPT				Melt pond surface type		                     Menu
+TMPF				Melt pond freeboard (cm)                   		integer
+TMBT				Melt pond bottom type			                    Menu
+TMDI				Is the ice dried?				                      logical
+TMRI				Is the ice rotten?				                     logical
+TA				  Algae concentration (as percentage of ice)		 Menu
+TSD				 Sediment concentration (as percentage of ice)  Menu
+TAD				 Algae density based on colour		          		Menu
+TAL				 Algae location in ice				                  Menu
+WX				  Weather Code	                            	 	Menu (as ASPECT)
+V				   Visibility			                            	 Menu (as ASPECT)
+HY				  High cloud cover (eigths)				              integer (0 to 8)
+HV				  High cloud type				                        Menu
+HH				  High cloud height				                      integer (nearest 100m)
+MY				  Medium cloud cover (eigths)				            integer (0 to 8)
+MV				  Medium cloud type				                      Menu
+MH				  Medium cloud height				                    integer (nearest 100m)
+LY				  Low cloud cover (eigths)				               integer (0 to 8)
+LV				  Low cloud type			                           Menu
+LH				  Low cloud height	                           	integer (nearest 100m)
+TCC			   Total cloud cover (eigths)	              		 integer (0 to 8)
+WS				  Wind speed (knots)				                     integer
+WD				  Wind direction (degrees)				               integer
+AT				  air temperature (degrees C)			            	decimal
+WT				  water temperature (degrees C)	            		decimal
+RelH		  	Relative Humidity (%)	                  			integer
+AP				  Air pressure (mBar)				                    integer
+ShP				 Ship power				                             Menu (0 to 1 in 1/4 units)
+ShS				 Ship speed (knots)				                     decimal
+ShH				 Ship heading (degrees)				                 integer
+SHA				 Ship activity code				                     Menu
+FN				  Fauna names				                            strings seperated by '//'
+FC				  Fauna count				                            integers seperated by '//'
+Photo			 Photo count			                            	integer
+note1			 Extra field (80 characters)		            		string
+note2			 Extra field (80 characters)		            		string
+note3			 Extra field (80 characters)		            		string
+comments    (1 field for each comment)            				 string
