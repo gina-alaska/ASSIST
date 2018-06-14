@@ -1,3 +1,9 @@
+# Deprecation Notice
+
+The code and functionality of the tools provided by this repo have been merged into the [icewatch](https://github.com/gina-alaska/icewatch) repo
+
+
+
 # Ice Observation - Ship Application
 
 Application that will be run on ships to record observations about ice conditions.
